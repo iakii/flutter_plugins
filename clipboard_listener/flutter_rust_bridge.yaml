@@ -1,0 +1,7 @@
+rust_input: crate::api
+rust_root: rust/
+dart_output: lib/src/rust
+enable_lifetime: true
+stop_on_error: true
+rust_preamble: |
+  use std::sync::mpsc::Sender;
