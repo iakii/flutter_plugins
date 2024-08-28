@@ -9,7 +9,15 @@ crate-type = ["cdylib", "staticlib"]
 [dependencies]
 enigo = "0.2.1"
 flutter_rust_bridge = "=2.3.0"
+image = "0.25.2"
+oxipng = { version = "9.1.2", features = [
+  "parallel",
+  "zopfli",
+  "filetime",
+], default-features = false }
 sysinfo = "0.31.3"
+webp = "0.3.0"
+xcap = "0.0.13"
 
 
 [profile.release]
