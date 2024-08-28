@@ -6,6 +6,7 @@
 import 'api/paste.dart';
 import 'api/simple.dart';
 import 'api/sys.dart';
+import 'api/tiny_image.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -70,11 +71,11 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.3.0';
 
   @override
-  int get rustContentHash => -312396152;
+  int get rustContentHash => 1589086404;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
-    stem: 'rust_ffi_lib',
+    stem: 'UNKNOWN',
     ioDirectory: 'rust/target/release/',
     webPrefix: 'pkg/',
   );
@@ -92,6 +93,18 @@ abstract class RustLibApi extends BaseApi {
   Future<String?> crateApiSysFindPid({required String name});
 
   Future<String?> crateApiSysLocalHost();
+
+  Future<void> crateApiTinyImageCompressImage(
+      {required String path, required int quality});
+
+  Future<void> crateApiTinyImageParseJpg(
+      {required String path, required String output, required int quality});
+
+  Future<void> crateApiTinyImageParsePng(
+      {required String path, required String output, required int level});
+
+  Future<void> crateApiTinyImageParseWebp(
+      {required String path, required String output, required double quality});
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -241,10 +254,124 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: [],
       );
 
+  @override
+  Future<void> crateApiTinyImageCompressImage(
+      {required String path, required int quality}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(path, serializer);
+        sse_encode_u_8(quality, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 7, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTinyImageCompressImageConstMeta,
+      argValues: [path, quality],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTinyImageCompressImageConstMeta =>
+      const TaskConstMeta(
+        debugName: "compress_image",
+        argNames: ["path", "quality"],
+      );
+
+  @override
+  Future<void> crateApiTinyImageParseJpg(
+      {required String path, required String output, required int quality}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(path, serializer);
+        sse_encode_String(output, serializer);
+        sse_encode_u_8(quality, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 8, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTinyImageParseJpgConstMeta,
+      argValues: [path, output, quality],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTinyImageParseJpgConstMeta => const TaskConstMeta(
+        debugName: "parse_jpg",
+        argNames: ["path", "output", "quality"],
+      );
+
+  @override
+  Future<void> crateApiTinyImageParsePng(
+      {required String path, required String output, required int level}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(path, serializer);
+        sse_encode_String(output, serializer);
+        sse_encode_u_8(level, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 9, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTinyImageParsePngConstMeta,
+      argValues: [path, output, level],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTinyImageParsePngConstMeta => const TaskConstMeta(
+        debugName: "parse_png",
+        argNames: ["path", "output", "level"],
+      );
+
+  @override
+  Future<void> crateApiTinyImageParseWebp(
+      {required String path, required String output, required double quality}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(path, serializer);
+        sse_encode_String(output, serializer);
+        sse_encode_f_32(quality, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 10, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTinyImageParseWebpConstMeta,
+      argValues: [path, output, quality],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTinyImageParseWebpConstMeta => const TaskConstMeta(
+        debugName: "parse_webp",
+        argNames: ["path", "output", "quality"],
+      );
+
   @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
+  }
+
+  @protected
+  double dco_decode_f_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as double;
   }
 
   @protected
@@ -276,6 +403,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  double sse_decode_f_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getFloat32();
   }
 
   @protected
@@ -323,6 +456,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_f_32(double self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putFloat32(self);
   }
 
   @protected

@@ -6,8 +6,8 @@ import 'package:rust_ffi_lib/src/rust/api/sys.dart' as sys;
 import 'package:rust_ffi_lib/src/rust/frb_generated.dart';
 
 class _RustFFILib {
-  _RustFFILib() {
-    RustLib.init();
+  Future<void> init() async {
+    await RustLib.init();
   }
 
   Future<void> paste() => hotkey.paste();
