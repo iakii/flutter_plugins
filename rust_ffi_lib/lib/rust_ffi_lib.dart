@@ -10,8 +10,8 @@ class _RustFFILib {
     await RustLib.init();
   }
 
-  Future<void> paste() => hotkey.paste();
-  Future<void> insert() => hotkey.insert();
+  void paste() => hotkey.paste();
+  void insert() => hotkey.insert();
   Future<String?> findPid(String processName) => sys.findPid(name: processName);
   String greet({required String name}) => api.greet(name: name);
 }

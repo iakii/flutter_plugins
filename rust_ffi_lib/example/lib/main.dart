@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rust_ffi_lib/rust_ffi_lib.dart';
 
 Future<void> main() async {
+  await rustFFILib.init();
   runApp(const MyApp());
 }
 

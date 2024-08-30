@@ -6,6 +6,6 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-Future<void> paste() => RustLib.instance.api.crateApiPastePaste();
+void insert() => RustLib.instance.api.crateApiPasteInsert();
 
-Future<void> insert() => RustLib.instance.api.crateApiPasteInsert();
+void paste() => RustLib.instance.api.crateApiPastePaste();

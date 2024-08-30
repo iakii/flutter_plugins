@@ -15,7 +15,7 @@ oxipng = { version = "9.1.2", features = [
   "zopfli",
   "filetime",
 ], default-features = false }
-sysinfo = "0.31.3"
+sysinfo = "0.31.4"
 webp = "0.3.0"
 xcap = "0.0.13"
 
