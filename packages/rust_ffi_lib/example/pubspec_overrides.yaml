@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: rust_ffi_lib
-dependency_overrides:
-  rust_ffi_lib:
-    path: ..

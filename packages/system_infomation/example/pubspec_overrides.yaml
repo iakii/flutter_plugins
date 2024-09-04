@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: system_infomation
-dependency_overrides:
-  system_infomation:
-    path: ..
