@@ -6,7 +6,8 @@
 // Static analysis wrongly picks the IO variant, thus ignore this
 // ignore_for_file: argument_type_not_assignable
 
-import 'api/simple.dart';
+import 'api/entities.dart';
+import 'api/system_info.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -24,7 +25,64 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw);
+
+  @protected
+  CpuEntity dco_decode_cpu_entity(dynamic raw);
+
+  @protected
+  CpuUsageEntity dco_decode_cpu_usage_entity(dynamic raw);
+
+  @protected
+  double dco_decode_f_32(dynamic raw);
+
+  @protected
+  int dco_decode_i_32(dynamic raw);
+
+  @protected
+  IpNetworkEntity dco_decode_ip_network_entity(dynamic raw);
+
+  @protected
+  IpNetworkType dco_decode_ip_network_type(dynamic raw);
+
+  @protected
+  List<String> dco_decode_list_String(dynamic raw);
+
+  @protected
+  List<CpuEntity> dco_decode_list_cpu_entity(dynamic raw);
+
+  @protected
+  List<IpNetworkEntity> dco_decode_list_ip_network_entity(dynamic raw);
+
+  @protected
+  List<NetWorkEntity> dco_decode_list_net_work_entity(dynamic raw);
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
+
+  @protected
+  List<ProcessEntity> dco_decode_list_process_entity(dynamic raw);
+
+  @protected
+  NetWorkEntity dco_decode_net_work_entity(dynamic raw);
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw);
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
+
+  @protected
+  ProcessEntity dco_decode_process_entity(dynamic raw);
+
+  @protected
+  ProcessStatusEntity dco_decode_process_status_entity(dynamic raw);
+
+  @protected
+  int dco_decode_u_32(dynamic raw);
+
+  @protected
+  BigInt dco_decode_u_64(dynamic raw);
 
   @protected
   int dco_decode_u_8(dynamic raw);
@@ -36,7 +94,68 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
+
+  @protected
+  CpuEntity sse_decode_cpu_entity(SseDeserializer deserializer);
+
+  @protected
+  CpuUsageEntity sse_decode_cpu_usage_entity(SseDeserializer deserializer);
+
+  @protected
+  double sse_decode_f_32(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer);
+
+  @protected
+  IpNetworkEntity sse_decode_ip_network_entity(SseDeserializer deserializer);
+
+  @protected
+  IpNetworkType sse_decode_ip_network_type(SseDeserializer deserializer);
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<CpuEntity> sse_decode_list_cpu_entity(SseDeserializer deserializer);
+
+  @protected
+  List<IpNetworkEntity> sse_decode_list_ip_network_entity(
+      SseDeserializer deserializer);
+
+  @protected
+  List<NetWorkEntity> sse_decode_list_net_work_entity(
+      SseDeserializer deserializer);
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  List<ProcessEntity> sse_decode_list_process_entity(
+      SseDeserializer deserializer);
+
+  @protected
+  NetWorkEntity sse_decode_net_work_entity(SseDeserializer deserializer);
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer);
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
+
+  @protected
+  ProcessEntity sse_decode_process_entity(SseDeserializer deserializer);
+
+  @protected
+  ProcessStatusEntity sse_decode_process_status_entity(
+      SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer);
+
+  @protected
+  BigInt sse_decode_u_64(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -45,26 +164,84 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
-  int sse_decode_i_32(SseDeserializer deserializer);
-
-  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_cpu_entity(CpuEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_cpu_usage_entity(
+      CpuUsageEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_f_32(double self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_ip_network_entity(
+      IpNetworkEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_ip_network_type(IpNetworkType self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_cpu_entity(
+      List<CpuEntity> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_ip_network_entity(
+      List<IpNetworkEntity> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_net_work_entity(
+      List<NetWorkEntity> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
       Uint8List self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_process_entity(
+      List<ProcessEntity> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_net_work_entity(NetWorkEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_process_entity(ProcessEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_process_status_entity(
+      ProcessStatusEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_u_64(BigInt self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);

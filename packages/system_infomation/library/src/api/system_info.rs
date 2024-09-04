@@ -3,7 +3,8 @@ use std::{ffi::OsStr, net::IpAddr};
 use sysinfo::{Networks, System};
 
 use super::entities::{
-    CpuEntity, CpuUsageEntity, NetWorkEntity, ProcessEntity, ProcessStatusEntity,
+    CpuEntity, CpuUsageEntity, IpNetworkEntity, IpNetworkType, NetWorkEntity, ProcessEntity,
+    ProcessStatusEntity,
 };
 
 #[flutter_rust_bridge::frb(init)]
@@ -38,12 +39,12 @@ pub fn get_networks() -> Vec<NetWorkEntity> {
             ip_networks: data
                 .ip_networks()
                 .iter()
-                .map(|ip_network| {
-                    let ip = match ip_network.addr {
-                        IpAddr::V4(_) => super::entities::IpNetworkType::IPV4,
-                        IpAddr::V6(_) => super::entities::IpNetworkType::IPV6,
+                .map(|ip_network: &sysinfo::IpNetwork| {
+                    let ip: IpNetworkType = match ip_network.addr {
+                        IpAddr::V4(_) => IpNetworkType::IPV4,
+                        IpAddr::V6(_) => IpNetworkType::IPV6,
                     };
-                    super::entities::IpNetworkEntity {
+                    IpNetworkEntity {
                         ip,
                         prefix: ip_network.prefix,
                     }
@@ -68,14 +69,14 @@ pub fn get_processes() -> Vec<ProcessEntity> {
             cmd: process
                 .cmd()
                 .iter()
-                .map(|path| path.to_str().unwrap().to_string())
+                .map(|path: &std::ffi::OsString| path.to_str().unwrap().to_string())
                 .collect(),
             pid: pid.as_u32(),
             parent: Some(process.parent().unwrap().as_u32()),
             environ: process
                 .environ()
                 .iter()
-                .map(|str| str.to_str().unwrap().to_string())
+                .map(|str: &std::ffi::OsString| str.to_str().unwrap().to_string())
                 .collect(),
             cwd: Some(process.cwd().unwrap().to_str().unwrap().to_string()),
             root: Some(process.root().unwrap().to_str().unwrap().to_string()),
