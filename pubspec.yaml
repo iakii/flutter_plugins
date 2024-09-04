@@ -1,0 +1,9 @@
+name: flutter_plugins
+publish_to: "none"
+
+environment:
+  sdk: ">=2.16.0 <4.0.0"
+
+dev_dependencies:
+  melos: ^6.1.0
+  husky: ^0.1.7

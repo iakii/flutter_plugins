@@ -1,0 +1,50 @@
+name: flutter_plugins
+repository: https://github.com/iakii/flutter_plugins
+
+packages:
+  - packages/activate_window
+  - packages/activate_window/example
+  - packages/aria2
+  - packages/aria2/example
+  - packages/bindgo
+  - packages/bindgo/example
+  - packages/clipboard_listener
+  - packages/clipboard_listener/example
+  - packages/clipboard_listener/cargokit/build_tool
+  - packages/get_storage
+  - packages/get_storage/example
+  - packages/system_windows
+  - packages/system_windows/example
+  - packages/rust_ffi_lib
+  - packages/rust_ffi_lib/example
+  # - packages/rust_ffi_lib/cargokit/build_tool
+
+scripts:
+  analyze:
+    exec: flutter analyze --fatal-infos
+    description: Run `flutter analyze` for all packages.
+
+  test:
+    exec: flutter test
+    description: Run `flutter test` for a specific package.
+    packageFilters:
+      dirExists:
+        - test
+
+  format:
+    exec: dart format . --fix
+    description: Run `dart format` for all packages.
+
+  format-check:
+    exec: dart format . --fix --set-exit-if-changed
+    description: Run `dart format` checks for all packages.
+
+  fix:
+    exec: dart fix . --apply
+    description: Run `dart fix` for all packages.
+
+  dependency_validator:
+    exec: flutter pub run dependency_validator
+    packageFilters:
+      dependsOn:
+        - dependency_validator
