@@ -6,6 +6,7 @@
 // Static analysis wrongly picks the IO variant, thus ignore this
 // ignore_for_file: argument_type_not_assignable
 
+import 'api/active_window.dart';
 import 'api/clipboard.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -63,6 +64,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  bool dco_decode_bool(dynamic raw);
+
+  @protected
+  ClipboardData dco_decode_box_autoadd_clipboard_data(dynamic raw);
+
+  @protected
   CPImage dco_decode_box_autoadd_cp_image(dynamic raw);
 
   @protected
@@ -78,10 +85,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_i_32(dynamic raw);
 
   @protected
+  IconEntity dco_decode_icon_entity(dynamic raw);
+
+  @protected
+  InfoEntity dco_decode_info_entity(dynamic raw);
+
+  @protected
   List<String> dco_decode_list_String(dynamic raw);
 
   @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
+
+  @protected
+  List<WindowIconEntity> dco_decode_list_window_icon_entity(dynamic raw);
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
@@ -93,6 +109,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String>? dco_decode_opt_list_String(dynamic raw);
 
   @protected
+  PositionEntity dco_decode_position_entity(dynamic raw);
+
+  @protected
   int dco_decode_u_32(dynamic raw);
 
   @protected
@@ -102,7 +121,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void dco_decode_unit(dynamic raw);
 
   @protected
+  UsageEntity dco_decode_usage_entity(dynamic raw);
+
+  @protected
   BigInt dco_decode_usize(dynamic raw);
+
+  @protected
+  WindowEntity dco_decode_window_entity(dynamic raw);
+
+  @protected
+  WindowIconEntity dco_decode_window_icon_entity(dynamic raw);
 
   @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
@@ -134,6 +162,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  bool sse_decode_bool(SseDeserializer deserializer);
+
+  @protected
+  ClipboardData sse_decode_box_autoadd_clipboard_data(
+      SseDeserializer deserializer);
+
+  @protected
   CPImage sse_decode_box_autoadd_cp_image(SseDeserializer deserializer);
 
   @protected
@@ -149,10 +184,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
+  IconEntity sse_decode_icon_entity(SseDeserializer deserializer);
+
+  @protected
+  InfoEntity sse_decode_info_entity(SseDeserializer deserializer);
+
+  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  List<WindowIconEntity> sse_decode_list_window_icon_entity(
+      SseDeserializer deserializer);
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
@@ -164,6 +209,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String>? sse_decode_opt_list_String(SseDeserializer deserializer);
 
   @protected
+  PositionEntity sse_decode_position_entity(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_u_32(SseDeserializer deserializer);
 
   @protected
@@ -173,10 +221,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
+  UsageEntity sse_decode_usage_entity(SseDeserializer deserializer);
+
+  @protected
   BigInt sse_decode_usize(SseDeserializer deserializer);
 
   @protected
-  bool sse_decode_bool(SseDeserializer deserializer);
+  WindowEntity sse_decode_window_entity(SseDeserializer deserializer);
+
+  @protected
+  WindowIconEntity sse_decode_window_icon_entity(SseDeserializer deserializer);
 
   @protected
   void sse_encode_AnyhowException(
@@ -213,6 +267,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
+  void sse_encode_bool(bool self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_clipboard_data(
+      ClipboardData self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_cp_image(CPImage self, SseSerializer serializer);
 
   @protected
@@ -228,11 +289,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
+  void sse_encode_icon_entity(IconEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_info_entity(InfoEntity self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_strict(
       Uint8List self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_window_icon_entity(
+      List<WindowIconEntity> self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
@@ -245,6 +316,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_list_String(List<String>? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_position_entity(
+      PositionEntity self, SseSerializer serializer);
+
+  @protected
   void sse_encode_u_32(int self, SseSerializer serializer);
 
   @protected
@@ -254,10 +329,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_unit(void self, SseSerializer serializer);
 
   @protected
+  void sse_encode_usage_entity(UsageEntity self, SseSerializer serializer);
+
+  @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer);
 
   @protected
-  void sse_encode_bool(bool self, SseSerializer serializer);
+  void sse_encode_window_entity(WindowEntity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_window_icon_entity(
+      WindowIconEntity self, SseSerializer serializer);
 }
 
 // Section: wire_class

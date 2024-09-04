@@ -5,7 +5,7 @@ use std::{
 
 use clipboard_rs::{
     common::RustImage, Clipboard, ClipboardContext, ClipboardHandler, ClipboardWatcher,
-    ClipboardWatcherContext,
+    ClipboardWatcherContext, RustImageData,
 };
 use flutter_rust_bridge::DartFnFuture;
 
@@ -39,8 +39,25 @@ pub async fn clipboard_listener_start(_dart_callback: impl Fn(String) -> DartFnF
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn get_clipboard_data() -> ClipboardData {
+pub fn set_clipboard_data(data: ClipboardData) {
+    let ctx = ClipboardContext::new().unwrap();
+    //  1 图片 2 文字 3 文件
+    match data.data_type {
+        DataType::IMAGE => {
+            let img = RustImageData::from_bytes(&data.image.unwrap().bytes).unwrap();
+            ctx.set_image(img).unwrap();
+        }
+        DataType::TEXT => {
+            ctx.set_text(data.content.unwrap()).unwrap();
+        }
+        DataType::FILE => {
+            ctx.set_files(data.paths.unwrap()).unwrap();
+        }
+    }
+}
 
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_clipboard_data() -> ClipboardData {
     let active_window = get_active_window().unwrap();
     let icon = get_window_icon(&active_window).unwrap();
 
@@ -111,8 +128,6 @@ pub fn get_clipboard_data() -> ClipboardData {
             }
         }
     };
-
-
 
     let mut clipboard_data = clipboard_data;
     clipboard_data.app_name = Some(active_window.info.name);

@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/active_window.dart';
 import 'api/clipboard.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -69,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.3.0';
 
   @override
-  int get rustContentHash => 1292264871;
+  int get rustContentHash => 1102038210;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -80,6 +81,12 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  List<WindowIconEntity> crateApiActiveWindowGetAllOpenWindows();
+
+  WindowIconEntity crateApiActiveWindowGetCurrentActiveWindow();
+
+  IconEntity crateApiActiveWindowGetWindowIconByWindowId({required int id});
+
   Future<Manager> crateApiClipboardManagerNew({required SenderString sender});
 
   Future<void> crateApiClipboardClipboardListenerStart(
@@ -90,6 +97,8 @@ abstract class RustLibApi extends BaseApi {
   String crateApiClipboardGreet({required String name});
 
   Future<void> crateApiClipboardInitApp();
+
+  void crateApiClipboardSetClipboardData({required ClipboardData data});
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Manager;
 
@@ -115,6 +124,76 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
+  List<WindowIconEntity> crateApiActiveWindowGetAllOpenWindows() {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_window_icon_entity,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiActiveWindowGetAllOpenWindowsConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiActiveWindowGetAllOpenWindowsConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_all_open_windows",
+        argNames: [],
+      );
+
+  @override
+  WindowIconEntity crateApiActiveWindowGetCurrentActiveWindow() {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_window_icon_entity,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiActiveWindowGetCurrentActiveWindowConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiActiveWindowGetCurrentActiveWindowConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_current_active_window",
+        argNames: [],
+      );
+
+  @override
+  IconEntity crateApiActiveWindowGetWindowIconByWindowId({required int id}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_u_32(id, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_icon_entity,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiActiveWindowGetWindowIconByWindowIdConstMeta,
+      argValues: [id],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiActiveWindowGetWindowIconByWindowIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_window_icon_by_window_id",
+        argNames: ["id"],
+      );
+
+  @override
   Future<Manager> crateApiClipboardManagerNew({required SenderString sender}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
@@ -122,7 +201,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSenderString(
             sender, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 1, port: port_);
+            funcId: 4, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -150,7 +229,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_DartFn_Inputs_String_Output_String_AnyhowException(
             dartCallback, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 2, port: port_);
+            funcId: 5, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -173,7 +252,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_clipboard_data,
@@ -197,7 +276,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(name, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -220,7 +299,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 5, port: port_);
+            funcId: 8, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -235,6 +314,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiClipboardInitAppConstMeta => const TaskConstMeta(
         debugName: "init_app",
         argNames: [],
+      );
+
+  @override
+  void crateApiClipboardSetClipboardData({required ClipboardData data}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_clipboard_data(data, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiClipboardSetClipboardDataConstMeta,
+      argValues: [data],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiClipboardSetClipboardDataConstMeta =>
+      const TaskConstMeta(
+        debugName: "set_clipboard_data",
+        argNames: ["data"],
       );
 
   Future<void> Function(int, dynamic)
@@ -345,6 +448,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool dco_decode_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
+  }
+
+  @protected
+  ClipboardData dco_decode_box_autoadd_clipboard_data(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_clipboard_data(raw);
+  }
+
+  @protected
   CPImage dco_decode_box_autoadd_cp_image(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_cp_image(raw);
@@ -392,6 +507,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  IconEntity dco_decode_icon_entity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return IconEntity(
+      data: dco_decode_String(arr[0]),
+      height: dco_decode_u_32(arr[1]),
+      width: dco_decode_u_32(arr[2]),
+    );
+  }
+
+  @protected
+  InfoEntity dco_decode_info_entity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return InfoEntity(
+      processId: dco_decode_u_32(arr[0]),
+      path: dco_decode_String(arr[1]),
+      name: dco_decode_String(arr[2]),
+      execName: dco_decode_String(arr[3]),
+    );
+  }
+
+  @protected
   List<String> dco_decode_list_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_String).toList();
@@ -401,6 +543,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  List<WindowIconEntity> dco_decode_list_window_icon_entity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_window_icon_entity).toList();
   }
 
   @protected
@@ -422,6 +570,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PositionEntity dco_decode_position_entity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return PositionEntity(
+      x: dco_decode_i_32(arr[0]),
+      y: dco_decode_i_32(arr[1]),
+      width: dco_decode_i_32(arr[2]),
+      height: dco_decode_i_32(arr[3]),
+      isFullScreen: dco_decode_bool(arr[4]),
+    );
+  }
+
+  @protected
   int dco_decode_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -440,9 +603,48 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UsageEntity dco_decode_usage_entity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return UsageEntity(
+      memory: dco_decode_u_32(arr[0]),
+    );
+  }
+
+  @protected
   BigInt dco_decode_usize(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeU64(raw);
+  }
+
+  @protected
+  WindowEntity dco_decode_window_entity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return WindowEntity(
+      id: dco_decode_u_32(arr[0]),
+      title: dco_decode_String(arr[1]),
+      position: dco_decode_position_entity(arr[2]),
+      info: dco_decode_info_entity(arr[3]),
+      usage: dco_decode_usage_entity(arr[4]),
+      url: dco_decode_String(arr[5]),
+    );
+  }
+
+  @protected
+  WindowIconEntity dco_decode_window_icon_entity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return WindowIconEntity(
+      window: dco_decode_window_entity(arr[0]),
+      icon: dco_decode_icon_entity(arr[1]),
+    );
   }
 
   @protected
@@ -503,6 +705,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool sse_decode_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  ClipboardData sse_decode_box_autoadd_clipboard_data(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_clipboard_data(deserializer));
+  }
+
+  @protected
   CPImage sse_decode_box_autoadd_cp_image(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_cp_image(deserializer));
@@ -549,6 +764,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  IconEntity sse_decode_icon_entity(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_data = sse_decode_String(deserializer);
+    var var_height = sse_decode_u_32(deserializer);
+    var var_width = sse_decode_u_32(deserializer);
+    return IconEntity(data: var_data, height: var_height, width: var_width);
+  }
+
+  @protected
+  InfoEntity sse_decode_info_entity(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_processId = sse_decode_u_32(deserializer);
+    var var_path = sse_decode_String(deserializer);
+    var var_name = sse_decode_String(deserializer);
+    var var_execName = sse_decode_String(deserializer);
+    return InfoEntity(
+        processId: var_processId,
+        path: var_path,
+        name: var_name,
+        execName: var_execName);
+  }
+
+  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -565,6 +803,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  List<WindowIconEntity> sse_decode_list_window_icon_entity(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <WindowIconEntity>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_window_icon_entity(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -601,6 +852,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PositionEntity sse_decode_position_entity(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_x = sse_decode_i_32(deserializer);
+    var var_y = sse_decode_i_32(deserializer);
+    var var_width = sse_decode_i_32(deserializer);
+    var var_height = sse_decode_i_32(deserializer);
+    var var_isFullScreen = sse_decode_bool(deserializer);
+    return PositionEntity(
+        x: var_x,
+        y: var_y,
+        width: var_width,
+        height: var_height,
+        isFullScreen: var_isFullScreen);
+  }
+
+  @protected
   int sse_decode_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint32();
@@ -618,15 +885,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UsageEntity sse_decode_usage_entity(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_memory = sse_decode_u_32(deserializer);
+    return UsageEntity(memory: var_memory);
+  }
+
+  @protected
   BigInt sse_decode_usize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getBigUint64();
   }
 
   @protected
-  bool sse_decode_bool(SseDeserializer deserializer) {
+  WindowEntity sse_decode_window_entity(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getUint8() != 0;
+    var var_id = sse_decode_u_32(deserializer);
+    var var_title = sse_decode_String(deserializer);
+    var var_position = sse_decode_position_entity(deserializer);
+    var var_info = sse_decode_info_entity(deserializer);
+    var var_usage = sse_decode_usage_entity(deserializer);
+    var var_url = sse_decode_String(deserializer);
+    return WindowEntity(
+        id: var_id,
+        title: var_title,
+        position: var_position,
+        info: var_info,
+        usage: var_usage,
+        url: var_url);
+  }
+
+  @protected
+  WindowIconEntity sse_decode_window_icon_entity(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_window = sse_decode_window_entity(deserializer);
+    var var_icon = sse_decode_icon_entity(deserializer);
+    return WindowIconEntity(window: var_window, icon: var_icon);
   }
 
   @protected
@@ -700,6 +994,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self ? 1 : 0);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_clipboard_data(
+      ClipboardData self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_clipboard_data(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_cp_image(CPImage self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_cp_image(self, serializer);
@@ -737,6 +1044,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_icon_entity(IconEntity self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.data, serializer);
+    sse_encode_u_32(self.height, serializer);
+    sse_encode_u_32(self.width, serializer);
+  }
+
+  @protected
+  void sse_encode_info_entity(InfoEntity self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.processId, serializer);
+    sse_encode_String(self.path, serializer);
+    sse_encode_String(self.name, serializer);
+    sse_encode_String(self.execName, serializer);
+  }
+
+  @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
@@ -751,6 +1075,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_list_window_icon_entity(
+      List<WindowIconEntity> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_window_icon_entity(item, serializer);
+    }
   }
 
   @protected
@@ -786,6 +1120,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_position_entity(
+      PositionEntity self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.x, serializer);
+    sse_encode_i_32(self.y, serializer);
+    sse_encode_i_32(self.width, serializer);
+    sse_encode_i_32(self.height, serializer);
+    sse_encode_bool(self.isFullScreen, serializer);
+  }
+
+  @protected
   void sse_encode_u_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint32(self);
@@ -803,15 +1148,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_usage_entity(UsageEntity self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.memory, serializer);
+  }
+
+  @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
   }
 
   @protected
-  void sse_encode_bool(bool self, SseSerializer serializer) {
+  void sse_encode_window_entity(WindowEntity self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putUint8(self ? 1 : 0);
+    sse_encode_u_32(self.id, serializer);
+    sse_encode_String(self.title, serializer);
+    sse_encode_position_entity(self.position, serializer);
+    sse_encode_info_entity(self.info, serializer);
+    sse_encode_usage_entity(self.usage, serializer);
+    sse_encode_String(self.url, serializer);
+  }
+
+  @protected
+  void sse_encode_window_icon_entity(
+      WindowIconEntity self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_window_entity(self.window, serializer);
+    sse_encode_icon_entity(self.icon, serializer);
   }
 }
 

@@ -17,6 +17,9 @@ Future<void> clipboardListenerStart(
     RustLib.instance.api
         .crateApiClipboardClipboardListenerStart(dartCallback: dartCallback);
 
+void setClipboardData({required ClipboardData data}) =>
+    RustLib.instance.api.crateApiClipboardSetClipboardData(data: data);
+
 ClipboardData getClipboardData() =>
     RustLib.instance.api.crateApiClipboardGetClipboardData();
 
