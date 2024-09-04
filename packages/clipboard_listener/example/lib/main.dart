@@ -15,7 +15,8 @@ Future<void> main() async {
       } else if (data.dataType == DataType.text) {
         debugPrint(data.content);
       } else if (data.dataType == DataType.image) {
-        debugPrint("width: ${data.image!.width}, height: ${data.image!.height} ,size: ${data.image!.bytes.length}");
+        debugPrint(
+            "width: ${data.image!.width}, height: ${data.image!.height} ,size: ${data.image!.bytes.length}");
         File file = File('temp/clipboard_image.png');
         file.writeAsBytesSync(data.image!.bytes);
       }
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text('flutter_rust_bridge quickstart')),
         body: Center(
-          child: Text('Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`'),
+          child: Text(
+              'Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`'),
         ),
       ),
     );
