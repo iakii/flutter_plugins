@@ -4,7 +4,15 @@ import 'package:system_infomation/src/rust/api/entities.dart';
 import 'package:system_infomation/src/rust/api/system_info.dart' as sysinfo;
 import 'package:system_infomation/src/rust/frb_generated.dart';
 
-export 'src/rust/api/entities.dart' show NetWorkEntity, ProcessEntity, CpuEntity, CpuUsageEntity, IpNetworkEntity, IpNetworkType, ProcessStatusEntity;
+export 'src/rust/api/entities.dart'
+    show
+        NetWorkEntity,
+        ProcessEntity,
+        CpuEntity,
+        CpuUsageEntity,
+        IpNetworkEntity,
+        IpNetworkType,
+        ProcessStatusEntity;
 
 class _SystemInfomationManager {
   // 单例
@@ -22,22 +30,30 @@ class _SystemInfomationManager {
   }
 
   List<NetWorkEntity> getNetworks() {
-    if (!inited) throw Exception("You must call `await systemInfomationManager.init();` first.");
+    if (!inited)
+      throw Exception(
+          "You must call `await systemInfomationManager.init();` first.");
     return sysinfo.getNetworks();
   }
 
   List<ProcessEntity> getProcesses() {
-    if (!inited) throw Exception("You must call `await systemInfomationManager.init();` first.");
+    if (!inited)
+      throw Exception(
+          "You must call `await systemInfomationManager.init();` first.");
     return sysinfo.getProcesses();
   }
 
   String? findPid(String name) {
-    if (!inited) throw Exception("You must call `await systemInfomationManager.init();` first.");
+    if (!inited)
+      throw Exception(
+          "You must call `await systemInfomationManager.init();` first.");
     return sysinfo.findPid(name: name);
   }
 
   List<CpuEntity> getCpus() {
-    if (!inited) throw Exception("You must call `await systemInfomationManager.init();` first.");
+    if (!inited)
+      throw Exception(
+          "You must call `await systemInfomationManager.init();` first.");
     return sysinfo.getCpus();
   }
 }

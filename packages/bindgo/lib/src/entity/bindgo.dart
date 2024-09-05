@@ -12,8 +12,7 @@ void tryCatch(Function? f) {
 
 class FFConvert {
   FFConvert._();
-  static T? Function<T extends Object?>(dynamic value) convert =
-      <T>(dynamic value) {
+  static T? Function<T extends Object?>(dynamic value) convert = <T>(dynamic value) {
     if (value == null) {
       return null;
     }
@@ -60,8 +59,7 @@ class BindGoEntity {
   });
 
   factory BindGoEntity.fromJson(Map<String, dynamic> json) {
-    final List<Platforms>? platforms =
-        json['platforms'] is List ? <Platforms>[] : null;
+    final List<Platforms>? platforms = json['platforms'] is List ? <Platforms>[] : null;
     if (platforms != null) {
       for (final dynamic item in json['platforms']!) {
         if (item != null) {
