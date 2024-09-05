@@ -19,12 +19,12 @@ export 'src/rust/api/active_window.dart'
 
 class _ClipboardListenerManager {
   // 单例
-  static _ClipboardListenerManager? _instance;
-  _ClipboardListenerManager._();
-  factory _ClipboardListenerManager() {
-    _instance ??= _ClipboardListenerManager._();
-    return _instance!;
-  }
+
+  static final _ClipboardListenerManager instance =
+      _ClipboardListenerManager._internal();
+  factory _ClipboardListenerManager() => instance;
+  _ClipboardListenerManager._internal();
+
   bool inited = false;
 
   Future<void> init() async {
@@ -124,4 +124,4 @@ class _ClipboardListenerManager {
   }
 }
 
-final clipboardListenerManager = _ClipboardListenerManager._instance!;
+final clipboardListenerManager = _ClipboardListenerManager.instance;

@@ -16,12 +16,11 @@ export 'src/rust/api/entities.dart'
 
 class _SystemInfomationManager {
   // 单例
-  static _SystemInfomationManager? _instance;
-  _SystemInfomationManager._();
-  factory _SystemInfomationManager() {
-    _instance ??= _SystemInfomationManager._();
-    return _instance!;
-  }
+  static final _SystemInfomationManager instance =
+      _SystemInfomationManager._internal();
+  factory _SystemInfomationManager() => instance;
+  _SystemInfomationManager._internal();
+
   bool inited = false;
 
   Future<void> init() async {
@@ -58,4 +57,4 @@ class _SystemInfomationManager {
   }
 }
 
-final systemInfomationManager = _SystemInfomationManager._instance!;
+final systemInfomationManager = _SystemInfomationManager.instance;
