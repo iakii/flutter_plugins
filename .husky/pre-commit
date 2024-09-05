@@ -3,3 +3,4 @@
 melos bootstrap
 melos format
 melos clean
+git add .

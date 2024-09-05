@@ -64,12 +64,15 @@ class CargoBuildOptions {
 
   static Toolchain _toolchainFromNode(YamlNode node) {
     if (node case YamlScalar(value: String name)) {
-      final toolchain = Toolchain.values.firstWhereOrNull((element) => element.name == name);
+      final toolchain =
+          Toolchain.values.firstWhereOrNull((element) => element.name == name);
       if (toolchain != null) {
         return toolchain;
       }
     }
-    throw SourceSpanException('Unknown toolchain. Must be one of ${Toolchain.values.map((e) => e.name)}.', node.span);
+    throw SourceSpanException(
+        'Unknown toolchain. Must be one of ${Toolchain.values.map((e) => e.name)}.',
+        node.span);
   }
 
   static CargoBuildOptions parse(YamlNode node) {
@@ -93,9 +96,12 @@ class CargoBuildOptions {
             continue;
           }
         }
-        throw SourceSpanException('Extra flags must be a list of strings', value.span);
+        throw SourceSpanException(
+            'Extra flags must be a list of strings', value.span);
       } else {
-        throw SourceSpanException('Unknown cargo option type. Must be "toolchain" or "extra_flags".', key.span);
+        throw SourceSpanException(
+            'Unknown cargo option type. Must be "toolchain" or "extra_flags".',
+            key.span);
       }
     }
     return CargoBuildOptions(toolchain: toolchain, flags: flags);
@@ -104,7 +110,8 @@ class CargoBuildOptions {
 
 extension on YamlMap {
   /// Map that extracts keys so that we can do map case check on them.
-  Map<dynamic, YamlNode> get valueMap => nodes.map((key, value) => MapEntry(key.value, value));
+  Map<dynamic, YamlNode> get valueMap =>
+      nodes.map((key, value) => MapEntry(key.value, value));
 }
 
 class PrecompiledBinaries {
@@ -119,7 +126,8 @@ class PrecompiledBinaries {
   static PublicKey _publicKeyFromHex(String key, SourceSpan? span) {
     final bytes = HEX.decode(key);
     if (bytes.length != 32) {
-      throw SourceSpanException('Invalid public key. Must be 32 bytes long.', span);
+      throw SourceSpanException(
+          'Invalid public key. Must be 32 bytes long.', span);
     }
     return PublicKey(bytes);
   }
@@ -133,11 +141,14 @@ class PrecompiledBinaries {
           }) {
         final urlPrefix = switch (urlPrefixNode) {
           YamlScalar(value: String urlPrefix) => urlPrefix,
-          _ => throw SourceSpanException('Invalid URL prefix value.', urlPrefixNode.span),
+          _ => throw SourceSpanException(
+              'Invalid URL prefix value.', urlPrefixNode.span),
         };
         final publicKey = switch (publicKeyNode) {
-          YamlScalar(value: String publicKey) => _publicKeyFromHex(publicKey, publicKeyNode.span),
-          _ => throw SourceSpanException('Invalid public key value.', publicKeyNode.span),
+          YamlScalar(value: String publicKey) =>
+            _publicKeyFromHex(publicKey, publicKeyNode.span),
+          _ => throw SourceSpanException(
+              'Invalid public key value.', publicKeyNode.span),
         };
         return PrecompiledBinaries(
           uriPrefix: urlPrefix,
@@ -181,18 +192,23 @@ class CargokitCrateOptions {
 
         for (final MapEntry(:YamlNode key, :value) in node.nodes.entries) {
           if (key case YamlScalar(value: String name)) {
-            final configuration = BuildConfiguration.values.firstWhereOrNull((element) => element.name == name);
+            final configuration = BuildConfiguration.values
+                .firstWhereOrNull((element) => element.name == name);
             if (configuration != null) {
               options[configuration] = CargoBuildOptions.parse(value);
               continue;
             }
           }
-          throw SourceSpanException('Unknown build configuration. Must be one of ${BuildConfiguration.values.map((e) => e.name)}.', key.span);
+          throw SourceSpanException(
+              'Unknown build configuration. Must be one of ${BuildConfiguration.values.map((e) => e.name)}.',
+              key.span);
         }
       } else if (entry.key case YamlScalar(value: 'precompiled_binaries')) {
         precompiledBinaries = PrecompiledBinaries.parse(entry.value);
       } else {
-        throw SourceSpanException('Unknown cargokit option type. Must be "cargo" or "precompiled_binaries".', entry.key.span);
+        throw SourceSpanException(
+            'Unknown cargokit option type. Must be "cargo" or "precompiled_binaries".',
+            entry.key.span);
       }
     }
     return CargokitCrateOptions(
@@ -244,15 +260,21 @@ class CargokitUserOptions {
           usePrecompiledBinaries = value;
           continue;
         }
-        throw SourceSpanException('Invalid value for "use_precompiled_binaries". Must be a boolean.', entry.value.span);
+        throw SourceSpanException(
+            'Invalid value for "use_precompiled_binaries". Must be a boolean.',
+            entry.value.span);
       } else if (entry.key case YamlScalar(value: 'verbose_logging')) {
         if (entry.value case YamlScalar(value: bool value)) {
           verboseLogging = value;
           continue;
         }
-        throw SourceSpanException('Invalid value for "verbose_logging". Must be a boolean.', entry.value.span);
+        throw SourceSpanException(
+            'Invalid value for "verbose_logging". Must be a boolean.',
+            entry.value.span);
       } else {
-        throw SourceSpanException('Unknown cargokit option type. Must be "use_precompiled_binaries" or "verbose_logging".', entry.key.span);
+        throw SourceSpanException(
+            'Unknown cargokit option type. Must be "use_precompiled_binaries" or "verbose_logging".',
+            entry.key.span);
       }
     }
     return CargokitUserOptions(
