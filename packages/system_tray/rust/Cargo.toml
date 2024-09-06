@@ -1,0 +1,18 @@
+[package]
+name = "system_tray"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+flutter_rust_bridge = "=2.3.0"
+image = "0.25.2"
+tray-icon = "0.17.0"
+winit = "0.29.15"
+
+
+
+[target."cfg(target_os = \"macos\")".dependencies]
+core-foundation = "0.10"
