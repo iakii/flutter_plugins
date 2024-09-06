@@ -19,6 +19,8 @@ packages:
   - packages/rust_ffi_lib/example
   - packages/system_infomation
   - packages/system_infomation/example
+  - packages/system_tray
+  - packages/system_tray/example
   # - packages/rust_ffi_lib/cargokit/build_tool
 
 scripts:
