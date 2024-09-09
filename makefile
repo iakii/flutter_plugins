@@ -4,7 +4,5 @@ get:
 clean: 
 		@echo "Cleaning flutter project..."
 		@melos clean
-		@cd packages/rust_ffi_lib/rust && cargo clean
-		@cd packages/clipboard_listener/rust && cargo clean
-		@cd packages/system_infomation/library && cargo clean
+		@cd packages/flutter_rust_lib_core/rust && cargo clean
 		@cd packages/system_tray/rust && cargo clean
