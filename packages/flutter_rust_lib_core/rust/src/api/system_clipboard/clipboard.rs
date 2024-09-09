@@ -1,14 +1,15 @@
 use std::{
-    sync::mpsc::{self, Sender},
+    sync::mpsc::{self},
     thread,
 };
 
 use clipboard_rs::{
-    common::RustImage, Clipboard, ClipboardContext, ClipboardHandler, ClipboardWatcher,
+    common::RustImage, Clipboard, ClipboardContext, ClipboardWatcher,
     ClipboardWatcherContext, RustImageData,
 };
 use flutter_rust_bridge::DartFnFuture;
 
+use crate::api::system_clipboard::entity::{ClipImage, ClipboardData, DataType, Manager};
 use x_win::{get_active_window, get_window_icon};
 
 pub async fn clipboard_listener_start(_dart_callback: impl Fn(String) -> DartFnFuture<String>) {
@@ -58,7 +59,7 @@ pub fn get_clipboard_data() -> ClipboardData {
             let size = img.get_size();
             let clipboard_data = ClipboardData {
                 data_type: DataType::IMAGE,
-                image: Some(CPImage {
+                image: Some(ClipImage {
                     width: size.0,
                     height: size.1,
                     bytes: img.to_png().unwrap().get_bytes().to_vec(),
@@ -124,44 +125,4 @@ pub fn get_clipboard_data() -> ClipboardData {
     clipboard_data.icon = Some(icon.data);
 
     clipboard_data
-}
-
-pub struct Manager {
-    sender: Sender<String>,
-}
-
-impl Manager {
-    pub fn new(sender: Sender<String>) -> Self {
-        Manager { sender }
-    }
-}
-
-impl ClipboardHandler for Manager {
-    fn on_clipboard_change(&mut self) {
-        self.sender
-            .send("clipboard_listener: clipboard has changed".to_string())
-            .unwrap();
-    }
-}
-
-pub struct CPImage {
-    pub width: u32,
-    pub height: u32,
-    pub bytes: Vec<u8>,
-}
-
-pub enum DataType {
-    FILE,
-    TEXT,
-    IMAGE,
-}
-
-pub struct ClipboardData {
-    // 1 2 3 分别代表 1 图片 2 文字 3 文件
-    pub data_type: DataType,
-    pub content: Option<String>,
-    pub image: Option<CPImage>,
-    pub paths: Option<Vec<String>>,
-    pub icon: Option<String>,
-    pub app_name: Option<String>,
 }

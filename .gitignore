@@ -28,4 +28,4 @@ pubspec_overrides.yaml
 **/doc/api/
 .dart_tool/
 build/
-.flutter_plugins
+.flutter_plugins*

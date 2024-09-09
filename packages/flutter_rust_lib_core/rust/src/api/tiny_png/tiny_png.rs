@@ -4,11 +4,11 @@ use std::path::{Path, PathBuf};
 use webp::*;
 
 pub fn parse_webp(path: String, output: String, quality: f32) {
-    let img = image::open(path).unwrap();
+    let img = open(path).unwrap();
     let (w, h) = img.dimensions();
     // Optionally, resize the existing photo and convert back into DynamicImage
     let size_factor = 1.0;
-    let img: DynamicImage = image::DynamicImage::ImageRgba8(imageops::resize(
+    let img: DynamicImage = DynamicImage::ImageRgba8(imageops::resize(
         &img,
         (w as f64 * size_factor) as u32,
         (h as f64 * size_factor) as u32,

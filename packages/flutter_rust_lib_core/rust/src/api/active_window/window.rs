@@ -1,4 +1,5 @@
 use x_win::{get_active_window, get_open_windows, get_window_icon, IconInfo, WindowInfo};
+use crate::api::active_window::entity::{IconEntity, InfoEntity, PositionEntity, UsageEntity, WindowEntity, WindowIconEntity};
 
 /// Retrieves the active window.
 ///
@@ -116,41 +117,3 @@ pub fn get_window_icon_by_window_id(id: u32) -> IconEntity {
     icon_info_to_entity(&icon)
 }
 
-pub struct WindowEntity {
-    pub id: u32,
-    pub title: String,
-    pub position: PositionEntity,
-    pub info: InfoEntity,
-    pub usage: UsageEntity,
-    pub url: String,
-}
-
-pub struct PositionEntity {
-    pub x: i32,
-    pub y: i32,
-    pub width: i32,
-    pub height: i32,
-    pub is_full_screen: bool,
-}
-
-pub struct InfoEntity {
-    pub process_id: u32,
-    pub path: String,
-    pub name: String,
-    pub exec_name: String,
-}
-
-pub struct UsageEntity {
-    pub memory: u32,
-}
-
-pub struct IconEntity {
-    pub data: String,
-    pub height: u32,
-    pub width: u32,
-}
-
-pub struct WindowIconEntity {
-    pub window: WindowEntity,
-    pub icon: IconEntity,
-}

@@ -58,7 +58,7 @@ pub fn get_processes() -> Vec<ProcessEntity> {
                 sysinfo::ProcessStatus::Unknown(u32) => ProcessStatusEntity::Unknown(u32),
                 sysinfo::ProcessStatus::Tracing => ProcessStatusEntity::Tracing,
                 sysinfo::ProcessStatus::Dead => ProcessStatusEntity::Dead,
-                sysinfo::ProcessStatus::Wakekill => ProcessStatusEntity::Wakekill,
+                sysinfo::ProcessStatus::Wakekill => ProcessStatusEntity::WakeKill,
                 sysinfo::ProcessStatus::Waking => ProcessStatusEntity::Waking,
                 sysinfo::ProcessStatus::Parked => ProcessStatusEntity::Parked,
                 sysinfo::ProcessStatus::LockBlocked => ProcessStatusEntity::LockBlocked,

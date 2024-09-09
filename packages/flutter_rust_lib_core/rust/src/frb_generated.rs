@@ -25,7 +25,7 @@
 
 // Section: imports
 
-use crate::api::system_clipboard::clipboard::*;
+use crate::api::system_clipboard::entity::*;
 use crate::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.3.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1617151877;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1647355598;
 
 // Section: executor
 
@@ -268,41 +268,6 @@ fn wire__crate__api__keypress_simulator__simulator__paste_impl(
         },
     )
 }
-fn wire__crate__api__system_clipboard__clipboard__Manager_new_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Manager_new",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_sender = <Sender<String>>::sse_decode(&mut deserializer);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::system_clipboard::clipboard::Manager::new(api_sender),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
 fn wire__crate__api__system_clipboard__clipboard__clipboard_listener_start_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -398,7 +363,7 @@ fn wire__crate__api__system_clipboard__clipboard__set_clipboard_data_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_data = <crate::api::system_clipboard::clipboard::ClipboardData>::sse_decode(
+            let api_data = <crate::api::system_clipboard::entity::ClipboardData>::sse_decode(
                 &mut deserializer,
             );
             deserializer.end();
@@ -408,6 +373,41 @@ fn wire__crate__api__system_clipboard__clipboard__set_clipboard_data_impl(
                 })?;
                 Ok(output_ok)
             })())
+        },
+    )
+}
+fn wire__crate__api__system_clipboard__entity__Manager_new_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Manager_new",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_sender = <Sender<String>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::system_clipboard::entity::Manager::new(api_sender),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
         },
     )
 }
@@ -963,38 +963,38 @@ impl SseDecode for bool {
     }
 }
 
-impl SseDecode for crate::api::system_clipboard::clipboard::ClipboardData {
+impl SseDecode for crate::api::system_clipboard::entity::ClipImage {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_width = <u32>::sse_decode(deserializer);
+        let mut var_height = <u32>::sse_decode(deserializer);
+        let mut var_bytes = <Vec<u8>>::sse_decode(deserializer);
+        return crate::api::system_clipboard::entity::ClipImage {
+            width: var_width,
+            height: var_height,
+            bytes: var_bytes,
+        };
+    }
+}
+
+impl SseDecode for crate::api::system_clipboard::entity::ClipboardData {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_dataType =
-            <crate::api::system_clipboard::clipboard::DataType>::sse_decode(deserializer);
+            <crate::api::system_clipboard::entity::DataType>::sse_decode(deserializer);
         let mut var_content = <Option<String>>::sse_decode(deserializer);
         let mut var_image =
-            <Option<crate::api::system_clipboard::clipboard::CPImage>>::sse_decode(deserializer);
+            <Option<crate::api::system_clipboard::entity::ClipImage>>::sse_decode(deserializer);
         let mut var_paths = <Option<Vec<String>>>::sse_decode(deserializer);
         let mut var_icon = <Option<String>>::sse_decode(deserializer);
         let mut var_appName = <Option<String>>::sse_decode(deserializer);
-        return crate::api::system_clipboard::clipboard::ClipboardData {
+        return crate::api::system_clipboard::entity::ClipboardData {
             data_type: var_dataType,
             content: var_content,
             image: var_image,
             paths: var_paths,
             icon: var_icon,
             app_name: var_appName,
-        };
-    }
-}
-
-impl SseDecode for crate::api::system_clipboard::clipboard::CPImage {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_width = <u32>::sse_decode(deserializer);
-        let mut var_height = <u32>::sse_decode(deserializer);
-        let mut var_bytes = <Vec<u8>>::sse_decode(deserializer);
-        return crate::api::system_clipboard::clipboard::CPImage {
-            width: var_width,
-            height: var_height,
-            bytes: var_bytes,
         };
     }
 }
@@ -1028,14 +1028,14 @@ impl SseDecode for crate::api::system_info::entity::CpuUsageEntity {
     }
 }
 
-impl SseDecode for crate::api::system_clipboard::clipboard::DataType {
+impl SseDecode for crate::api::system_clipboard::entity::DataType {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <i32>::sse_decode(deserializer);
         return match inner {
-            0 => crate::api::system_clipboard::clipboard::DataType::FILE,
-            1 => crate::api::system_clipboard::clipboard::DataType::TEXT,
-            2 => crate::api::system_clipboard::clipboard::DataType::IMAGE,
+            0 => crate::api::system_clipboard::entity::DataType::FILE,
+            1 => crate::api::system_clipboard::entity::DataType::TEXT,
+            2 => crate::api::system_clipboard::entity::DataType::IMAGE,
             _ => unreachable!("Invalid variant for DataType: {}", inner),
         };
     }
@@ -1231,13 +1231,13 @@ impl SseDecode for i32 {
     }
 }
 
-impl SseDecode for crate::api::active_window::window::IconEntity {
+impl SseDecode for crate::api::active_window::entity::IconEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_data = <String>::sse_decode(deserializer);
         let mut var_height = <u32>::sse_decode(deserializer);
         let mut var_width = <u32>::sse_decode(deserializer);
-        return crate::api::active_window::window::IconEntity {
+        return crate::api::active_window::entity::IconEntity {
             data: var_data,
             height: var_height,
             width: var_width,
@@ -1245,14 +1245,14 @@ impl SseDecode for crate::api::active_window::window::IconEntity {
     }
 }
 
-impl SseDecode for crate::api::active_window::window::InfoEntity {
+impl SseDecode for crate::api::active_window::entity::InfoEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_processId = <u32>::sse_decode(deserializer);
         let mut var_path = <String>::sse_decode(deserializer);
         let mut var_name = <String>::sse_decode(deserializer);
         let mut var_execName = <String>::sse_decode(deserializer);
-        return crate::api::active_window::window::InfoEntity {
+        return crate::api::active_window::entity::InfoEntity {
             process_id: var_processId,
             path: var_path,
             name: var_name,
@@ -1383,14 +1383,14 @@ impl SseDecode for Vec<(String, u64)> {
     }
 }
 
-impl SseDecode for Vec<crate::api::active_window::window::WindowIconEntity> {
+impl SseDecode for Vec<crate::api::active_window::entity::WindowIconEntity> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut len_ = <i32>::sse_decode(deserializer);
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(
-                <crate::api::active_window::window::WindowIconEntity>::sse_decode(deserializer),
+                <crate::api::active_window::entity::WindowIconEntity>::sse_decode(deserializer),
             );
         }
         return ans_;
@@ -1460,12 +1460,12 @@ impl SseDecode for Option<String> {
     }
 }
 
-impl SseDecode for Option<crate::api::system_clipboard::clipboard::CPImage> {
+impl SseDecode for Option<crate::api::system_clipboard::entity::ClipImage> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(
-                <crate::api::system_clipboard::clipboard::CPImage>::sse_decode(deserializer),
+                <crate::api::system_clipboard::entity::ClipImage>::sse_decode(deserializer),
             );
         } else {
             return None;
@@ -1508,7 +1508,7 @@ impl SseDecode for Option<Vec<String>> {
     }
 }
 
-impl SseDecode for crate::api::active_window::window::PositionEntity {
+impl SseDecode for crate::api::active_window::entity::PositionEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_x = <i32>::sse_decode(deserializer);
@@ -1516,7 +1516,7 @@ impl SseDecode for crate::api::active_window::window::PositionEntity {
         let mut var_width = <i32>::sse_decode(deserializer);
         let mut var_height = <i32>::sse_decode(deserializer);
         let mut var_isFullScreen = <bool>::sse_decode(deserializer);
-        return crate::api::active_window::window::PositionEntity {
+        return crate::api::active_window::entity::PositionEntity {
             x: var_x,
             y: var_y,
             width: var_width,
@@ -1596,7 +1596,7 @@ impl SseDecode for crate::api::system_info::entity::ProcessStatusEntity {
                 return crate::api::system_info::entity::ProcessStatusEntity::Dead;
             }
             7 => {
-                return crate::api::system_info::entity::ProcessStatusEntity::Wakekill;
+                return crate::api::system_info::entity::ProcessStatusEntity::WakeKill;
             }
             8 => {
                 return crate::api::system_info::entity::ProcessStatusEntity::Waking;
@@ -1680,11 +1680,11 @@ impl SseDecode for () {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
 }
 
-impl SseDecode for crate::api::active_window::window::UsageEntity {
+impl SseDecode for crate::api::active_window::entity::UsageEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_memory = <u32>::sse_decode(deserializer);
-        return crate::api::active_window::window::UsageEntity { memory: var_memory };
+        return crate::api::active_window::entity::UsageEntity { memory: var_memory };
     }
 }
 
@@ -1695,19 +1695,19 @@ impl SseDecode for usize {
     }
 }
 
-impl SseDecode for crate::api::active_window::window::WindowEntity {
+impl SseDecode for crate::api::active_window::entity::WindowEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_id = <u32>::sse_decode(deserializer);
         let mut var_title = <String>::sse_decode(deserializer);
         let mut var_position =
-            <crate::api::active_window::window::PositionEntity>::sse_decode(deserializer);
+            <crate::api::active_window::entity::PositionEntity>::sse_decode(deserializer);
         let mut var_info =
-            <crate::api::active_window::window::InfoEntity>::sse_decode(deserializer);
+            <crate::api::active_window::entity::InfoEntity>::sse_decode(deserializer);
         let mut var_usage =
-            <crate::api::active_window::window::UsageEntity>::sse_decode(deserializer);
+            <crate::api::active_window::entity::UsageEntity>::sse_decode(deserializer);
         let mut var_url = <String>::sse_decode(deserializer);
-        return crate::api::active_window::window::WindowEntity {
+        return crate::api::active_window::entity::WindowEntity {
             id: var_id,
             title: var_title,
             position: var_position,
@@ -1718,14 +1718,14 @@ impl SseDecode for crate::api::active_window::window::WindowEntity {
     }
 }
 
-impl SseDecode for crate::api::active_window::window::WindowIconEntity {
+impl SseDecode for crate::api::active_window::entity::WindowIconEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_window =
-            <crate::api::active_window::window::WindowEntity>::sse_decode(deserializer);
+            <crate::api::active_window::entity::WindowEntity>::sse_decode(deserializer);
         let mut var_icon =
-            <crate::api::active_window::window::IconEntity>::sse_decode(deserializer);
-        return crate::api::active_window::window::WindowIconEntity {
+            <crate::api::active_window::entity::IconEntity>::sse_decode(deserializer);
+        return crate::api::active_window::entity::WindowIconEntity {
             window: var_window,
             icon: var_icon,
         };
@@ -1742,13 +1742,13 @@ fn pde_ffi_dispatcher_primary_impl(
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
         5 => wire__crate__api__application__init_app_impl(port, ptr, rust_vec_len, data_len),
-        8 => wire__crate__api__system_clipboard__clipboard__Manager_new_impl(
+        8 => wire__crate__api__system_clipboard__clipboard__clipboard_listener_start_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        9 => wire__crate__api__system_clipboard__clipboard__clipboard_listener_start_impl(
+        11 => wire__crate__api__system_clipboard__entity__Manager_new_impl(
             port,
             ptr,
             rust_vec_len,
@@ -1826,12 +1826,12 @@ fn pde_ffi_dispatcher_sync_impl(
         7 => {
             wire__crate__api__keypress_simulator__simulator__paste_impl(ptr, rust_vec_len, data_len)
         }
-        10 => wire__crate__api__system_clipboard__clipboard__get_clipboard_data_impl(
+        9 => wire__crate__api__system_clipboard__clipboard__get_clipboard_data_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        11 => wire__crate__api__system_clipboard__clipboard__set_clipboard_data_impl(
+        10 => wire__crate__api__system_clipboard__clipboard__set_clipboard_data_impl(
             ptr,
             rust_vec_len,
             data_len,
@@ -1881,7 +1881,29 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Sender<String>>> for Sender<St
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::clipboard::ClipboardData {
+impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::entity::ClipImage {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.width.into_into_dart().into_dart(),
+            self.height.into_into_dart().into_dart(),
+            self.bytes.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::system_clipboard::entity::ClipImage
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::system_clipboard::entity::ClipImage>
+    for crate::api::system_clipboard::entity::ClipImage
+{
+    fn into_into_dart(self) -> crate::api::system_clipboard::entity::ClipImage {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::entity::ClipboardData {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.data_type.into_into_dart().into_dart(),
@@ -1895,35 +1917,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::clipboard::
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::system_clipboard::clipboard::ClipboardData
+    for crate::api::system_clipboard::entity::ClipboardData
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::system_clipboard::clipboard::ClipboardData>
-    for crate::api::system_clipboard::clipboard::ClipboardData
+impl flutter_rust_bridge::IntoIntoDart<crate::api::system_clipboard::entity::ClipboardData>
+    for crate::api::system_clipboard::entity::ClipboardData
 {
-    fn into_into_dart(self) -> crate::api::system_clipboard::clipboard::ClipboardData {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::clipboard::CPImage {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.width.into_into_dart().into_dart(),
-            self.height.into_into_dart().into_dart(),
-            self.bytes.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::system_clipboard::clipboard::CPImage
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::system_clipboard::clipboard::CPImage>
-    for crate::api::system_clipboard::clipboard::CPImage
-{
-    fn into_into_dart(self) -> crate::api::system_clipboard::clipboard::CPImage {
+    fn into_into_dart(self) -> crate::api::system_clipboard::entity::ClipboardData {
         self
     }
 }
@@ -1972,7 +1972,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::system_info::entity::CpuUsage
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::clipboard::DataType {
+impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::entity::DataType {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
             Self::FILE => 0.into_dart(),
@@ -1983,13 +1983,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::system_clipboard::clipboard::
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::system_clipboard::clipboard::DataType
+    for crate::api::system_clipboard::entity::DataType
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::system_clipboard::clipboard::DataType>
-    for crate::api::system_clipboard::clipboard::DataType
+impl flutter_rust_bridge::IntoIntoDart<crate::api::system_clipboard::entity::DataType>
+    for crate::api::system_clipboard::entity::DataType
 {
-    fn into_into_dart(self) -> crate::api::system_clipboard::clipboard::DataType {
+    fn into_into_dart(self) -> crate::api::system_clipboard::entity::DataType {
         self
     }
 }
@@ -2192,7 +2192,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::system_tray::entity::FFISysTr
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::IconEntity {
+impl flutter_rust_bridge::IntoDart for crate::api::active_window::entity::IconEntity {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.data.into_into_dart().into_dart(),
@@ -2203,18 +2203,18 @@ impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::IconEn
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::active_window::window::IconEntity
+    for crate::api::active_window::entity::IconEntity
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::window::IconEntity>
-    for crate::api::active_window::window::IconEntity
+impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::entity::IconEntity>
+    for crate::api::active_window::entity::IconEntity
 {
-    fn into_into_dart(self) -> crate::api::active_window::window::IconEntity {
+    fn into_into_dart(self) -> crate::api::active_window::entity::IconEntity {
         self
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::InfoEntity {
+impl flutter_rust_bridge::IntoDart for crate::api::active_window::entity::InfoEntity {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.process_id.into_into_dart().into_dart(),
@@ -2226,13 +2226,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::InfoEn
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::active_window::window::InfoEntity
+    for crate::api::active_window::entity::InfoEntity
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::window::InfoEntity>
-    for crate::api::active_window::window::InfoEntity
+impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::entity::InfoEntity>
+    for crate::api::active_window::entity::InfoEntity
 {
-    fn into_into_dart(self) -> crate::api::active_window::window::InfoEntity {
+    fn into_into_dart(self) -> crate::api::active_window::entity::InfoEntity {
         self
     }
 }
@@ -2337,7 +2337,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::system_info::entity::NetWorkE
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::PositionEntity {
+impl flutter_rust_bridge::IntoDart for crate::api::active_window::entity::PositionEntity {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.x.into_into_dart().into_dart(),
@@ -2350,13 +2350,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::Positi
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::active_window::window::PositionEntity
+    for crate::api::active_window::entity::PositionEntity
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::window::PositionEntity>
-    for crate::api::active_window::window::PositionEntity
+impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::entity::PositionEntity>
+    for crate::api::active_window::entity::PositionEntity
 {
-    fn into_into_dart(self) -> crate::api::active_window::window::PositionEntity {
+    fn into_into_dart(self) -> crate::api::active_window::entity::PositionEntity {
         self
     }
 }
@@ -2421,7 +2421,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::system_info::entity::ProcessS
             crate::api::system_info::entity::ProcessStatusEntity::Dead => {
                 [6.into_dart()].into_dart()
             }
-            crate::api::system_info::entity::ProcessStatusEntity::Wakekill => {
+            crate::api::system_info::entity::ProcessStatusEntity::WakeKill => {
                 [7.into_dart()].into_dart()
             }
             crate::api::system_info::entity::ProcessStatusEntity::Waking => {
@@ -2457,24 +2457,24 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::system_info::entity::ProcessS
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::UsageEntity {
+impl flutter_rust_bridge::IntoDart for crate::api::active_window::entity::UsageEntity {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.memory.into_into_dart().into_dart()].into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::active_window::window::UsageEntity
+    for crate::api::active_window::entity::UsageEntity
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::window::UsageEntity>
-    for crate::api::active_window::window::UsageEntity
+impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::entity::UsageEntity>
+    for crate::api::active_window::entity::UsageEntity
 {
-    fn into_into_dart(self) -> crate::api::active_window::window::UsageEntity {
+    fn into_into_dart(self) -> crate::api::active_window::entity::UsageEntity {
         self
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::WindowEntity {
+impl flutter_rust_bridge::IntoDart for crate::api::active_window::entity::WindowEntity {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.id.into_into_dart().into_dart(),
@@ -2488,18 +2488,18 @@ impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::Window
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::active_window::window::WindowEntity
+    for crate::api::active_window::entity::WindowEntity
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::window::WindowEntity>
-    for crate::api::active_window::window::WindowEntity
+impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::entity::WindowEntity>
+    for crate::api::active_window::entity::WindowEntity
 {
-    fn into_into_dart(self) -> crate::api::active_window::window::WindowEntity {
+    fn into_into_dart(self) -> crate::api::active_window::entity::WindowEntity {
         self
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::WindowIconEntity {
+impl flutter_rust_bridge::IntoDart for crate::api::active_window::entity::WindowIconEntity {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.window.into_into_dart().into_dart(),
@@ -2509,13 +2509,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::active_window::window::Window
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::active_window::window::WindowIconEntity
+    for crate::api::active_window::entity::WindowIconEntity
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::window::WindowIconEntity>
-    for crate::api::active_window::window::WindowIconEntity
+impl flutter_rust_bridge::IntoIntoDart<crate::api::active_window::entity::WindowIconEntity>
+    for crate::api::active_window::entity::WindowIconEntity
 {
-    fn into_into_dart(self) -> crate::api::active_window::window::WindowIconEntity {
+    fn into_into_dart(self) -> crate::api::active_window::entity::WindowIconEntity {
         self
     }
 }
@@ -2596,26 +2596,26 @@ impl SseEncode for bool {
     }
 }
 
-impl SseEncode for crate::api::system_clipboard::clipboard::ClipboardData {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <crate::api::system_clipboard::clipboard::DataType>::sse_encode(self.data_type, serializer);
-        <Option<String>>::sse_encode(self.content, serializer);
-        <Option<crate::api::system_clipboard::clipboard::CPImage>>::sse_encode(
-            self.image, serializer,
-        );
-        <Option<Vec<String>>>::sse_encode(self.paths, serializer);
-        <Option<String>>::sse_encode(self.icon, serializer);
-        <Option<String>>::sse_encode(self.app_name, serializer);
-    }
-}
-
-impl SseEncode for crate::api::system_clipboard::clipboard::CPImage {
+impl SseEncode for crate::api::system_clipboard::entity::ClipImage {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <u32>::sse_encode(self.width, serializer);
         <u32>::sse_encode(self.height, serializer);
         <Vec<u8>>::sse_encode(self.bytes, serializer);
+    }
+}
+
+impl SseEncode for crate::api::system_clipboard::entity::ClipboardData {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::system_clipboard::entity::DataType>::sse_encode(self.data_type, serializer);
+        <Option<String>>::sse_encode(self.content, serializer);
+        <Option<crate::api::system_clipboard::entity::ClipImage>>::sse_encode(
+            self.image, serializer,
+        );
+        <Option<Vec<String>>>::sse_encode(self.paths, serializer);
+        <Option<String>>::sse_encode(self.icon, serializer);
+        <Option<String>>::sse_encode(self.app_name, serializer);
     }
 }
 
@@ -2637,14 +2637,14 @@ impl SseEncode for crate::api::system_info::entity::CpuUsageEntity {
     }
 }
 
-impl SseEncode for crate::api::system_clipboard::clipboard::DataType {
+impl SseEncode for crate::api::system_clipboard::entity::DataType {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(
             match self {
-                crate::api::system_clipboard::clipboard::DataType::FILE => 0,
-                crate::api::system_clipboard::clipboard::DataType::TEXT => 1,
-                crate::api::system_clipboard::clipboard::DataType::IMAGE => 2,
+                crate::api::system_clipboard::entity::DataType::FILE => 0,
+                crate::api::system_clipboard::entity::DataType::TEXT => 1,
+                crate::api::system_clipboard::entity::DataType::IMAGE => 2,
                 _ => {
                     unimplemented!("");
                 }
@@ -2818,7 +2818,7 @@ impl SseEncode for i32 {
     }
 }
 
-impl SseEncode for crate::api::active_window::window::IconEntity {
+impl SseEncode for crate::api::active_window::entity::IconEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.data, serializer);
@@ -2827,7 +2827,7 @@ impl SseEncode for crate::api::active_window::window::IconEntity {
     }
 }
 
-impl SseEncode for crate::api::active_window::window::InfoEntity {
+impl SseEncode for crate::api::active_window::entity::InfoEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <u32>::sse_encode(self.process_id, serializer);
@@ -2941,12 +2941,12 @@ impl SseEncode for Vec<(String, u64)> {
     }
 }
 
-impl SseEncode for Vec<crate::api::active_window::window::WindowIconEntity> {
+impl SseEncode for Vec<crate::api::active_window::entity::WindowIconEntity> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
-            <crate::api::active_window::window::WindowIconEntity>::sse_encode(item, serializer);
+            <crate::api::active_window::entity::WindowIconEntity>::sse_encode(item, serializer);
         }
     }
 }
@@ -3002,12 +3002,12 @@ impl SseEncode for Option<String> {
     }
 }
 
-impl SseEncode for Option<crate::api::system_clipboard::clipboard::CPImage> {
+impl SseEncode for Option<crate::api::system_clipboard::entity::ClipImage> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <crate::api::system_clipboard::clipboard::CPImage>::sse_encode(value, serializer);
+            <crate::api::system_clipboard::entity::ClipImage>::sse_encode(value, serializer);
         }
     }
 }
@@ -3042,7 +3042,7 @@ impl SseEncode for Option<Vec<String>> {
     }
 }
 
-impl SseEncode for crate::api::active_window::window::PositionEntity {
+impl SseEncode for crate::api::active_window::entity::PositionEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.x, serializer);
@@ -3104,7 +3104,7 @@ impl SseEncode for crate::api::system_info::entity::ProcessStatusEntity {
             crate::api::system_info::entity::ProcessStatusEntity::Dead => {
                 <i32>::sse_encode(6, serializer);
             }
-            crate::api::system_info::entity::ProcessStatusEntity::Wakekill => {
+            crate::api::system_info::entity::ProcessStatusEntity::WakeKill => {
                 <i32>::sse_encode(7, serializer);
             }
             crate::api::system_info::entity::ProcessStatusEntity::Waking => {
@@ -3185,7 +3185,7 @@ impl SseEncode for () {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
 }
 
-impl SseEncode for crate::api::active_window::window::UsageEntity {
+impl SseEncode for crate::api::active_window::entity::UsageEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <u32>::sse_encode(self.memory, serializer);
@@ -3202,23 +3202,23 @@ impl SseEncode for usize {
     }
 }
 
-impl SseEncode for crate::api::active_window::window::WindowEntity {
+impl SseEncode for crate::api::active_window::entity::WindowEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <u32>::sse_encode(self.id, serializer);
         <String>::sse_encode(self.title, serializer);
-        <crate::api::active_window::window::PositionEntity>::sse_encode(self.position, serializer);
-        <crate::api::active_window::window::InfoEntity>::sse_encode(self.info, serializer);
-        <crate::api::active_window::window::UsageEntity>::sse_encode(self.usage, serializer);
+        <crate::api::active_window::entity::PositionEntity>::sse_encode(self.position, serializer);
+        <crate::api::active_window::entity::InfoEntity>::sse_encode(self.info, serializer);
+        <crate::api::active_window::entity::UsageEntity>::sse_encode(self.usage, serializer);
         <String>::sse_encode(self.url, serializer);
     }
 }
 
-impl SseEncode for crate::api::active_window::window::WindowIconEntity {
+impl SseEncode for crate::api::active_window::entity::WindowIconEntity {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <crate::api::active_window::window::WindowEntity>::sse_encode(self.window, serializer);
-        <crate::api::active_window::window::IconEntity>::sse_encode(self.icon, serializer);
+        <crate::api::active_window::entity::WindowEntity>::sse_encode(self.window, serializer);
+        <crate::api::active_window::entity::IconEntity>::sse_encode(self.icon, serializer);
     }
 }
 
@@ -3230,7 +3230,7 @@ mod io {
     // Section: imports
 
     use super::*;
-    use crate::api::system_clipboard::clipboard::*;
+    use crate::api::system_clipboard::entity::*;
     use crate::*;
     use flutter_rust_bridge::for_generated::byteorder::{
         NativeEndian, ReadBytesExt, WriteBytesExt,
@@ -3284,7 +3284,7 @@ mod web {
     // Section: imports
 
     use super::*;
-    use crate::api::system_clipboard::clipboard::*;
+    use crate::api::system_clipboard::entity::*;
     use crate::*;
     use flutter_rust_bridge::for_generated::byteorder::{
         NativeEndian, ReadBytesExt, WriteBytesExt,

@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
+use flutter_rust_bridge::frb;
 
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub struct NetWorkEntity {
     pub name: String,
     pub total_received: u64,
@@ -19,21 +21,26 @@ pub struct NetWorkEntity {
     pub ip_networks: Vec<IpNetworkEntity>,
 }
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub enum IpNetworkType {
     IPV4,
     IPV6,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub struct IpNetworkEntity {
     pub ip: IpNetworkType,
     pub prefix: u8,
 }
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub struct SystemInfoEntity {
     pub network: Vec<NetWorkEntity>,
 }
+
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub struct CpuEntity {
     pub name: String,
     pub vendor_id: String,
@@ -41,6 +48,7 @@ pub struct CpuEntity {
     pub usage: CpuUsageEntity,
 }
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub struct CpuUsageEntity {
     pub percent: f32,
     // pub data: Arc<CpuDataEntity>,
@@ -48,6 +56,7 @@ pub struct CpuUsageEntity {
     pub frequency: u64,
 }
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub struct ProcessEntity {
     pub name: String,
     pub cmd: Vec<String>,
@@ -69,12 +78,13 @@ pub struct ProcessEntity {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[frb(dart_metadata=("freezed", "immutable"))]
 pub enum ProcessStatusEntity {
     /// ## Linux
     ///
     /// Idle kernel thread.
     ///
-    /// ## macOs/FreeBSD
+    /// ## macOS/FreeBSD
     ///
     /// Process being created by fork.
     ///
@@ -138,12 +148,12 @@ pub enum ProcessStatusEntity {
     Dead,
     /// ## Linux
     ///
-    /// Wakekill (Linux 2.6.33 to 3.13 only).
+    /// WakeKill (Linux 2.6.33 to 3.13 only).
     ///
     /// ## Other OS
     ///
     /// Not available.
-    Wakekill,
+    WakeKill,
     /// ## Linux
     ///
     /// Waking (Linux 2.6.33 to 3.13 only).

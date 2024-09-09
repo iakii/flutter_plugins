@@ -27,9 +27,14 @@ class _FlutterRustLibCore {
   factory _FlutterRustLibCore() => _instance;
   _FlutterRustLibCore._internal();
 
+  bool _isInit = false;
+
   Future<void> init() async {
+    _isInit = true;
     await rust_core.RustLib.init();
   }
+
+  bool get isInit => _isInit;
 }
 
 final flutterRustLibCore = _FlutterRustLibCore._instance;
