@@ -10,18 +10,17 @@ packages:
   - packages/bindgo/example
   - packages/clipboard_listener
   - packages/clipboard_listener/example
-  - packages/clipboard_listener/cargokit/build_tool
   - packages/get_storage
   - packages/get_storage/example
   - packages/system_windows
   - packages/system_windows/example
-  - packages/rust_ffi_lib
-  - packages/rust_ffi_lib/example
   - packages/system_infomation
   - packages/system_infomation/example
   - packages/system_tray
   - packages/system_tray/example
-  # - packages/rust_ffi_lib/cargokit/build_tool
+  - packages/flutter_rust_lib_core
+  - packages/flutter_rust_lib_core/example
+  - packages/flutter_rust_lib_core/cargokit/build_tool
 
 scripts:
   analyze:
