@@ -3,6 +3,7 @@ library clipboard_listener;
 import 'dart:typed_data';
 
 import 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart' as core;
+export 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart' show DataType, ClipboardData, ClipImage, WindowIconEntity, IconEntity;
 
 class _ClipboardListenerManager {
   // 单例
