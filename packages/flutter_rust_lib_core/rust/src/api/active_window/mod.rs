@@ -1,2 +1,2 @@
 pub mod window;
-mod entity;
+pub mod entity;
