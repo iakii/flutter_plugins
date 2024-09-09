@@ -2,6 +2,8 @@ library flutter_rust_lib_core;
 
 import 'package:flutter_rust_lib_core/src/rust/frb_generated.dart' as rust_core;
 
+export 'flutter_rust_lib_core.dart';
+
 export 'src/rust/api/application.dart';
 export 'src/rust/frb_generated.dart' show RustLib;
 
