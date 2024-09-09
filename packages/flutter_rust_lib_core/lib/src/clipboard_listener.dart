@@ -2,8 +2,9 @@ library clipboard_listener;
 
 import 'dart:typed_data';
 
-import 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart' as core;
-export 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart' show DataType, ClipboardData, ClipImage, WindowIconEntity, IconEntity;
+import 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart';
+import 'package:flutter_rust_lib_core/src/rust/api/active_window/window.dart' as window;
+import 'package:flutter_rust_lib_core/src/rust/api/system_clipboard/clipboard.dart' as clip;
 
 class _ClipboardListenerManager {
   // 单例
@@ -12,49 +13,49 @@ class _ClipboardListenerManager {
   _ClipboardListenerManager._internal();
 
   // Future<void> init() async {
-  //   await core.flutterRustLibCore.init();
+  //   await flutterRustLibinit();
   // }
 
-  Future<void> on(Function(core.ClipboardData data) callback) async {
-    if (!core.flutterRustLibCore.isInit) {
+  Future<void> on(Function(ClipboardData data) callback) async {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    core.clipboardListenerStart(dartCallback: (_) {
-      final data = core.getClipboardData();
+    clip.clipboardListenerStart(dartCallback: (_) {
+      final data = clip.getClipboardData();
       callback(data);
       return Future.value('ok');
     });
   }
 
-  core.ClipboardData getclipboardData() {
-    if (!core.flutterRustLibCore.isInit) {
+  ClipboardData getclipboardData() {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    return core.getClipboardData();
+    return clip.getClipboardData();
   }
 
-  void setClipboardData(core.ClipboardData data) {
-    if (!core.flutterRustLibCore.isInit) {
+  void setClipboardData(ClipboardData data) {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    core.setClipboardData(data: data);
+    clip.setClipboardData(data: data);
   }
 
   void setText2Clipboard(String data) {
-    if (!core.flutterRustLibCore.isInit) {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    setClipboardData(core.ClipboardData(dataType: core.DataType.text, content: data));
+    setClipboardData(ClipboardData(dataType: DataType.text, content: data));
   }
 
   void setImage2Clipboard(Uint8List bytesdata) {
-    if (!core.flutterRustLibCore.isInit) {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    core.setClipboardData(
-      data: core.ClipboardData(
-        dataType: core.DataType.image,
-        image: core.ClipImage(
+    clip.setClipboardData(
+      data: ClipboardData(
+        dataType: DataType.image,
+        image: ClipImage(
           width: 0,
           height: 0,
           bytes: bytesdata,
@@ -64,36 +65,36 @@ class _ClipboardListenerManager {
   }
 
   void setFile2Clipboard(List<String> filepaths) {
-    if (!core.flutterRustLibCore.isInit) {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    core.setClipboardData(
-      data: core.ClipboardData(
-        dataType: core.DataType.file,
+    clip.setClipboardData(
+      data: ClipboardData(
+        dataType: DataType.file,
         paths: filepaths,
       ),
     );
   }
 
-  core.WindowIconEntity getCurrentActiveWindow() {
-    if (!core.flutterRustLibCore.isInit) {
+  WindowIconEntity getCurrentActiveWindow() {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    return core.getCurrentActiveWindow();
+    return window.getCurrentActiveWindow();
   }
 
-  List<core.WindowIconEntity> getAllOpenWindows() {
-    if (!core.flutterRustLibCore.isInit) {
+  List<WindowIconEntity> getAllOpenWindows() {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    return core.getAllOpenWindows();
+    return window.getAllOpenWindows();
   }
 
-  core.IconEntity getWindowIconByWindowId(int id) {
-    if (!core.flutterRustLibCore.isInit) {
+  IconEntity getWindowIconByWindowIsd(int id) {
+    if (!flutterRustLibCore.isInit) {
       throw Exception("You must call `await clipboardListenerManager.init();` first.");
     }
-    return core.getWindowIconByWindowId(id: id);
+    return window.getWindowIconByWindowId(id: id);
   }
 }
 
