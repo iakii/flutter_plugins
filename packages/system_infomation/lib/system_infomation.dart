@@ -13,49 +13,49 @@ class _SystemInfomationManager {
   }
 
   List<core.NetWorkEntity> getNetworks() {
-    if (!core.flutterRustLibCore.inited) {
+    if (!core.flutterRustLibCore.isInit) {
       throw Exception("You must call `await systemInfomationManager.init();` first.");
     }
     return core.getNetworks();
   }
 
   List<core.ProcessEntity> getProcesses() {
-    if (!core.flutterRustLibCore.inited) {
+    if (!core.flutterRustLibCore.isInit) {
       throw Exception("You must call `await systemInfomationManager.init();` first.");
     }
     return core.getProcesses();
   }
 
   Future<String?> findPid(String name) async {
-    if (!core.flutterRustLibCore.inited) {
+    if (!core.flutterRustLibCore.isInit) {
       throw Exception("You must call `await systemInfomationManager.init();` first.");
     }
     return await core.findPid(name: name);
   }
 
   List<core.CpuEntity> getCpus() {
-    if (!core.flutterRustLibCore.inited) {
+    if (!core.flutterRustLibCore.isInit) {
       throw Exception("You must call `await systemInfomationManager.init();` first.");
     }
     return core.getCpus();
   }
 
   bool kill(String name) {
-    if (!core.flutterRustLibCore.inited) {
+    if (!core.flutterRustLibCore.isInit) {
       throw Exception("You must call `await systemInfomationManager.init();` first.");
     }
     return core.kill(name: name);
   }
 
   Future<(Map<String, BigInt>, Map<String, String?>)> getSystemInfo() async {
-    if (!core.flutterRustLibCore.inited) {
+    if (!core.flutterRustLibCore.isInit) {
       throw Exception("You must call `await systemInfomationManager.init();` first.");
     }
     return await core.getSystemInfo();
   }
 
   Future<void> systemInfoFmt() async {
-    if (!core.flutterRustLibCore.inited) {
+    if (!core.flutterRustLibCore.isInit) {
       throw Exception("You must call `await systemInfomationManager.init();` first.");
     }
     await core.systemInfoFmt();

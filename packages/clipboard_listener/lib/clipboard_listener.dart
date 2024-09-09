@@ -53,7 +53,7 @@ class _ClipboardListenerManager {
     core.setClipboardData(
       data: core.ClipboardData(
         dataType: core.DataType.image,
-        image: core.CPImage(
+        image: core.ClipImage(
           width: 0,
           height: 0,
           bytes: bytesdata,
