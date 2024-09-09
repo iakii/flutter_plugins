@@ -1309,29 +1309,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     switch (raw[0]) {
       case 0:
-        return ProcessStatusEntity_Idle();
+        return const ProcessStatusEntity_Idle();
       case 1:
-        return ProcessStatusEntity_Run();
+        return const ProcessStatusEntity_Run();
       case 2:
-        return ProcessStatusEntity_Sleep();
+        return const ProcessStatusEntity_Sleep();
       case 3:
-        return ProcessStatusEntity_Stop();
+        return const ProcessStatusEntity_Stop();
       case 4:
-        return ProcessStatusEntity_Zombie();
+        return const ProcessStatusEntity_Zombie();
       case 5:
-        return ProcessStatusEntity_Tracing();
+        return const ProcessStatusEntity_Tracing();
       case 6:
-        return ProcessStatusEntity_Dead();
+        return const ProcessStatusEntity_Dead();
       case 7:
-        return ProcessStatusEntity_Wakekill();
+        return const ProcessStatusEntity_Wakekill();
       case 8:
-        return ProcessStatusEntity_Waking();
+        return const ProcessStatusEntity_Waking();
       case 9:
-        return ProcessStatusEntity_Parked();
+        return const ProcessStatusEntity_Parked();
       case 10:
-        return ProcessStatusEntity_LockBlocked();
+        return const ProcessStatusEntity_LockBlocked();
       case 11:
-        return ProcessStatusEntity_UninterruptibleDiskSleep();
+        return const ProcessStatusEntity_UninterruptibleDiskSleep();
       case 12:
         return ProcessStatusEntity_Unknown(
           dco_decode_u_32(raw[1]),
@@ -2060,29 +2060,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var tag_ = sse_decode_i_32(deserializer);
     switch (tag_) {
       case 0:
-        return ProcessStatusEntity_Idle();
+        return const ProcessStatusEntity_Idle();
       case 1:
-        return ProcessStatusEntity_Run();
+        return const ProcessStatusEntity_Run();
       case 2:
-        return ProcessStatusEntity_Sleep();
+        return const ProcessStatusEntity_Sleep();
       case 3:
-        return ProcessStatusEntity_Stop();
+        return const ProcessStatusEntity_Stop();
       case 4:
-        return ProcessStatusEntity_Zombie();
+        return const ProcessStatusEntity_Zombie();
       case 5:
-        return ProcessStatusEntity_Tracing();
+        return const ProcessStatusEntity_Tracing();
       case 6:
-        return ProcessStatusEntity_Dead();
+        return const ProcessStatusEntity_Dead();
       case 7:
-        return ProcessStatusEntity_Wakekill();
+        return const ProcessStatusEntity_Wakekill();
       case 8:
-        return ProcessStatusEntity_Waking();
+        return const ProcessStatusEntity_Waking();
       case 9:
-        return ProcessStatusEntity_Parked();
+        return const ProcessStatusEntity_Parked();
       case 10:
-        return ProcessStatusEntity_LockBlocked();
+        return const ProcessStatusEntity_LockBlocked();
       case 11:
-        return ProcessStatusEntity_UninterruptibleDiskSleep();
+        return const ProcessStatusEntity_UninterruptibleDiskSleep();
       case 12:
         var var_field0 = sse_decode_u_32(deserializer);
         return ProcessStatusEntity_Unknown(var_field0);

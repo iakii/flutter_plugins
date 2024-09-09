@@ -2,24 +2,10 @@ library clipboard_listener;
 
 import 'dart:typed_data';
 
-import 'src/rust/api/active_window.dart' as win;
-
-import 'src/rust/api/clipboard.dart' as rust;
-import 'src/rust/frb_generated.dart';
-export 'src/rust/api/clipboard.dart'
-    show ClipboardData, DataType, CPImage, greet;
-export 'src/rust/api/active_window.dart'
-    show
-        IconEntity,
-        WindowIconEntity,
-        WindowEntity,
-        PositionEntity,
-        InfoEntity,
-        UsageEntity;
+import 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart' as core;
 
 class _ClipboardListenerManager {
   // 单例
-
   static final _ClipboardListenerManager instance =
       _ClipboardListenerManager._internal();
   factory _ClipboardListenerManager() => instance;
@@ -29,35 +15,35 @@ class _ClipboardListenerManager {
 
   Future<void> init() async {
     inited = true;
-    await RustLib.init();
+    await core.flutterRustLibCore.init();
   }
 
-  Future<void> on(Function(rust.ClipboardData data) callback) async {
+  Future<void> on(Function(core.ClipboardData data) callback) async {
     if (!inited) {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    rust.clipboardListenerStart(dartCallback: (_) {
-      final data = rust.getClipboardData();
+    core.clipboardListenerStart(dartCallback: (_) {
+      final data = core.getClipboardData();
       callback(data);
       return Future.value('ok');
     });
   }
 
-  rust.ClipboardData getclipboardData() {
+  core.ClipboardData getclipboardData() {
     if (!inited) {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    return rust.getClipboardData();
+    return core.getClipboardData();
   }
 
-  void setClipboardData(rust.ClipboardData data) {
+  void setClipboardData(core.ClipboardData data) {
     if (!inited) {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    rust.setClipboardData(data: data);
+    core.setClipboardData(data: data);
   }
 
   void setText2Clipboard(String data) {
@@ -66,7 +52,7 @@ class _ClipboardListenerManager {
           "You must call `await clipboardListenerManager.init();` first.");
     }
     setClipboardData(
-        rust.ClipboardData(dataType: rust.DataType.text, content: data));
+        core.ClipboardData(dataType: core.DataType.text, content: data));
   }
 
   void setImage2Clipboard(Uint8List bytesdata) {
@@ -74,10 +60,10 @@ class _ClipboardListenerManager {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    rust.setClipboardData(
-      data: rust.ClipboardData(
-        dataType: rust.DataType.image,
-        image: rust.CPImage(
+    core.setClipboardData(
+      data: core.ClipboardData(
+        dataType: core.DataType.image,
+        image: core.CPImage(
           width: 0,
           height: 0,
           bytes: bytesdata,
@@ -91,36 +77,36 @@ class _ClipboardListenerManager {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    rust.setClipboardData(
-      data: rust.ClipboardData(
-        dataType: rust.DataType.file,
+    core.setClipboardData(
+      data: core.ClipboardData(
+        dataType: core.DataType.file,
         paths: filepaths,
       ),
     );
   }
 
-  win.WindowIconEntity getCurrentActiveWindow() {
+  core.WindowIconEntity getCurrentActiveWindow() {
     if (!inited) {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    return win.getCurrentActiveWindow();
+    return core.getCurrentActiveWindow();
   }
 
-  List<win.WindowIconEntity> getAllOpenWindows() {
+  List<core.WindowIconEntity> getAllOpenWindows() {
     if (!inited) {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    return win.getAllOpenWindows();
+    return core.getAllOpenWindows();
   }
 
-  win.IconEntity getWindowIconByWindowId(int id) {
+  core.IconEntity getWindowIconByWindowId(int id) {
     if (!inited) {
       throw Exception(
           "You must call `await clipboardListenerManager.init();` first.");
     }
-    return win.getWindowIconByWindowId(id: id);
+    return core.getWindowIconByWindowId(id: id);
   }
 }
 

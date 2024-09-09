@@ -1,18 +1,6 @@
 library system_infomation;
 
-import 'package:system_infomation/src/rust/api/entities.dart';
-import 'package:system_infomation/src/rust/api/system_info.dart' as sysinfo;
-import 'package:system_infomation/src/rust/frb_generated.dart';
-
-export 'src/rust/api/entities.dart'
-    show
-        NetWorkEntity,
-        ProcessEntity,
-        CpuEntity,
-        CpuUsageEntity,
-        IpNetworkEntity,
-        IpNetworkType,
-        ProcessStatusEntity;
+import 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart' as core;
 
 class _SystemInfomationManager {
   // 单例
@@ -25,35 +13,63 @@ class _SystemInfomationManager {
 
   Future<void> init() async {
     inited = true;
-    await RustLib.init();
+    await core.flutterRustLibCore.init();
   }
 
-  List<NetWorkEntity> getNetworks() {
-    if (!inited)
+  List<core.NetWorkEntity> getNetworks() {
+    if (!inited) {
       throw Exception(
           "You must call `await systemInfomationManager.init();` first.");
-    return sysinfo.getNetworks();
+    }
+    return core.getNetworks();
   }
 
-  List<ProcessEntity> getProcesses() {
-    if (!inited)
+  List<core.ProcessEntity> getProcesses() {
+    if (!inited) {
       throw Exception(
           "You must call `await systemInfomationManager.init();` first.");
-    return sysinfo.getProcesses();
+    }
+    return core.getProcesses();
   }
 
-  String? findPid(String name) {
-    if (!inited)
+  Future<String?> findPid(String name) async {
+    if (!inited) {
       throw Exception(
           "You must call `await systemInfomationManager.init();` first.");
-    return sysinfo.findPid(name: name);
+    }
+    return await core.findPid(name: name);
   }
 
-  List<CpuEntity> getCpus() {
-    if (!inited)
+  List<core.CpuEntity> getCpus() {
+    if (!inited) {
       throw Exception(
           "You must call `await systemInfomationManager.init();` first.");
-    return sysinfo.getCpus();
+    }
+    return core.getCpus();
+  }
+
+  bool kill(String name) {
+    if (!inited) {
+      throw Exception(
+          "You must call `await systemInfomationManager.init();` first.");
+    }
+    return core.kill(name: name);
+  }
+
+  Future<(Map<String, BigInt>, Map<String, String?>)> getSystemInfo() async {
+    if (!inited) {
+      throw Exception(
+          "You must call `await systemInfomationManager.init();` first.");
+    }
+    return await core.getSystemInfo();
+  }
+
+  Future<void> systemInfoFmt() async {
+    if (!inited) {
+      throw Exception(
+          "You must call `await systemInfomationManager.init();` first.");
+    }
+    await core.systemInfoFmt();
   }
 }
 
