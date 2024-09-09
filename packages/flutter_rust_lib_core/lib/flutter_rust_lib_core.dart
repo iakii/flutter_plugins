@@ -18,10 +18,12 @@ export 'src/rust/api/system_info/process.dart';
 export 'src/rust/api/system_info/system_info.dart';
 
 export 'src/rust/api/system_clipboard/clipboard.dart';
+export 'src/rust/api/system_clipboard/entity.dart';
 
 export 'src/rust/api/keypress_simulator/simulator.dart';
 
 export 'src/rust/api/active_window/window.dart';
+export 'src/rust/api/active_window/entity.dart';
 
 class _FlutterRustLibCore {
   // 单例
