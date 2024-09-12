@@ -4,8 +4,8 @@ use std::{
 };
 
 use clipboard_rs::{
-    common::RustImage, Clipboard, ClipboardContext, ClipboardWatcher,
-    ClipboardWatcherContext, RustImageData,
+    common::RustImage, Clipboard, ClipboardContext, ClipboardWatcher, ClipboardWatcherContext,
+    RustImageData,
 };
 use flutter_rust_bridge::DartFnFuture;
 
@@ -53,59 +53,81 @@ pub fn get_clipboard_data() -> ClipboardData {
     let icon = get_window_icon(&active_window).unwrap();
 
     let ctx = ClipboardContext::new().unwrap();
-    let img = ctx.get_image();
-    let clipboard_data = match img {
-        Ok(img) => {
-            let size = img.get_size();
-            let clipboard_data = ClipboardData {
-                data_type: DataType::IMAGE,
-                image: Some(ClipImage {
-                    width: size.0,
-                    height: size.1,
-                    bytes: img.to_png().unwrap().get_bytes().to_vec(),
-                }),
-                paths: None,
-                content: None,
-                app_name: None,
-                icon: None,
-            };
 
-            clipboard_data
+    let file = ctx.get_files();
+
+    let clipboard_data = match file {
+        Ok(files) => {
+            let img = ctx.get_image();
+
+            if img.is_ok() {
+                let img = img.unwrap();
+                let size = img.get_size();
+                ClipboardData {
+                    data_type: DataType::FILE,
+                    image: Some(ClipImage {
+                        width: size.0,
+                        height: size.1,
+                        bytes: img.to_png().unwrap().get_bytes().to_vec(),
+                    }),
+                    paths: Some(files),
+                    content: None,
+                    app_name: None,
+                    icon: None,
+                }
+            } else {
+                ClipboardData {
+                    data_type: DataType::FILE,
+                    image: None,
+                    paths: Some(files),
+                    content: None,
+                    app_name: None,
+                    icon: None,
+                }
+            }
+
+            // ClipboardData {
+            //     data_type: DataType::FILE,
+            //     image: None,
+            //     paths: Some(files),
+            //     content: None,
+            //     app_name: None,
+            //     icon: None,
+            // }
         }
-        Err(err) => {
-            println!("err={}", err);
 
-            let files = ctx.get_files();
-
-            match files {
-                Ok(files) => {
-                    let clipboard_data = ClipboardData {
-                        data_type: DataType::FILE,
-                        image: None,
-                        paths: Some(files),
+        Err(_) => {
+            println!("不是文件，尝试读取图片");
+            let img = ctx.get_image();
+            match img {
+                Ok(img) => {
+                    let size = img.get_size();
+                    ClipboardData {
+                        data_type: DataType::IMAGE,
+                        image: Some(ClipImage {
+                            width: size.0,
+                            height: size.1,
+                            bytes: img.to_png().unwrap().get_bytes().to_vec(),
+                        }),
+                        paths: None,
                         content: None,
                         app_name: None,
                         icon: None,
-                    };
-
-                    clipboard_data
+                    }
                 }
                 Err(_) => {
+                    println!("不是图片，尝试读取文字");
                     let text = ctx.get_text();
 
                     match text {
-                        Ok(text) => {
-                            let clipboard_data = ClipboardData {
-                                data_type: DataType::TEXT,
-                                image: None,
-                                paths: None,
-                                content: Some(text),
-                                app_name: None,
-                                icon: None,
-                            };
-
-                            clipboard_data
-                        }
+                        Ok(text) => ClipboardData {
+                            data_type: DataType::TEXT,
+                            image: None,
+                            paths: None,
+                            content: Some(text),
+                            app_name: None,
+                            icon: None,
+                        },
                         Err(_) => ClipboardData {
                             data_type: DataType::TEXT,
                             image: None,
@@ -121,8 +143,9 @@ pub fn get_clipboard_data() -> ClipboardData {
     };
 
     let mut clipboard_data = clipboard_data;
+    println!("active_window: {:?}", active_window);
     clipboard_data.app_name = Some(active_window.info.name);
+    println!("active_window icon: {:?}", icon);
     clipboard_data.icon = Some(icon.data);
-
     clipboard_data
 }
