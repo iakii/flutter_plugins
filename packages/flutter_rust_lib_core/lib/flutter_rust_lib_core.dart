@@ -27,6 +27,7 @@ export 'src/rust/api/active_window/entity.dart';
 
 export "src/clipboard_listener.dart";
 export "src/system_imformation.dart";
+// export "src/activate_window.dart";
 
 class _FlutterRustLibCore {
   // 单例

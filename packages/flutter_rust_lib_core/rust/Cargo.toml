@@ -8,7 +8,7 @@ crate-type = ["cdylib", "staticlib"]
 
 
 [dependencies]
-flutter_rust_bridge = "=2.3.0"
+flutter_rust_bridge = "=2.4.0"
 # for system tray
 #tray-icon = "0.17.0"
 #winit = "0.29.15"
@@ -50,5 +50,6 @@ core-foundation = "0.10"
 [profile.release]
 opt-level = 'z'
 lto = true
+strip = true
 codegen-units = 1
 panic = 'abort'
