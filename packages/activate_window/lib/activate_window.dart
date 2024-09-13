@@ -8,7 +8,7 @@ import 'package:ffi/ffi.dart';
 import 'package:win32/win32.dart';
 
 class ActivateWindow {
-  static const _platform = MethodChannel('activate_window_plugin');
+  static const _platform = MethodChannel('activate_window_plugins');
 
   // 获取所有窗口的信息
   static Future<List<Map<dynamic, dynamic>>> getAllWindows() async {
