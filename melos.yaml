@@ -18,6 +18,8 @@ packages:
   - packages/system_infomation/example
   - packages/system_tray
   - packages/system_tray/example
+  - packages/system_hotkey
+  - packages/system_hotkey/example
   - packages/flutter_rust_lib_core
   - packages/flutter_rust_lib_core/example
   - packages/flutter_rust_lib_core/cargokit/build_tool

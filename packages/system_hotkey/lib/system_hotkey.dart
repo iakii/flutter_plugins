@@ -19,7 +19,8 @@ class _SystemHotkeyManager {
 
   Future<void> start(Function() callback) async {
     if (!_isInit) {
-      throw Exception("You must call `await systemHokeyManager.init();` first.");
+      throw Exception(
+          "You must call `await systemHokeyManager.init();` first.");
     }
 
     middleButtonClickListener(dartCallback: (String message) {
@@ -31,7 +32,8 @@ class _SystemHotkeyManager {
 
   Future<void> kill() async {
     if (!_isInit) {
-      throw Exception("You must call `await systemHokeyManager.init();` first.");
+      throw Exception(
+          "You must call `await systemHokeyManager.init();` first.");
     }
     RustLib.dispose();
   }
