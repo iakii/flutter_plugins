@@ -25,12 +25,14 @@
 
 // Section: imports
 
+use crate::api::listen::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
 use flutter_rust_bridge::{Handler, IntoIntoDart};
 
 // Section: boilerplate
 
+use std::sync::mpsc::Receiver;
 use std::sync::mpsc::Sender;
 
 flutter_rust_bridge::frb_generated_boilerplate!(
@@ -39,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.4.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1842554156;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 394262785;
 
 // Section: executor
 
@@ -84,6 +86,40 @@ fn wire__crate__api__hotkey__middle_button_click_listener_impl(
                     })()
                     .await,
                 )
+            }
+        },
+    )
+}
+fn wire__crate__api__hotkey__stop_listener_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "stop_listener",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok({
+                        crate::api::hotkey::stop_listener();
+                    })?;
+                    Ok(output_ok)
+                })())
             }
         },
     )
@@ -152,6 +188,296 @@ fn wire__crate__api__init__init_app_impl(
         },
     )
 }
+fn wire__crate__api__listen__ShortcutListener_new_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ShortcutListener_new",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(crate::api::listen::ShortcutListener::new())?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__listen__ShortcutListener_register_shortcut_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ShortcutListener_register_shortcut",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>,
+            >>::sse_decode(&mut deserializer);
+            let api_key = <String>::sse_decode(&mut deserializer);
+            let api_modifiers = <Vec<String>>::sse_decode(&mut deserializer);
+            let api_callback = <fn(String)>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = Result::<_, ()>::Ok({
+                        crate::api::listen::ShortcutListener::register_shortcut(
+                            &*api_that_guard,
+                            api_key,
+                            api_modifiers,
+                            api_callback,
+                        );
+                    })?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__listen__ShortcutListener_start_listener_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ShortcutListener_start_listener",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>,
+            >>::sse_decode(&mut deserializer);
+            let api_on_event = decode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
+                <flutter_rust_bridge::DartOpaque>::sse_decode(&mut deserializer),
+            );
+            let api_stream_sink = <StreamSink<
+                crate::api::listen::RawEventType,
+                flutter_rust_bridge::for_generated::SseCodec,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = Result::<_, ()>::Ok({
+                        crate::api::listen::ShortcutListener::start_listener(
+                            &*api_that_guard,
+                            api_on_event,
+                            api_stream_sink,
+                        );
+                    })?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__listen__ShortcutListener_stop_listener_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ShortcutListener_stop_listener",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = Result::<_, ()>::Ok({
+                        crate::api::listen::ShortcutListener::stop_listener(&*api_that_guard);
+                    })?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__listen__ShortcutListener_unregister_all_hotkeys_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ShortcutListener_unregister_all_hotkeys",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = Result::<_, ()>::Ok({
+                        crate::api::listen::ShortcutListener::unregister_all_hotkeys(
+                            &*api_that_guard,
+                        );
+                    })?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__listen__start_listener_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "start_listener",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(crate::api::listen::start_listener())?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 
 // Section: related_funcs
 
@@ -187,6 +513,47 @@ fn decode_DartFn_Inputs_String_Output_String_AnyhowException(
         ))
     }
 }
+fn decode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
+    dart_opaque: flutter_rust_bridge::DartOpaque,
+) -> impl Fn(crate::api::listen::RawEventType) -> flutter_rust_bridge::DartFnFuture<()> {
+    use flutter_rust_bridge::IntoDart;
+
+    async fn body(
+        dart_opaque: flutter_rust_bridge::DartOpaque,
+        arg0: crate::api::listen::RawEventType,
+    ) -> () {
+        let args = vec![arg0.into_into_dart().into_dart()];
+        let message = FLUTTER_RUST_BRIDGE_HANDLER
+            .dart_fn_invoke(dart_opaque, args)
+            .await;
+
+        let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+        let action = deserializer.cursor.read_u8().unwrap();
+        let ans = match action {
+            0 => std::result::Result::Ok(<()>::sse_decode(&mut deserializer)),
+            1 => std::result::Result::Err(
+                <flutter_rust_bridge::for_generated::anyhow::Error>::sse_decode(&mut deserializer),
+            ),
+            _ => unreachable!(),
+        };
+        deserializer.end();
+        let ans = ans.expect("Dart throws exception but Rust side assume it is not failable");
+        ans
+    }
+
+    move |arg0: crate::api::listen::RawEventType| {
+        flutter_rust_bridge::for_generated::convert_into_dart_fn_future(body(
+            dart_opaque.clone(),
+            arg0,
+        ))
+    }
+}
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>
+);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn(String)>
+);
 
 // Section: dart2rust
 
@@ -198,11 +565,61 @@ impl SseDecode for flutter_rust_bridge::for_generated::anyhow::Error {
     }
 }
 
+impl SseDecode for ShortcutListener {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueMoi<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
+impl SseDecode for fn(String) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueMoi<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn(String)>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
 impl SseDecode for flutter_rust_bridge::DartOpaque {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
         return unsafe { flutter_rust_bridge::for_generated::sse_decode_dart_opaque(inner) };
+    }
+}
+
+impl SseDecode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn(String)>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode
+    for StreamSink<crate::api::listen::RawEventType, flutter_rust_bridge::for_generated::SseCodec>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <String>::sse_decode(deserializer);
+        return StreamSink::deserialize(inner);
     }
 }
 
@@ -214,10 +631,36 @@ impl SseDecode for String {
     }
 }
 
+impl SseDecode for f64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_f64::<NativeEndian>().unwrap()
+    }
+}
+
+impl SseDecode for i64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i64::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for isize {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_i64::<NativeEndian>().unwrap() as _
+    }
+}
+
+impl SseDecode for Vec<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<String>::sse_decode(deserializer));
+        }
+        return ans_;
     }
 }
 
@@ -230,6 +673,410 @@ impl SseDecode for Vec<u8> {
             ans_.push(<u8>::sse_decode(deserializer));
         }
         return ans_;
+    }
+}
+
+impl SseDecode for crate::api::listen::RawButton {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                return crate::api::listen::RawButton::Left;
+            }
+            1 => {
+                return crate::api::listen::RawButton::Right;
+            }
+            2 => {
+                return crate::api::listen::RawButton::Middle;
+            }
+            3 => {
+                let mut var_field0 = <u8>::sse_decode(deserializer);
+                return crate::api::listen::RawButton::Unknown(var_field0);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for crate::api::listen::RawEventType {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_field0 = <crate::api::listen::RawKey>::sse_decode(deserializer);
+                return crate::api::listen::RawEventType::KeyPress(var_field0);
+            }
+            1 => {
+                let mut var_field0 = <crate::api::listen::RawKey>::sse_decode(deserializer);
+                return crate::api::listen::RawEventType::KeyRelease(var_field0);
+            }
+            2 => {
+                let mut var_field0 = <crate::api::listen::RawButton>::sse_decode(deserializer);
+                return crate::api::listen::RawEventType::ButtonPress(var_field0);
+            }
+            3 => {
+                let mut var_field0 = <crate::api::listen::RawButton>::sse_decode(deserializer);
+                return crate::api::listen::RawEventType::ButtonRelease(var_field0);
+            }
+            4 => {
+                let mut var_x = <f64>::sse_decode(deserializer);
+                let mut var_y = <f64>::sse_decode(deserializer);
+                return crate::api::listen::RawEventType::MouseMove { x: var_x, y: var_y };
+            }
+            5 => {
+                let mut var_deltaX = <i64>::sse_decode(deserializer);
+                let mut var_deltaY = <i64>::sse_decode(deserializer);
+                return crate::api::listen::RawEventType::Wheel {
+                    delta_x: var_deltaX,
+                    delta_y: var_deltaY,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for crate::api::listen::RawKey {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                return crate::api::listen::RawKey::Alt;
+            }
+            1 => {
+                return crate::api::listen::RawKey::AltGr;
+            }
+            2 => {
+                return crate::api::listen::RawKey::Backspace;
+            }
+            3 => {
+                return crate::api::listen::RawKey::CapsLock;
+            }
+            4 => {
+                return crate::api::listen::RawKey::ControlLeft;
+            }
+            5 => {
+                return crate::api::listen::RawKey::ControlRight;
+            }
+            6 => {
+                return crate::api::listen::RawKey::Delete;
+            }
+            7 => {
+                return crate::api::listen::RawKey::DownArrow;
+            }
+            8 => {
+                return crate::api::listen::RawKey::End;
+            }
+            9 => {
+                return crate::api::listen::RawKey::Escape;
+            }
+            10 => {
+                return crate::api::listen::RawKey::F1;
+            }
+            11 => {
+                return crate::api::listen::RawKey::F10;
+            }
+            12 => {
+                return crate::api::listen::RawKey::F11;
+            }
+            13 => {
+                return crate::api::listen::RawKey::F12;
+            }
+            14 => {
+                return crate::api::listen::RawKey::F2;
+            }
+            15 => {
+                return crate::api::listen::RawKey::F3;
+            }
+            16 => {
+                return crate::api::listen::RawKey::F4;
+            }
+            17 => {
+                return crate::api::listen::RawKey::F5;
+            }
+            18 => {
+                return crate::api::listen::RawKey::F6;
+            }
+            19 => {
+                return crate::api::listen::RawKey::F7;
+            }
+            20 => {
+                return crate::api::listen::RawKey::F8;
+            }
+            21 => {
+                return crate::api::listen::RawKey::F9;
+            }
+            22 => {
+                return crate::api::listen::RawKey::Home;
+            }
+            23 => {
+                return crate::api::listen::RawKey::LeftArrow;
+            }
+            24 => {
+                return crate::api::listen::RawKey::MetaLeft;
+            }
+            25 => {
+                return crate::api::listen::RawKey::MetaRight;
+            }
+            26 => {
+                return crate::api::listen::RawKey::PageDown;
+            }
+            27 => {
+                return crate::api::listen::RawKey::PageUp;
+            }
+            28 => {
+                return crate::api::listen::RawKey::Return;
+            }
+            29 => {
+                return crate::api::listen::RawKey::RightArrow;
+            }
+            30 => {
+                return crate::api::listen::RawKey::ShiftLeft;
+            }
+            31 => {
+                return crate::api::listen::RawKey::ShiftRight;
+            }
+            32 => {
+                return crate::api::listen::RawKey::Space;
+            }
+            33 => {
+                return crate::api::listen::RawKey::Tab;
+            }
+            34 => {
+                return crate::api::listen::RawKey::UpArrow;
+            }
+            35 => {
+                return crate::api::listen::RawKey::PrintScreen;
+            }
+            36 => {
+                return crate::api::listen::RawKey::ScrollLock;
+            }
+            37 => {
+                return crate::api::listen::RawKey::Pause;
+            }
+            38 => {
+                return crate::api::listen::RawKey::NumLock;
+            }
+            39 => {
+                return crate::api::listen::RawKey::BackQuote;
+            }
+            40 => {
+                return crate::api::listen::RawKey::Num1;
+            }
+            41 => {
+                return crate::api::listen::RawKey::Num2;
+            }
+            42 => {
+                return crate::api::listen::RawKey::Num3;
+            }
+            43 => {
+                return crate::api::listen::RawKey::Num4;
+            }
+            44 => {
+                return crate::api::listen::RawKey::Num5;
+            }
+            45 => {
+                return crate::api::listen::RawKey::Num6;
+            }
+            46 => {
+                return crate::api::listen::RawKey::Num7;
+            }
+            47 => {
+                return crate::api::listen::RawKey::Num8;
+            }
+            48 => {
+                return crate::api::listen::RawKey::Num9;
+            }
+            49 => {
+                return crate::api::listen::RawKey::Num0;
+            }
+            50 => {
+                return crate::api::listen::RawKey::Minus;
+            }
+            51 => {
+                return crate::api::listen::RawKey::Equal;
+            }
+            52 => {
+                return crate::api::listen::RawKey::KeyQ;
+            }
+            53 => {
+                return crate::api::listen::RawKey::KeyW;
+            }
+            54 => {
+                return crate::api::listen::RawKey::KeyE;
+            }
+            55 => {
+                return crate::api::listen::RawKey::KeyR;
+            }
+            56 => {
+                return crate::api::listen::RawKey::KeyT;
+            }
+            57 => {
+                return crate::api::listen::RawKey::KeyY;
+            }
+            58 => {
+                return crate::api::listen::RawKey::KeyU;
+            }
+            59 => {
+                return crate::api::listen::RawKey::KeyI;
+            }
+            60 => {
+                return crate::api::listen::RawKey::KeyO;
+            }
+            61 => {
+                return crate::api::listen::RawKey::KeyP;
+            }
+            62 => {
+                return crate::api::listen::RawKey::LeftBracket;
+            }
+            63 => {
+                return crate::api::listen::RawKey::RightBracket;
+            }
+            64 => {
+                return crate::api::listen::RawKey::KeyA;
+            }
+            65 => {
+                return crate::api::listen::RawKey::KeyS;
+            }
+            66 => {
+                return crate::api::listen::RawKey::KeyD;
+            }
+            67 => {
+                return crate::api::listen::RawKey::KeyF;
+            }
+            68 => {
+                return crate::api::listen::RawKey::KeyG;
+            }
+            69 => {
+                return crate::api::listen::RawKey::KeyH;
+            }
+            70 => {
+                return crate::api::listen::RawKey::KeyJ;
+            }
+            71 => {
+                return crate::api::listen::RawKey::KeyK;
+            }
+            72 => {
+                return crate::api::listen::RawKey::KeyL;
+            }
+            73 => {
+                return crate::api::listen::RawKey::SemiColon;
+            }
+            74 => {
+                return crate::api::listen::RawKey::Quote;
+            }
+            75 => {
+                return crate::api::listen::RawKey::BackSlash;
+            }
+            76 => {
+                return crate::api::listen::RawKey::IntlBackslash;
+            }
+            77 => {
+                return crate::api::listen::RawKey::KeyZ;
+            }
+            78 => {
+                return crate::api::listen::RawKey::KeyX;
+            }
+            79 => {
+                return crate::api::listen::RawKey::KeyC;
+            }
+            80 => {
+                return crate::api::listen::RawKey::KeyV;
+            }
+            81 => {
+                return crate::api::listen::RawKey::KeyB;
+            }
+            82 => {
+                return crate::api::listen::RawKey::KeyN;
+            }
+            83 => {
+                return crate::api::listen::RawKey::KeyM;
+            }
+            84 => {
+                return crate::api::listen::RawKey::Comma;
+            }
+            85 => {
+                return crate::api::listen::RawKey::Dot;
+            }
+            86 => {
+                return crate::api::listen::RawKey::Slash;
+            }
+            87 => {
+                return crate::api::listen::RawKey::Insert;
+            }
+            88 => {
+                return crate::api::listen::RawKey::KpReturn;
+            }
+            89 => {
+                return crate::api::listen::RawKey::KpMinus;
+            }
+            90 => {
+                return crate::api::listen::RawKey::KpPlus;
+            }
+            91 => {
+                return crate::api::listen::RawKey::KpMultiply;
+            }
+            92 => {
+                return crate::api::listen::RawKey::KpDivide;
+            }
+            93 => {
+                return crate::api::listen::RawKey::Kp0;
+            }
+            94 => {
+                return crate::api::listen::RawKey::Kp1;
+            }
+            95 => {
+                return crate::api::listen::RawKey::Kp2;
+            }
+            96 => {
+                return crate::api::listen::RawKey::Kp3;
+            }
+            97 => {
+                return crate::api::listen::RawKey::Kp4;
+            }
+            98 => {
+                return crate::api::listen::RawKey::Kp5;
+            }
+            99 => {
+                return crate::api::listen::RawKey::Kp6;
+            }
+            100 => {
+                return crate::api::listen::RawKey::Kp7;
+            }
+            101 => {
+                return crate::api::listen::RawKey::Kp8;
+            }
+            102 => {
+                return crate::api::listen::RawKey::Kp9;
+            }
+            103 => {
+                return crate::api::listen::RawKey::KpDelete;
+            }
+            104 => {
+                return crate::api::listen::RawKey::Function;
+            }
+            105 => {
+                let mut var_field0 = <u32>::sse_decode(deserializer);
+                return crate::api::listen::RawKey::Unknown(var_field0);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for u32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u32::<NativeEndian>().unwrap()
     }
 }
 
@@ -281,7 +1128,34 @@ fn pde_ffi_dispatcher_primary_impl(
             rust_vec_len,
             data_len,
         ),
-        3 => wire__crate__api__init__init_app_impl(port, ptr, rust_vec_len, data_len),
+        2 => wire__crate__api__hotkey__stop_listener_impl(port, ptr, rust_vec_len, data_len),
+        4 => wire__crate__api__init__init_app_impl(port, ptr, rust_vec_len, data_len),
+        5 => wire__crate__api__listen__ShortcutListener_new_impl(port, ptr, rust_vec_len, data_len),
+        6 => wire__crate__api__listen__ShortcutListener_register_shortcut_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        7 => wire__crate__api__listen__ShortcutListener_start_listener_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        8 => wire__crate__api__listen__ShortcutListener_stop_listener_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        9 => wire__crate__api__listen__ShortcutListener_unregister_all_hotkeys_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        10 => wire__crate__api__listen__start_listener_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -294,17 +1168,255 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        2 => wire__crate__api__init__greet_impl(ptr, rust_vec_len, data_len),
+        3 => wire__crate__api__init__greet_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
 
 // Section: rust2dart
 
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ShortcutListener> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<ShortcutListener> {}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ShortcutListener>> for ShortcutListener {
+    fn into_into_dart(self) -> FrbWrapper<ShortcutListener> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<fn(String)> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<fn(String)> {}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<fn(String)>> for fn(String) {
+    fn into_into_dart(self) -> FrbWrapper<fn(String)> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::listen::RawButton {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::listen::RawButton::Left => [0.into_dart()].into_dart(),
+            crate::api::listen::RawButton::Right => [1.into_dart()].into_dart(),
+            crate::api::listen::RawButton::Middle => [2.into_dart()].into_dart(),
+            crate::api::listen::RawButton::Unknown(field0) => {
+                [3.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::listen::RawButton {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::listen::RawButton>
+    for crate::api::listen::RawButton
+{
+    fn into_into_dart(self) -> crate::api::listen::RawButton {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::listen::RawEventType {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::listen::RawEventType::KeyPress(field0) => {
+                [0.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::listen::RawEventType::KeyRelease(field0) => {
+                [1.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::listen::RawEventType::ButtonPress(field0) => {
+                [2.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::listen::RawEventType::ButtonRelease(field0) => {
+                [3.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::listen::RawEventType::MouseMove { x, y } => [
+                4.into_dart(),
+                x.into_into_dart().into_dart(),
+                y.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::listen::RawEventType::Wheel { delta_x, delta_y } => [
+                5.into_dart(),
+                delta_x.into_into_dart().into_dart(),
+                delta_y.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::listen::RawEventType
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::listen::RawEventType>
+    for crate::api::listen::RawEventType
+{
+    fn into_into_dart(self) -> crate::api::listen::RawEventType {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::listen::RawKey {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::listen::RawKey::Alt => [0.into_dart()].into_dart(),
+            crate::api::listen::RawKey::AltGr => [1.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Backspace => [2.into_dart()].into_dart(),
+            crate::api::listen::RawKey::CapsLock => [3.into_dart()].into_dart(),
+            crate::api::listen::RawKey::ControlLeft => [4.into_dart()].into_dart(),
+            crate::api::listen::RawKey::ControlRight => [5.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Delete => [6.into_dart()].into_dart(),
+            crate::api::listen::RawKey::DownArrow => [7.into_dart()].into_dart(),
+            crate::api::listen::RawKey::End => [8.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Escape => [9.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F1 => [10.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F10 => [11.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F11 => [12.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F12 => [13.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F2 => [14.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F3 => [15.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F4 => [16.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F5 => [17.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F6 => [18.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F7 => [19.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F8 => [20.into_dart()].into_dart(),
+            crate::api::listen::RawKey::F9 => [21.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Home => [22.into_dart()].into_dart(),
+            crate::api::listen::RawKey::LeftArrow => [23.into_dart()].into_dart(),
+            crate::api::listen::RawKey::MetaLeft => [24.into_dart()].into_dart(),
+            crate::api::listen::RawKey::MetaRight => [25.into_dart()].into_dart(),
+            crate::api::listen::RawKey::PageDown => [26.into_dart()].into_dart(),
+            crate::api::listen::RawKey::PageUp => [27.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Return => [28.into_dart()].into_dart(),
+            crate::api::listen::RawKey::RightArrow => [29.into_dart()].into_dart(),
+            crate::api::listen::RawKey::ShiftLeft => [30.into_dart()].into_dart(),
+            crate::api::listen::RawKey::ShiftRight => [31.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Space => [32.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Tab => [33.into_dart()].into_dart(),
+            crate::api::listen::RawKey::UpArrow => [34.into_dart()].into_dart(),
+            crate::api::listen::RawKey::PrintScreen => [35.into_dart()].into_dart(),
+            crate::api::listen::RawKey::ScrollLock => [36.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Pause => [37.into_dart()].into_dart(),
+            crate::api::listen::RawKey::NumLock => [38.into_dart()].into_dart(),
+            crate::api::listen::RawKey::BackQuote => [39.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num1 => [40.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num2 => [41.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num3 => [42.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num4 => [43.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num5 => [44.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num6 => [45.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num7 => [46.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num8 => [47.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num9 => [48.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Num0 => [49.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Minus => [50.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Equal => [51.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyQ => [52.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyW => [53.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyE => [54.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyR => [55.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyT => [56.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyY => [57.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyU => [58.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyI => [59.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyO => [60.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyP => [61.into_dart()].into_dart(),
+            crate::api::listen::RawKey::LeftBracket => [62.into_dart()].into_dart(),
+            crate::api::listen::RawKey::RightBracket => [63.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyA => [64.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyS => [65.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyD => [66.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyF => [67.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyG => [68.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyH => [69.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyJ => [70.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyK => [71.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyL => [72.into_dart()].into_dart(),
+            crate::api::listen::RawKey::SemiColon => [73.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Quote => [74.into_dart()].into_dart(),
+            crate::api::listen::RawKey::BackSlash => [75.into_dart()].into_dart(),
+            crate::api::listen::RawKey::IntlBackslash => [76.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyZ => [77.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyX => [78.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyC => [79.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyV => [80.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyB => [81.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyN => [82.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KeyM => [83.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Comma => [84.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Dot => [85.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Slash => [86.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Insert => [87.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KpReturn => [88.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KpMinus => [89.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KpPlus => [90.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KpMultiply => [91.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KpDivide => [92.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp0 => [93.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp1 => [94.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp2 => [95.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp3 => [96.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp4 => [97.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp5 => [98.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp6 => [99.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp7 => [100.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp8 => [101.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Kp9 => [102.into_dart()].into_dart(),
+            crate::api::listen::RawKey::KpDelete => [103.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Function => [104.into_dart()].into_dart(),
+            crate::api::listen::RawKey::Unknown(field0) => {
+                [105.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::listen::RawKey {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::listen::RawKey> for crate::api::listen::RawKey {
+    fn into_into_dart(self) -> crate::api::listen::RawKey {
+        self
+    }
+}
+
 impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(format!("{:?}", self), serializer);
+    }
+}
+
+impl SseEncode for ShortcutListener {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
+    }
+}
+
+impl SseEncode for fn(String) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn (String)>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
     }
 }
 
@@ -315,10 +1427,55 @@ impl SseEncode for flutter_rust_bridge::DartOpaque {
     }
 }
 
+impl SseEncode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn(String)>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for StreamSink<crate::api::listen::RawEventType, flutter_rust_bridge::for_generated::SseCodec>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        unimplemented!("")
+    }
+}
+
 impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
+    }
+}
+
+impl SseEncode for f64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_f64::<NativeEndian>(self).unwrap();
+    }
+}
+
+impl SseEncode for i64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i64::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -332,6 +1489,16 @@ impl SseEncode for isize {
     }
 }
 
+impl SseEncode for Vec<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <String>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<u8> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -339,6 +1506,404 @@ impl SseEncode for Vec<u8> {
         for item in self {
             <u8>::sse_encode(item, serializer);
         }
+    }
+}
+
+impl SseEncode for crate::api::listen::RawButton {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::listen::RawButton::Left => {
+                <i32>::sse_encode(0, serializer);
+            }
+            crate::api::listen::RawButton::Right => {
+                <i32>::sse_encode(1, serializer);
+            }
+            crate::api::listen::RawButton::Middle => {
+                <i32>::sse_encode(2, serializer);
+            }
+            crate::api::listen::RawButton::Unknown(field0) => {
+                <i32>::sse_encode(3, serializer);
+                <u8>::sse_encode(field0, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseEncode for crate::api::listen::RawEventType {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::listen::RawEventType::KeyPress(field0) => {
+                <i32>::sse_encode(0, serializer);
+                <crate::api::listen::RawKey>::sse_encode(field0, serializer);
+            }
+            crate::api::listen::RawEventType::KeyRelease(field0) => {
+                <i32>::sse_encode(1, serializer);
+                <crate::api::listen::RawKey>::sse_encode(field0, serializer);
+            }
+            crate::api::listen::RawEventType::ButtonPress(field0) => {
+                <i32>::sse_encode(2, serializer);
+                <crate::api::listen::RawButton>::sse_encode(field0, serializer);
+            }
+            crate::api::listen::RawEventType::ButtonRelease(field0) => {
+                <i32>::sse_encode(3, serializer);
+                <crate::api::listen::RawButton>::sse_encode(field0, serializer);
+            }
+            crate::api::listen::RawEventType::MouseMove { x, y } => {
+                <i32>::sse_encode(4, serializer);
+                <f64>::sse_encode(x, serializer);
+                <f64>::sse_encode(y, serializer);
+            }
+            crate::api::listen::RawEventType::Wheel { delta_x, delta_y } => {
+                <i32>::sse_encode(5, serializer);
+                <i64>::sse_encode(delta_x, serializer);
+                <i64>::sse_encode(delta_y, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseEncode for crate::api::listen::RawKey {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::listen::RawKey::Alt => {
+                <i32>::sse_encode(0, serializer);
+            }
+            crate::api::listen::RawKey::AltGr => {
+                <i32>::sse_encode(1, serializer);
+            }
+            crate::api::listen::RawKey::Backspace => {
+                <i32>::sse_encode(2, serializer);
+            }
+            crate::api::listen::RawKey::CapsLock => {
+                <i32>::sse_encode(3, serializer);
+            }
+            crate::api::listen::RawKey::ControlLeft => {
+                <i32>::sse_encode(4, serializer);
+            }
+            crate::api::listen::RawKey::ControlRight => {
+                <i32>::sse_encode(5, serializer);
+            }
+            crate::api::listen::RawKey::Delete => {
+                <i32>::sse_encode(6, serializer);
+            }
+            crate::api::listen::RawKey::DownArrow => {
+                <i32>::sse_encode(7, serializer);
+            }
+            crate::api::listen::RawKey::End => {
+                <i32>::sse_encode(8, serializer);
+            }
+            crate::api::listen::RawKey::Escape => {
+                <i32>::sse_encode(9, serializer);
+            }
+            crate::api::listen::RawKey::F1 => {
+                <i32>::sse_encode(10, serializer);
+            }
+            crate::api::listen::RawKey::F10 => {
+                <i32>::sse_encode(11, serializer);
+            }
+            crate::api::listen::RawKey::F11 => {
+                <i32>::sse_encode(12, serializer);
+            }
+            crate::api::listen::RawKey::F12 => {
+                <i32>::sse_encode(13, serializer);
+            }
+            crate::api::listen::RawKey::F2 => {
+                <i32>::sse_encode(14, serializer);
+            }
+            crate::api::listen::RawKey::F3 => {
+                <i32>::sse_encode(15, serializer);
+            }
+            crate::api::listen::RawKey::F4 => {
+                <i32>::sse_encode(16, serializer);
+            }
+            crate::api::listen::RawKey::F5 => {
+                <i32>::sse_encode(17, serializer);
+            }
+            crate::api::listen::RawKey::F6 => {
+                <i32>::sse_encode(18, serializer);
+            }
+            crate::api::listen::RawKey::F7 => {
+                <i32>::sse_encode(19, serializer);
+            }
+            crate::api::listen::RawKey::F8 => {
+                <i32>::sse_encode(20, serializer);
+            }
+            crate::api::listen::RawKey::F9 => {
+                <i32>::sse_encode(21, serializer);
+            }
+            crate::api::listen::RawKey::Home => {
+                <i32>::sse_encode(22, serializer);
+            }
+            crate::api::listen::RawKey::LeftArrow => {
+                <i32>::sse_encode(23, serializer);
+            }
+            crate::api::listen::RawKey::MetaLeft => {
+                <i32>::sse_encode(24, serializer);
+            }
+            crate::api::listen::RawKey::MetaRight => {
+                <i32>::sse_encode(25, serializer);
+            }
+            crate::api::listen::RawKey::PageDown => {
+                <i32>::sse_encode(26, serializer);
+            }
+            crate::api::listen::RawKey::PageUp => {
+                <i32>::sse_encode(27, serializer);
+            }
+            crate::api::listen::RawKey::Return => {
+                <i32>::sse_encode(28, serializer);
+            }
+            crate::api::listen::RawKey::RightArrow => {
+                <i32>::sse_encode(29, serializer);
+            }
+            crate::api::listen::RawKey::ShiftLeft => {
+                <i32>::sse_encode(30, serializer);
+            }
+            crate::api::listen::RawKey::ShiftRight => {
+                <i32>::sse_encode(31, serializer);
+            }
+            crate::api::listen::RawKey::Space => {
+                <i32>::sse_encode(32, serializer);
+            }
+            crate::api::listen::RawKey::Tab => {
+                <i32>::sse_encode(33, serializer);
+            }
+            crate::api::listen::RawKey::UpArrow => {
+                <i32>::sse_encode(34, serializer);
+            }
+            crate::api::listen::RawKey::PrintScreen => {
+                <i32>::sse_encode(35, serializer);
+            }
+            crate::api::listen::RawKey::ScrollLock => {
+                <i32>::sse_encode(36, serializer);
+            }
+            crate::api::listen::RawKey::Pause => {
+                <i32>::sse_encode(37, serializer);
+            }
+            crate::api::listen::RawKey::NumLock => {
+                <i32>::sse_encode(38, serializer);
+            }
+            crate::api::listen::RawKey::BackQuote => {
+                <i32>::sse_encode(39, serializer);
+            }
+            crate::api::listen::RawKey::Num1 => {
+                <i32>::sse_encode(40, serializer);
+            }
+            crate::api::listen::RawKey::Num2 => {
+                <i32>::sse_encode(41, serializer);
+            }
+            crate::api::listen::RawKey::Num3 => {
+                <i32>::sse_encode(42, serializer);
+            }
+            crate::api::listen::RawKey::Num4 => {
+                <i32>::sse_encode(43, serializer);
+            }
+            crate::api::listen::RawKey::Num5 => {
+                <i32>::sse_encode(44, serializer);
+            }
+            crate::api::listen::RawKey::Num6 => {
+                <i32>::sse_encode(45, serializer);
+            }
+            crate::api::listen::RawKey::Num7 => {
+                <i32>::sse_encode(46, serializer);
+            }
+            crate::api::listen::RawKey::Num8 => {
+                <i32>::sse_encode(47, serializer);
+            }
+            crate::api::listen::RawKey::Num9 => {
+                <i32>::sse_encode(48, serializer);
+            }
+            crate::api::listen::RawKey::Num0 => {
+                <i32>::sse_encode(49, serializer);
+            }
+            crate::api::listen::RawKey::Minus => {
+                <i32>::sse_encode(50, serializer);
+            }
+            crate::api::listen::RawKey::Equal => {
+                <i32>::sse_encode(51, serializer);
+            }
+            crate::api::listen::RawKey::KeyQ => {
+                <i32>::sse_encode(52, serializer);
+            }
+            crate::api::listen::RawKey::KeyW => {
+                <i32>::sse_encode(53, serializer);
+            }
+            crate::api::listen::RawKey::KeyE => {
+                <i32>::sse_encode(54, serializer);
+            }
+            crate::api::listen::RawKey::KeyR => {
+                <i32>::sse_encode(55, serializer);
+            }
+            crate::api::listen::RawKey::KeyT => {
+                <i32>::sse_encode(56, serializer);
+            }
+            crate::api::listen::RawKey::KeyY => {
+                <i32>::sse_encode(57, serializer);
+            }
+            crate::api::listen::RawKey::KeyU => {
+                <i32>::sse_encode(58, serializer);
+            }
+            crate::api::listen::RawKey::KeyI => {
+                <i32>::sse_encode(59, serializer);
+            }
+            crate::api::listen::RawKey::KeyO => {
+                <i32>::sse_encode(60, serializer);
+            }
+            crate::api::listen::RawKey::KeyP => {
+                <i32>::sse_encode(61, serializer);
+            }
+            crate::api::listen::RawKey::LeftBracket => {
+                <i32>::sse_encode(62, serializer);
+            }
+            crate::api::listen::RawKey::RightBracket => {
+                <i32>::sse_encode(63, serializer);
+            }
+            crate::api::listen::RawKey::KeyA => {
+                <i32>::sse_encode(64, serializer);
+            }
+            crate::api::listen::RawKey::KeyS => {
+                <i32>::sse_encode(65, serializer);
+            }
+            crate::api::listen::RawKey::KeyD => {
+                <i32>::sse_encode(66, serializer);
+            }
+            crate::api::listen::RawKey::KeyF => {
+                <i32>::sse_encode(67, serializer);
+            }
+            crate::api::listen::RawKey::KeyG => {
+                <i32>::sse_encode(68, serializer);
+            }
+            crate::api::listen::RawKey::KeyH => {
+                <i32>::sse_encode(69, serializer);
+            }
+            crate::api::listen::RawKey::KeyJ => {
+                <i32>::sse_encode(70, serializer);
+            }
+            crate::api::listen::RawKey::KeyK => {
+                <i32>::sse_encode(71, serializer);
+            }
+            crate::api::listen::RawKey::KeyL => {
+                <i32>::sse_encode(72, serializer);
+            }
+            crate::api::listen::RawKey::SemiColon => {
+                <i32>::sse_encode(73, serializer);
+            }
+            crate::api::listen::RawKey::Quote => {
+                <i32>::sse_encode(74, serializer);
+            }
+            crate::api::listen::RawKey::BackSlash => {
+                <i32>::sse_encode(75, serializer);
+            }
+            crate::api::listen::RawKey::IntlBackslash => {
+                <i32>::sse_encode(76, serializer);
+            }
+            crate::api::listen::RawKey::KeyZ => {
+                <i32>::sse_encode(77, serializer);
+            }
+            crate::api::listen::RawKey::KeyX => {
+                <i32>::sse_encode(78, serializer);
+            }
+            crate::api::listen::RawKey::KeyC => {
+                <i32>::sse_encode(79, serializer);
+            }
+            crate::api::listen::RawKey::KeyV => {
+                <i32>::sse_encode(80, serializer);
+            }
+            crate::api::listen::RawKey::KeyB => {
+                <i32>::sse_encode(81, serializer);
+            }
+            crate::api::listen::RawKey::KeyN => {
+                <i32>::sse_encode(82, serializer);
+            }
+            crate::api::listen::RawKey::KeyM => {
+                <i32>::sse_encode(83, serializer);
+            }
+            crate::api::listen::RawKey::Comma => {
+                <i32>::sse_encode(84, serializer);
+            }
+            crate::api::listen::RawKey::Dot => {
+                <i32>::sse_encode(85, serializer);
+            }
+            crate::api::listen::RawKey::Slash => {
+                <i32>::sse_encode(86, serializer);
+            }
+            crate::api::listen::RawKey::Insert => {
+                <i32>::sse_encode(87, serializer);
+            }
+            crate::api::listen::RawKey::KpReturn => {
+                <i32>::sse_encode(88, serializer);
+            }
+            crate::api::listen::RawKey::KpMinus => {
+                <i32>::sse_encode(89, serializer);
+            }
+            crate::api::listen::RawKey::KpPlus => {
+                <i32>::sse_encode(90, serializer);
+            }
+            crate::api::listen::RawKey::KpMultiply => {
+                <i32>::sse_encode(91, serializer);
+            }
+            crate::api::listen::RawKey::KpDivide => {
+                <i32>::sse_encode(92, serializer);
+            }
+            crate::api::listen::RawKey::Kp0 => {
+                <i32>::sse_encode(93, serializer);
+            }
+            crate::api::listen::RawKey::Kp1 => {
+                <i32>::sse_encode(94, serializer);
+            }
+            crate::api::listen::RawKey::Kp2 => {
+                <i32>::sse_encode(95, serializer);
+            }
+            crate::api::listen::RawKey::Kp3 => {
+                <i32>::sse_encode(96, serializer);
+            }
+            crate::api::listen::RawKey::Kp4 => {
+                <i32>::sse_encode(97, serializer);
+            }
+            crate::api::listen::RawKey::Kp5 => {
+                <i32>::sse_encode(98, serializer);
+            }
+            crate::api::listen::RawKey::Kp6 => {
+                <i32>::sse_encode(99, serializer);
+            }
+            crate::api::listen::RawKey::Kp7 => {
+                <i32>::sse_encode(100, serializer);
+            }
+            crate::api::listen::RawKey::Kp8 => {
+                <i32>::sse_encode(101, serializer);
+            }
+            crate::api::listen::RawKey::Kp9 => {
+                <i32>::sse_encode(102, serializer);
+            }
+            crate::api::listen::RawKey::KpDelete => {
+                <i32>::sse_encode(103, serializer);
+            }
+            crate::api::listen::RawKey::Function => {
+                <i32>::sse_encode(104, serializer);
+            }
+            crate::api::listen::RawKey::Unknown(field0) => {
+                <i32>::sse_encode(105, serializer);
+                <u32>::sse_encode(field0, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseEncode for u32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u32::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -386,6 +1951,7 @@ mod io {
     // Section: imports
 
     use super::*;
+    use crate::api::listen::*;
     use flutter_rust_bridge::for_generated::byteorder::{
         NativeEndian, ReadBytesExt, WriteBytesExt,
     };
@@ -394,9 +1960,38 @@ mod io {
 
     // Section: boilerplate
 
+    use std::sync::mpsc::Receiver;
     use std::sync::mpsc::Sender;
 
     flutter_rust_bridge::frb_generated_boilerplate_io!();
+
+    #[no_mangle]
+    pub extern "C" fn frbgen_system_hotkey_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>>::increment_strong_count(ptr as _);
+    }
+
+    #[no_mangle]
+    pub extern "C" fn frbgen_system_hotkey_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>>::decrement_strong_count(ptr as _);
+    }
+
+    #[no_mangle]
+    pub extern "C" fn frbgen_system_hotkey_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn (String)>>::increment_strong_count(ptr as _);
+    }
+
+    #[no_mangle]
+    pub extern "C" fn frbgen_system_hotkey_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn (String)>>::decrement_strong_count(ptr as _);
+    }
 }
 #[cfg(not(target_family = "wasm"))]
 pub use io::*;
@@ -410,6 +2005,7 @@ mod web {
     // Section: imports
 
     use super::*;
+    use crate::api::listen::*;
     use flutter_rust_bridge::for_generated::byteorder::{
         NativeEndian, ReadBytesExt, WriteBytesExt,
     };
@@ -420,9 +2016,38 @@ mod web {
 
     // Section: boilerplate
 
+    use std::sync::mpsc::Receiver;
     use std::sync::mpsc::Sender;
 
     flutter_rust_bridge::frb_generated_boilerplate_web!();
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ShortcutListener>>::decrement_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn (String)>>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn (String)>>::decrement_strong_count(ptr as _);
+    }
 }
 #[cfg(target_family = "wasm")]
 pub use web::*;

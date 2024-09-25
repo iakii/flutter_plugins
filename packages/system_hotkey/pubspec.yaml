@@ -1,16 +1,18 @@
 name: system_hotkey
 description: "A new Flutter FFI plugin project."
 version: 0.0.1
-homepage:
+homepage: https://example.com
 
 environment:
   sdk: ^3.5.3
-  flutter: '>=3.3.0'
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_rust_bridge: 2.4.0
+  freezed_annotation: ^2.4.4
+  hotkey_manager_platform_interface: ^0.2.0
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
@@ -21,6 +23,8 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   integration_test:
     sdk: flutter
+  freezed: ^2.5.7
+  build_runner: ^2.4.12
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

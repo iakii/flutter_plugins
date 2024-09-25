@@ -7,8 +7,9 @@ edition = "2021"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
+serde = {version = "1.0", features = ["derive"], optional=true}
 flutter_rust_bridge = "=2.4.0"
-rdev = "0.5.3"
+rdev = { git = "https://github.com/qzd1989/rdev.git", branch = "stop_listen" }
 
 
 

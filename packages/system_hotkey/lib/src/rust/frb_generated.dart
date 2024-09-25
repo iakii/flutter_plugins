@@ -5,6 +5,7 @@
 
 import 'api/hotkey.dart';
 import 'api/init.dart';
+import 'api/listen.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -69,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.4.0';
 
   @override
-  int get rustContentHash => -1842554156;
+  int get rustContentHash => 394262785;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -83,9 +84,48 @@ abstract class RustLibApi extends BaseApi {
   Future<void> crateApiHotkeyMiddleButtonClickListener(
       {required FutureOr<String> Function(String) dartCallback});
 
+  Future<void> crateApiHotkeyStopListener();
+
   String crateApiInitGreet({required String name});
 
   Future<void> crateApiInitInitApp();
+
+  Future<ShortcutListener> crateApiListenShortcutListenerNew();
+
+  Future<void> crateApiListenShortcutListenerRegisterShortcut(
+      {required ShortcutListener that,
+      required String key,
+      required List<String> modifiers,
+      required FnString callback});
+
+  Stream<RawEventType> crateApiListenShortcutListenerStartListener(
+      {required ShortcutListener that,
+      required FutureOr<void> Function(RawEventType) onEvent});
+
+  Future<void> crateApiListenShortcutListenerStopListener(
+      {required ShortcutListener that});
+
+  Future<void> crateApiListenShortcutListenerUnregisterAllHotkeys(
+      {required ShortcutListener that});
+
+  Future<ShortcutListener> crateApiListenStartListener();
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ShortcutListener;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ShortcutListener;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_ShortcutListenerPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_FnString;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_FnString;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FnStringPtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -124,12 +164,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<void> crateApiHotkeyStopListener() {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 2, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiHotkeyStopListenerConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiHotkeyStopListenerConstMeta => const TaskConstMeta(
+        debugName: "stop_listener",
+        argNames: [],
+      );
+
+  @override
   String crateApiInitGreet({required String name}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(name, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -152,7 +215,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 3, port: port_);
+            funcId: 4, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -166,6 +229,178 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiInitInitAppConstMeta => const TaskConstMeta(
         debugName: "init_app",
+        argNames: [],
+      );
+
+  @override
+  Future<ShortcutListener> crateApiListenShortcutListenerNew() {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 5, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiListenShortcutListenerNewConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiListenShortcutListenerNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "ShortcutListener_new",
+        argNames: [],
+      );
+
+  @override
+  Future<void> crateApiListenShortcutListenerRegisterShortcut(
+      {required ShortcutListener that,
+      required String key,
+      required List<String> modifiers,
+      required FnString callback}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+            that, serializer);
+        sse_encode_String(key, serializer);
+        sse_encode_list_String(modifiers, serializer);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+            callback, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 6, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiListenShortcutListenerRegisterShortcutConstMeta,
+      argValues: [that, key, modifiers, callback],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiListenShortcutListenerRegisterShortcutConstMeta =>
+      const TaskConstMeta(
+        debugName: "ShortcutListener_register_shortcut",
+        argNames: ["that", "key", "modifiers", "callback"],
+      );
+
+  @override
+  Stream<RawEventType> crateApiListenShortcutListenerStartListener(
+      {required ShortcutListener that,
+      required FutureOr<void> Function(RawEventType) onEvent}) {
+    final streamSink = RustStreamSink<RawEventType>();
+    unawaited(handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+            that, serializer);
+        sse_encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
+            onEvent, serializer);
+        sse_encode_StreamSink_raw_event_type_Sse(streamSink, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 7, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiListenShortcutListenerStartListenerConstMeta,
+      argValues: [that, onEvent, streamSink],
+      apiImpl: this,
+    )));
+    return streamSink.stream;
+  }
+
+  TaskConstMeta get kCrateApiListenShortcutListenerStartListenerConstMeta =>
+      const TaskConstMeta(
+        debugName: "ShortcutListener_start_listener",
+        argNames: ["that", "onEvent", "streamSink"],
+      );
+
+  @override
+  Future<void> crateApiListenShortcutListenerStopListener(
+      {required ShortcutListener that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 8, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiListenShortcutListenerStopListenerConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiListenShortcutListenerStopListenerConstMeta =>
+      const TaskConstMeta(
+        debugName: "ShortcutListener_stop_listener",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> crateApiListenShortcutListenerUnregisterAllHotkeys(
+      {required ShortcutListener that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 9, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiListenShortcutListenerUnregisterAllHotkeysConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiListenShortcutListenerUnregisterAllHotkeysConstMeta =>
+          const TaskConstMeta(
+            debugName: "ShortcutListener_unregister_all_hotkeys",
+            argNames: ["that"],
+          );
+
+  @override
+  Future<ShortcutListener> crateApiListenStartListener() {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 10, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiListenStartListenerConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiListenStartListenerConstMeta =>
+      const TaskConstMeta(
+        debugName: "start_listener",
         argNames: [],
       );
 
@@ -202,6 +437,55 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     };
   }
 
+  Future<void> Function(int, dynamic)
+      encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
+          FutureOr<void> Function(RawEventType) raw) {
+    return (callId, rawArg0) async {
+      final arg0 = dco_decode_raw_event_type(rawArg0);
+
+      Box<void>? rawOutput;
+      Box<AnyhowException>? rawError;
+      try {
+        rawOutput = Box(await raw(arg0));
+      } catch (e, s) {
+        rawError = Box(AnyhowException("$e\n\n$s"));
+      }
+
+      final serializer = SseSerializer(generalizedFrbRustBinding);
+      assert((rawOutput != null) ^ (rawError != null));
+      if (rawOutput != null) {
+        serializer.buffer.putUint8(0);
+        sse_encode_unit(rawOutput.value, serializer);
+      } else {
+        serializer.buffer.putUint8(1);
+        sse_encode_AnyhowException(rawError!.value, serializer);
+      }
+      final output = serializer.intoRaw();
+
+      generalizedFrbRustBinding.dartFnDeliverOutput(
+          callId: callId,
+          ptr: output.ptr,
+          rustVecLen: output.rustVecLen,
+          dataLen: output.dataLen);
+    };
+  }
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ShortcutListener => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ShortcutListener => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_FnString => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_FnString => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString;
+
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -209,8 +493,40 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ShortcutListener
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ShortcutListenerImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  FnString
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return FnStringImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ShortcutListener
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ShortcutListenerImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   FutureOr<String> Function(String)
       dco_decode_DartFn_Inputs_String_Output_String_AnyhowException(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    throw UnimplementedError('');
+  }
+
+  @protected
+  FutureOr<void> Function(RawEventType)
+      dco_decode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     throw UnimplementedError('');
@@ -223,9 +539,56 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ShortcutListener
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ShortcutListenerImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  FnString
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return FnStringImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  RustStreamSink<RawEventType> dco_decode_StreamSink_raw_event_type_Sse(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    throw UnimplementedError();
+  }
+
+  @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
+  }
+
+  @protected
+  RawButton dco_decode_box_autoadd_raw_button(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_raw_button(raw);
+  }
+
+  @protected
+  RawKey dco_decode_box_autoadd_raw_key(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_raw_key(raw);
+  }
+
+  @protected
+  double dco_decode_f_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as double;
+  }
+
+  @protected
+  PlatformInt64 dco_decode_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeI64(raw);
   }
 
   @protected
@@ -235,9 +598,298 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<String> dco_decode_list_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_String).toList();
+  }
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  RawButton dco_decode_raw_button(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return const RawButton_Left();
+      case 1:
+        return const RawButton_Right();
+      case 2:
+        return const RawButton_Middle();
+      case 3:
+        return RawButton_Unknown(
+          dco_decode_u_8(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  RawEventType dco_decode_raw_event_type(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return RawEventType_KeyPress(
+          dco_decode_box_autoadd_raw_key(raw[1]),
+        );
+      case 1:
+        return RawEventType_KeyRelease(
+          dco_decode_box_autoadd_raw_key(raw[1]),
+        );
+      case 2:
+        return RawEventType_ButtonPress(
+          dco_decode_box_autoadd_raw_button(raw[1]),
+        );
+      case 3:
+        return RawEventType_ButtonRelease(
+          dco_decode_box_autoadd_raw_button(raw[1]),
+        );
+      case 4:
+        return RawEventType_MouseMove(
+          x: dco_decode_f_64(raw[1]),
+          y: dco_decode_f_64(raw[2]),
+        );
+      case 5:
+        return RawEventType_Wheel(
+          deltaX: dco_decode_i_64(raw[1]),
+          deltaY: dco_decode_i_64(raw[2]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  RawKey dco_decode_raw_key(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return const RawKey_Alt();
+      case 1:
+        return const RawKey_AltGr();
+      case 2:
+        return const RawKey_Backspace();
+      case 3:
+        return const RawKey_CapsLock();
+      case 4:
+        return const RawKey_ControlLeft();
+      case 5:
+        return const RawKey_ControlRight();
+      case 6:
+        return const RawKey_Delete();
+      case 7:
+        return const RawKey_DownArrow();
+      case 8:
+        return const RawKey_End();
+      case 9:
+        return const RawKey_Escape();
+      case 10:
+        return const RawKey_F1();
+      case 11:
+        return const RawKey_F10();
+      case 12:
+        return const RawKey_F11();
+      case 13:
+        return const RawKey_F12();
+      case 14:
+        return const RawKey_F2();
+      case 15:
+        return const RawKey_F3();
+      case 16:
+        return const RawKey_F4();
+      case 17:
+        return const RawKey_F5();
+      case 18:
+        return const RawKey_F6();
+      case 19:
+        return const RawKey_F7();
+      case 20:
+        return const RawKey_F8();
+      case 21:
+        return const RawKey_F9();
+      case 22:
+        return const RawKey_Home();
+      case 23:
+        return const RawKey_LeftArrow();
+      case 24:
+        return const RawKey_MetaLeft();
+      case 25:
+        return const RawKey_MetaRight();
+      case 26:
+        return const RawKey_PageDown();
+      case 27:
+        return const RawKey_PageUp();
+      case 28:
+        return const RawKey_Return();
+      case 29:
+        return const RawKey_RightArrow();
+      case 30:
+        return const RawKey_ShiftLeft();
+      case 31:
+        return const RawKey_ShiftRight();
+      case 32:
+        return const RawKey_Space();
+      case 33:
+        return const RawKey_Tab();
+      case 34:
+        return const RawKey_UpArrow();
+      case 35:
+        return const RawKey_PrintScreen();
+      case 36:
+        return const RawKey_ScrollLock();
+      case 37:
+        return const RawKey_Pause();
+      case 38:
+        return const RawKey_NumLock();
+      case 39:
+        return const RawKey_BackQuote();
+      case 40:
+        return const RawKey_Num1();
+      case 41:
+        return const RawKey_Num2();
+      case 42:
+        return const RawKey_Num3();
+      case 43:
+        return const RawKey_Num4();
+      case 44:
+        return const RawKey_Num5();
+      case 45:
+        return const RawKey_Num6();
+      case 46:
+        return const RawKey_Num7();
+      case 47:
+        return const RawKey_Num8();
+      case 48:
+        return const RawKey_Num9();
+      case 49:
+        return const RawKey_Num0();
+      case 50:
+        return const RawKey_Minus();
+      case 51:
+        return const RawKey_Equal();
+      case 52:
+        return const RawKey_KeyQ();
+      case 53:
+        return const RawKey_KeyW();
+      case 54:
+        return const RawKey_KeyE();
+      case 55:
+        return const RawKey_KeyR();
+      case 56:
+        return const RawKey_KeyT();
+      case 57:
+        return const RawKey_KeyY();
+      case 58:
+        return const RawKey_KeyU();
+      case 59:
+        return const RawKey_KeyI();
+      case 60:
+        return const RawKey_KeyO();
+      case 61:
+        return const RawKey_KeyP();
+      case 62:
+        return const RawKey_LeftBracket();
+      case 63:
+        return const RawKey_RightBracket();
+      case 64:
+        return const RawKey_KeyA();
+      case 65:
+        return const RawKey_KeyS();
+      case 66:
+        return const RawKey_KeyD();
+      case 67:
+        return const RawKey_KeyF();
+      case 68:
+        return const RawKey_KeyG();
+      case 69:
+        return const RawKey_KeyH();
+      case 70:
+        return const RawKey_KeyJ();
+      case 71:
+        return const RawKey_KeyK();
+      case 72:
+        return const RawKey_KeyL();
+      case 73:
+        return const RawKey_SemiColon();
+      case 74:
+        return const RawKey_Quote();
+      case 75:
+        return const RawKey_BackSlash();
+      case 76:
+        return const RawKey_IntlBackslash();
+      case 77:
+        return const RawKey_KeyZ();
+      case 78:
+        return const RawKey_KeyX();
+      case 79:
+        return const RawKey_KeyC();
+      case 80:
+        return const RawKey_KeyV();
+      case 81:
+        return const RawKey_KeyB();
+      case 82:
+        return const RawKey_KeyN();
+      case 83:
+        return const RawKey_KeyM();
+      case 84:
+        return const RawKey_Comma();
+      case 85:
+        return const RawKey_Dot();
+      case 86:
+        return const RawKey_Slash();
+      case 87:
+        return const RawKey_Insert();
+      case 88:
+        return const RawKey_KpReturn();
+      case 89:
+        return const RawKey_KpMinus();
+      case 90:
+        return const RawKey_KpPlus();
+      case 91:
+        return const RawKey_KpMultiply();
+      case 92:
+        return const RawKey_KpDivide();
+      case 93:
+        return const RawKey_Kp0();
+      case 94:
+        return const RawKey_Kp1();
+      case 95:
+        return const RawKey_Kp2();
+      case 96:
+        return const RawKey_Kp3();
+      case 97:
+        return const RawKey_Kp4();
+      case 98:
+        return const RawKey_Kp5();
+      case 99:
+        return const RawKey_Kp6();
+      case 100:
+        return const RawKey_Kp7();
+      case 101:
+        return const RawKey_Kp8();
+      case 102:
+        return const RawKey_Kp9();
+      case 103:
+        return const RawKey_KpDelete();
+      case 104:
+        return const RawKey_Function();
+      case 105:
+        return RawKey_Unknown(
+          dco_decode_u_32(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  int dco_decode_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
   }
 
   @protected
@@ -266,10 +918,62 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ShortcutListener
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ShortcutListenerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  FnString
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return FnStringImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ShortcutListener
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ShortcutListenerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   Object sse_decode_DartOpaque(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_isize(deserializer);
     return decodeDartOpaque(inner, generalizedFrbRustBinding);
+  }
+
+  @protected
+  ShortcutListener
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ShortcutListenerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  FnString
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return FnStringImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  RustStreamSink<RawEventType> sse_decode_StreamSink_raw_event_type_Sse(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    throw UnimplementedError('Unreachable ()');
   }
 
   @protected
@@ -280,9 +984,45 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RawButton sse_decode_box_autoadd_raw_button(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_raw_button(deserializer));
+  }
+
+  @protected
+  RawKey sse_decode_box_autoadd_raw_key(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_raw_key(deserializer));
+  }
+
+  @protected
+  double sse_decode_f_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getFloat64();
+  }
+
+  @protected
+  PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getPlatformInt64();
+  }
+
+  @protected
   PlatformInt64 sse_decode_isize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getPlatformInt64();
+  }
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <String>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -290,6 +1030,287 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  RawButton sse_decode_raw_button(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        return const RawButton_Left();
+      case 1:
+        return const RawButton_Right();
+      case 2:
+        return const RawButton_Middle();
+      case 3:
+        var var_field0 = sse_decode_u_8(deserializer);
+        return RawButton_Unknown(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  RawEventType sse_decode_raw_event_type(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_box_autoadd_raw_key(deserializer);
+        return RawEventType_KeyPress(var_field0);
+      case 1:
+        var var_field0 = sse_decode_box_autoadd_raw_key(deserializer);
+        return RawEventType_KeyRelease(var_field0);
+      case 2:
+        var var_field0 = sse_decode_box_autoadd_raw_button(deserializer);
+        return RawEventType_ButtonPress(var_field0);
+      case 3:
+        var var_field0 = sse_decode_box_autoadd_raw_button(deserializer);
+        return RawEventType_ButtonRelease(var_field0);
+      case 4:
+        var var_x = sse_decode_f_64(deserializer);
+        var var_y = sse_decode_f_64(deserializer);
+        return RawEventType_MouseMove(x: var_x, y: var_y);
+      case 5:
+        var var_deltaX = sse_decode_i_64(deserializer);
+        var var_deltaY = sse_decode_i_64(deserializer);
+        return RawEventType_Wheel(deltaX: var_deltaX, deltaY: var_deltaY);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  RawKey sse_decode_raw_key(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        return const RawKey_Alt();
+      case 1:
+        return const RawKey_AltGr();
+      case 2:
+        return const RawKey_Backspace();
+      case 3:
+        return const RawKey_CapsLock();
+      case 4:
+        return const RawKey_ControlLeft();
+      case 5:
+        return const RawKey_ControlRight();
+      case 6:
+        return const RawKey_Delete();
+      case 7:
+        return const RawKey_DownArrow();
+      case 8:
+        return const RawKey_End();
+      case 9:
+        return const RawKey_Escape();
+      case 10:
+        return const RawKey_F1();
+      case 11:
+        return const RawKey_F10();
+      case 12:
+        return const RawKey_F11();
+      case 13:
+        return const RawKey_F12();
+      case 14:
+        return const RawKey_F2();
+      case 15:
+        return const RawKey_F3();
+      case 16:
+        return const RawKey_F4();
+      case 17:
+        return const RawKey_F5();
+      case 18:
+        return const RawKey_F6();
+      case 19:
+        return const RawKey_F7();
+      case 20:
+        return const RawKey_F8();
+      case 21:
+        return const RawKey_F9();
+      case 22:
+        return const RawKey_Home();
+      case 23:
+        return const RawKey_LeftArrow();
+      case 24:
+        return const RawKey_MetaLeft();
+      case 25:
+        return const RawKey_MetaRight();
+      case 26:
+        return const RawKey_PageDown();
+      case 27:
+        return const RawKey_PageUp();
+      case 28:
+        return const RawKey_Return();
+      case 29:
+        return const RawKey_RightArrow();
+      case 30:
+        return const RawKey_ShiftLeft();
+      case 31:
+        return const RawKey_ShiftRight();
+      case 32:
+        return const RawKey_Space();
+      case 33:
+        return const RawKey_Tab();
+      case 34:
+        return const RawKey_UpArrow();
+      case 35:
+        return const RawKey_PrintScreen();
+      case 36:
+        return const RawKey_ScrollLock();
+      case 37:
+        return const RawKey_Pause();
+      case 38:
+        return const RawKey_NumLock();
+      case 39:
+        return const RawKey_BackQuote();
+      case 40:
+        return const RawKey_Num1();
+      case 41:
+        return const RawKey_Num2();
+      case 42:
+        return const RawKey_Num3();
+      case 43:
+        return const RawKey_Num4();
+      case 44:
+        return const RawKey_Num5();
+      case 45:
+        return const RawKey_Num6();
+      case 46:
+        return const RawKey_Num7();
+      case 47:
+        return const RawKey_Num8();
+      case 48:
+        return const RawKey_Num9();
+      case 49:
+        return const RawKey_Num0();
+      case 50:
+        return const RawKey_Minus();
+      case 51:
+        return const RawKey_Equal();
+      case 52:
+        return const RawKey_KeyQ();
+      case 53:
+        return const RawKey_KeyW();
+      case 54:
+        return const RawKey_KeyE();
+      case 55:
+        return const RawKey_KeyR();
+      case 56:
+        return const RawKey_KeyT();
+      case 57:
+        return const RawKey_KeyY();
+      case 58:
+        return const RawKey_KeyU();
+      case 59:
+        return const RawKey_KeyI();
+      case 60:
+        return const RawKey_KeyO();
+      case 61:
+        return const RawKey_KeyP();
+      case 62:
+        return const RawKey_LeftBracket();
+      case 63:
+        return const RawKey_RightBracket();
+      case 64:
+        return const RawKey_KeyA();
+      case 65:
+        return const RawKey_KeyS();
+      case 66:
+        return const RawKey_KeyD();
+      case 67:
+        return const RawKey_KeyF();
+      case 68:
+        return const RawKey_KeyG();
+      case 69:
+        return const RawKey_KeyH();
+      case 70:
+        return const RawKey_KeyJ();
+      case 71:
+        return const RawKey_KeyK();
+      case 72:
+        return const RawKey_KeyL();
+      case 73:
+        return const RawKey_SemiColon();
+      case 74:
+        return const RawKey_Quote();
+      case 75:
+        return const RawKey_BackSlash();
+      case 76:
+        return const RawKey_IntlBackslash();
+      case 77:
+        return const RawKey_KeyZ();
+      case 78:
+        return const RawKey_KeyX();
+      case 79:
+        return const RawKey_KeyC();
+      case 80:
+        return const RawKey_KeyV();
+      case 81:
+        return const RawKey_KeyB();
+      case 82:
+        return const RawKey_KeyN();
+      case 83:
+        return const RawKey_KeyM();
+      case 84:
+        return const RawKey_Comma();
+      case 85:
+        return const RawKey_Dot();
+      case 86:
+        return const RawKey_Slash();
+      case 87:
+        return const RawKey_Insert();
+      case 88:
+        return const RawKey_KpReturn();
+      case 89:
+        return const RawKey_KpMinus();
+      case 90:
+        return const RawKey_KpPlus();
+      case 91:
+        return const RawKey_KpMultiply();
+      case 92:
+        return const RawKey_KpDivide();
+      case 93:
+        return const RawKey_Kp0();
+      case 94:
+        return const RawKey_Kp1();
+      case 95:
+        return const RawKey_Kp2();
+      case 96:
+        return const RawKey_Kp3();
+      case 97:
+        return const RawKey_Kp4();
+      case 98:
+        return const RawKey_Kp5();
+      case 99:
+        return const RawKey_Kp6();
+      case 100:
+        return const RawKey_Kp7();
+      case 101:
+        return const RawKey_Kp8();
+      case 102:
+        return const RawKey_Kp9();
+      case 103:
+        return const RawKey_KpDelete();
+      case 104:
+        return const RawKey_Function();
+      case 105:
+        var var_field0 = sse_decode_u_32(deserializer);
+        return RawKey_Unknown(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint32();
   }
 
   @protected
@@ -329,11 +1350,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          ShortcutListener self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ShortcutListenerImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+          FnString self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as FnStringImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          ShortcutListener self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ShortcutListenerImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
   void sse_encode_DartFn_Inputs_String_Output_String_AnyhowException(
       FutureOr<String> Function(String) self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_DartOpaque(
         encode_DartFn_Inputs_String_Output_String_AnyhowException(self),
+        serializer);
+  }
+
+  @protected
+  void sse_encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
+      FutureOr<void> Function(RawEventType) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_DartOpaque(
+        encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(self),
         serializer);
   }
 
@@ -347,9 +1406,66 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
+          ShortcutListener self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ShortcutListenerImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
+          FnString self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as FnStringImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void sse_encode_StreamSink_raw_event_type_Sse(
+      RustStreamSink<RawEventType> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(
+        self.setupAndSerialize(
+            codec: SseCodec(
+          decodeSuccessData: sse_decode_raw_event_type,
+          decodeErrorData: sse_decode_AnyhowException,
+        )),
+        serializer);
+  }
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_raw_button(
+      RawButton self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_raw_button(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_raw_key(RawKey self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_raw_key(self, serializer);
+  }
+
+  @protected
+  void sse_encode_f_64(double self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putFloat64(self);
+  }
+
+  @protected
+  void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putPlatformInt64(self);
   }
 
   @protected
@@ -359,11 +1475,295 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_String(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
       Uint8List self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_raw_button(RawButton self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case RawButton_Left():
+        sse_encode_i_32(0, serializer);
+      case RawButton_Right():
+        sse_encode_i_32(1, serializer);
+      case RawButton_Middle():
+        sse_encode_i_32(2, serializer);
+      case RawButton_Unknown(field0: final field0):
+        sse_encode_i_32(3, serializer);
+        sse_encode_u_8(field0, serializer);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  void sse_encode_raw_event_type(RawEventType self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case RawEventType_KeyPress(field0: final field0):
+        sse_encode_i_32(0, serializer);
+        sse_encode_box_autoadd_raw_key(field0, serializer);
+      case RawEventType_KeyRelease(field0: final field0):
+        sse_encode_i_32(1, serializer);
+        sse_encode_box_autoadd_raw_key(field0, serializer);
+      case RawEventType_ButtonPress(field0: final field0):
+        sse_encode_i_32(2, serializer);
+        sse_encode_box_autoadd_raw_button(field0, serializer);
+      case RawEventType_ButtonRelease(field0: final field0):
+        sse_encode_i_32(3, serializer);
+        sse_encode_box_autoadd_raw_button(field0, serializer);
+      case RawEventType_MouseMove(x: final x, y: final y):
+        sse_encode_i_32(4, serializer);
+        sse_encode_f_64(x, serializer);
+        sse_encode_f_64(y, serializer);
+      case RawEventType_Wheel(deltaX: final deltaX, deltaY: final deltaY):
+        sse_encode_i_32(5, serializer);
+        sse_encode_i_64(deltaX, serializer);
+        sse_encode_i_64(deltaY, serializer);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  void sse_encode_raw_key(RawKey self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case RawKey_Alt():
+        sse_encode_i_32(0, serializer);
+      case RawKey_AltGr():
+        sse_encode_i_32(1, serializer);
+      case RawKey_Backspace():
+        sse_encode_i_32(2, serializer);
+      case RawKey_CapsLock():
+        sse_encode_i_32(3, serializer);
+      case RawKey_ControlLeft():
+        sse_encode_i_32(4, serializer);
+      case RawKey_ControlRight():
+        sse_encode_i_32(5, serializer);
+      case RawKey_Delete():
+        sse_encode_i_32(6, serializer);
+      case RawKey_DownArrow():
+        sse_encode_i_32(7, serializer);
+      case RawKey_End():
+        sse_encode_i_32(8, serializer);
+      case RawKey_Escape():
+        sse_encode_i_32(9, serializer);
+      case RawKey_F1():
+        sse_encode_i_32(10, serializer);
+      case RawKey_F10():
+        sse_encode_i_32(11, serializer);
+      case RawKey_F11():
+        sse_encode_i_32(12, serializer);
+      case RawKey_F12():
+        sse_encode_i_32(13, serializer);
+      case RawKey_F2():
+        sse_encode_i_32(14, serializer);
+      case RawKey_F3():
+        sse_encode_i_32(15, serializer);
+      case RawKey_F4():
+        sse_encode_i_32(16, serializer);
+      case RawKey_F5():
+        sse_encode_i_32(17, serializer);
+      case RawKey_F6():
+        sse_encode_i_32(18, serializer);
+      case RawKey_F7():
+        sse_encode_i_32(19, serializer);
+      case RawKey_F8():
+        sse_encode_i_32(20, serializer);
+      case RawKey_F9():
+        sse_encode_i_32(21, serializer);
+      case RawKey_Home():
+        sse_encode_i_32(22, serializer);
+      case RawKey_LeftArrow():
+        sse_encode_i_32(23, serializer);
+      case RawKey_MetaLeft():
+        sse_encode_i_32(24, serializer);
+      case RawKey_MetaRight():
+        sse_encode_i_32(25, serializer);
+      case RawKey_PageDown():
+        sse_encode_i_32(26, serializer);
+      case RawKey_PageUp():
+        sse_encode_i_32(27, serializer);
+      case RawKey_Return():
+        sse_encode_i_32(28, serializer);
+      case RawKey_RightArrow():
+        sse_encode_i_32(29, serializer);
+      case RawKey_ShiftLeft():
+        sse_encode_i_32(30, serializer);
+      case RawKey_ShiftRight():
+        sse_encode_i_32(31, serializer);
+      case RawKey_Space():
+        sse_encode_i_32(32, serializer);
+      case RawKey_Tab():
+        sse_encode_i_32(33, serializer);
+      case RawKey_UpArrow():
+        sse_encode_i_32(34, serializer);
+      case RawKey_PrintScreen():
+        sse_encode_i_32(35, serializer);
+      case RawKey_ScrollLock():
+        sse_encode_i_32(36, serializer);
+      case RawKey_Pause():
+        sse_encode_i_32(37, serializer);
+      case RawKey_NumLock():
+        sse_encode_i_32(38, serializer);
+      case RawKey_BackQuote():
+        sse_encode_i_32(39, serializer);
+      case RawKey_Num1():
+        sse_encode_i_32(40, serializer);
+      case RawKey_Num2():
+        sse_encode_i_32(41, serializer);
+      case RawKey_Num3():
+        sse_encode_i_32(42, serializer);
+      case RawKey_Num4():
+        sse_encode_i_32(43, serializer);
+      case RawKey_Num5():
+        sse_encode_i_32(44, serializer);
+      case RawKey_Num6():
+        sse_encode_i_32(45, serializer);
+      case RawKey_Num7():
+        sse_encode_i_32(46, serializer);
+      case RawKey_Num8():
+        sse_encode_i_32(47, serializer);
+      case RawKey_Num9():
+        sse_encode_i_32(48, serializer);
+      case RawKey_Num0():
+        sse_encode_i_32(49, serializer);
+      case RawKey_Minus():
+        sse_encode_i_32(50, serializer);
+      case RawKey_Equal():
+        sse_encode_i_32(51, serializer);
+      case RawKey_KeyQ():
+        sse_encode_i_32(52, serializer);
+      case RawKey_KeyW():
+        sse_encode_i_32(53, serializer);
+      case RawKey_KeyE():
+        sse_encode_i_32(54, serializer);
+      case RawKey_KeyR():
+        sse_encode_i_32(55, serializer);
+      case RawKey_KeyT():
+        sse_encode_i_32(56, serializer);
+      case RawKey_KeyY():
+        sse_encode_i_32(57, serializer);
+      case RawKey_KeyU():
+        sse_encode_i_32(58, serializer);
+      case RawKey_KeyI():
+        sse_encode_i_32(59, serializer);
+      case RawKey_KeyO():
+        sse_encode_i_32(60, serializer);
+      case RawKey_KeyP():
+        sse_encode_i_32(61, serializer);
+      case RawKey_LeftBracket():
+        sse_encode_i_32(62, serializer);
+      case RawKey_RightBracket():
+        sse_encode_i_32(63, serializer);
+      case RawKey_KeyA():
+        sse_encode_i_32(64, serializer);
+      case RawKey_KeyS():
+        sse_encode_i_32(65, serializer);
+      case RawKey_KeyD():
+        sse_encode_i_32(66, serializer);
+      case RawKey_KeyF():
+        sse_encode_i_32(67, serializer);
+      case RawKey_KeyG():
+        sse_encode_i_32(68, serializer);
+      case RawKey_KeyH():
+        sse_encode_i_32(69, serializer);
+      case RawKey_KeyJ():
+        sse_encode_i_32(70, serializer);
+      case RawKey_KeyK():
+        sse_encode_i_32(71, serializer);
+      case RawKey_KeyL():
+        sse_encode_i_32(72, serializer);
+      case RawKey_SemiColon():
+        sse_encode_i_32(73, serializer);
+      case RawKey_Quote():
+        sse_encode_i_32(74, serializer);
+      case RawKey_BackSlash():
+        sse_encode_i_32(75, serializer);
+      case RawKey_IntlBackslash():
+        sse_encode_i_32(76, serializer);
+      case RawKey_KeyZ():
+        sse_encode_i_32(77, serializer);
+      case RawKey_KeyX():
+        sse_encode_i_32(78, serializer);
+      case RawKey_KeyC():
+        sse_encode_i_32(79, serializer);
+      case RawKey_KeyV():
+        sse_encode_i_32(80, serializer);
+      case RawKey_KeyB():
+        sse_encode_i_32(81, serializer);
+      case RawKey_KeyN():
+        sse_encode_i_32(82, serializer);
+      case RawKey_KeyM():
+        sse_encode_i_32(83, serializer);
+      case RawKey_Comma():
+        sse_encode_i_32(84, serializer);
+      case RawKey_Dot():
+        sse_encode_i_32(85, serializer);
+      case RawKey_Slash():
+        sse_encode_i_32(86, serializer);
+      case RawKey_Insert():
+        sse_encode_i_32(87, serializer);
+      case RawKey_KpReturn():
+        sse_encode_i_32(88, serializer);
+      case RawKey_KpMinus():
+        sse_encode_i_32(89, serializer);
+      case RawKey_KpPlus():
+        sse_encode_i_32(90, serializer);
+      case RawKey_KpMultiply():
+        sse_encode_i_32(91, serializer);
+      case RawKey_KpDivide():
+        sse_encode_i_32(92, serializer);
+      case RawKey_Kp0():
+        sse_encode_i_32(93, serializer);
+      case RawKey_Kp1():
+        sse_encode_i_32(94, serializer);
+      case RawKey_Kp2():
+        sse_encode_i_32(95, serializer);
+      case RawKey_Kp3():
+        sse_encode_i_32(96, serializer);
+      case RawKey_Kp4():
+        sse_encode_i_32(97, serializer);
+      case RawKey_Kp5():
+        sse_encode_i_32(98, serializer);
+      case RawKey_Kp6():
+        sse_encode_i_32(99, serializer);
+      case RawKey_Kp7():
+        sse_encode_i_32(100, serializer);
+      case RawKey_Kp8():
+        sse_encode_i_32(101, serializer);
+      case RawKey_Kp9():
+        sse_encode_i_32(102, serializer);
+      case RawKey_KpDelete():
+        sse_encode_i_32(103, serializer);
+      case RawKey_Function():
+        sse_encode_i_32(104, serializer);
+      case RawKey_Unknown(field0: final field0):
+        sse_encode_i_32(105, serializer);
+        sse_encode_u_32(field0, serializer);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint32(self);
   }
 
   @protected
@@ -394,4 +1794,67 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
   }
+}
+
+@sealed
+class FnStringImpl extends RustOpaque implements FnString {
+  // Not to be used by end users
+  FnStringImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  FnStringImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_FnString,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_FnString,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_FnStringPtr,
+  );
+}
+
+@sealed
+class ShortcutListenerImpl extends RustOpaque implements ShortcutListener {
+  // Not to be used by end users
+  ShortcutListenerImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ShortcutListenerImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_ShortcutListener,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ShortcutListener,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_ShortcutListenerPtr,
+  );
+
+  Future<void> registerShortcut(
+          {required String key,
+          required List<String> modifiers,
+          required FnString callback}) =>
+      RustLib.instance.api.crateApiListenShortcutListenerRegisterShortcut(
+          that: this, key: key, modifiers: modifiers, callback: callback);
+
+  Stream<RawEventType> startListener(
+          {required FutureOr<void> Function(RawEventType) onEvent}) =>
+      RustLib.instance.api.crateApiListenShortcutListenerStartListener(
+          that: this, onEvent: onEvent);
+
+  Future<void> stopListener() =>
+      RustLib.instance.api.crateApiListenShortcutListenerStopListener(
+        that: this,
+      );
+
+  Future<void> unregisterAllHotkeys() =>
+      RustLib.instance.api.crateApiListenShortcutListenerUnregisterAllHotkeys(
+        that: this,
+      );
 }

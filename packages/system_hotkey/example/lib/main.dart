@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
-  await RustLib.init();
+  // await RustLib.init();
   runApp(const MyApp());
 }
 
@@ -13,10 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('flutter_rust_bridge quickstart')),
-        body: Center(
-          child: Text(
-              'Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`'),
-        ),
+        body: const Center(
+            // child: Text('Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`'),
+            ),
       ),
     );
   }

@@ -10,3 +10,6 @@ Future<void> middleButtonClickListener(
         {required FutureOr<String> Function(String) dartCallback}) =>
     RustLib.instance.api
         .crateApiHotkeyMiddleButtonClickListener(dartCallback: dartCallback);
+
+Future<void> stopListener() =>
+    RustLib.instance.api.crateApiHotkeyStopListener();
