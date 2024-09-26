@@ -1,10 +1,8 @@
-use std::sync::{mpsc, Arc};
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::thread;
-use rdev::{listen, Button, Event, EventType, Key};
-use flutter_rust_bridge::DartFnFuture;
-use flutter_rust_bridge::for_generated::futures::SinkExt;
 use crate::frb_generated::StreamSink;
+use rdev::{listen, Button, EventType, Key};
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{mpsc, Arc};
+use std::thread;
 
 pub struct ShortcutListener {
     cancel_flag: Arc<AtomicBool>,
@@ -15,37 +13,20 @@ impl ShortcutListener {
     pub fn new() -> Self {
         Self {
             cancel_flag: Arc::new(AtomicBool::new(false)),
-            // shortcuts: Arc::new(Mutex::new(HashMap::new())),
         }
     }
 
-    pub fn register_shortcut(&self, key: String, modifiers: Vec<String>, callback: fn(String)) {
-        // let mut shortcuts = self.shortcuts.lock().unwrap();
-        // let full_key = format!("{}+{}", modifiers.join("+"), key); // 创建组合键字符串
-        // shortcuts.insert(full_key, callback);
-    }
-
-    pub fn start_listener(&self, on_event: impl Fn(RawEventType) -> DartFnFuture<()> + Send + 'static, stream_sink: StreamSink<RawEventType>) {
-        // let shortcuts_clone = Arc::clone(&self.shortcuts);
+    pub fn start_listener(&self, stream_sink: StreamSink<RawEventType>) {
         let cancel_flag = Arc::clone(&self.cancel_flag);
-        let (mut tx, rx) = mpsc::channel();
-        // if shortcuts_clone.lock().unwrap().is_empty() {
-        //     println!("No shortcuts registered, not starting listener.");
-        //     return;
-        // }
-
-        // 延时2s
-        // std::thread::sleep(std::time::Duration::from_secs(2));
+        let (tx, rx) = mpsc::channel();
 
         thread::spawn(move || {
             listen(move |event| {
                 let raw_event = RawEventType::from(event.event_type);
                 tx.send(raw_event).unwrap();
-                // println!("Event: {:?}", event);
             })
-                .unwrap();
+            .unwrap();
         });
-
 
         while let Ok(rev) = rx.recv() {
             if cancel_flag.load(Ordering::Relaxed) {
@@ -53,15 +34,11 @@ impl ShortcutListener {
                 break; // 停止监听
             }
             stream_sink.add(rev).unwrap();
-            // println!("rev: {:?}", rev);
-            // on_event(rev);
         }
         println!("Listener stopped.");
     }
 
     pub fn unregister_all_hotkeys(&self) {
-        // let mut shortcuts = self.shortcuts.lock().unwrap();
-        // shortcuts.clear();
         self.stop_listener();
     }
 
@@ -71,7 +48,6 @@ impl ShortcutListener {
         rdev::stop_listen();
     }
 }
-
 
 pub fn start_listener() -> ShortcutListener {
     let listener = ShortcutListener::new();
@@ -345,14 +321,17 @@ pub enum RawEventType {
     },
 }
 
-
 impl RawEventType {
     fn from(event_type: EventType) -> Self {
         match event_type {
             EventType::KeyPress(key) => RawEventType::KeyPress(rdev_key2_raw_key(key)),
             EventType::KeyRelease(key) => RawEventType::KeyRelease(rdev_key2_raw_key(key)),
-            EventType::ButtonPress(button) => RawEventType::ButtonPress(rdev_button2_raw_button(button)),
-            EventType::ButtonRelease(button) => RawEventType::ButtonRelease(rdev_button2_raw_button(button)),
+            EventType::ButtonPress(button) => {
+                RawEventType::ButtonPress(rdev_button2_raw_button(button))
+            }
+            EventType::ButtonRelease(button) => {
+                RawEventType::ButtonRelease(rdev_button2_raw_button(button))
+            }
             EventType::MouseMove { x, y } => RawEventType::MouseMove { x, y },
             EventType::Wheel { delta_x, delta_y } => RawEventType::Wheel { delta_x, delta_y },
         }

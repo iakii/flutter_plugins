@@ -70,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.4.0';
 
   @override
-  int get rustContentHash => 394262785;
+  int get rustContentHash => -1856174498;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -92,15 +92,8 @@ abstract class RustLibApi extends BaseApi {
 
   Future<ShortcutListener> crateApiListenShortcutListenerNew();
 
-  Future<void> crateApiListenShortcutListenerRegisterShortcut(
-      {required ShortcutListener that,
-      required String key,
-      required List<String> modifiers,
-      required FnString callback});
-
   Stream<RawEventType> crateApiListenShortcutListenerStartListener(
-      {required ShortcutListener that,
-      required FutureOr<void> Function(RawEventType) onEvent});
+      {required ShortcutListener that});
 
   Future<void> crateApiListenShortcutListenerStopListener(
       {required ShortcutListener that});
@@ -118,14 +111,6 @@ abstract class RustLibApi extends BaseApi {
 
   CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_ShortcutListenerPtr;
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_FnString;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_FnString;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FnStringPtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -258,20 +243,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<void> crateApiListenShortcutListenerRegisterShortcut(
-      {required ShortcutListener that,
-      required String key,
-      required List<String> modifiers,
-      required FnString callback}) {
-    return handler.executeNormal(NormalTask(
+  Stream<RawEventType> crateApiListenShortcutListenerStartListener(
+      {required ShortcutListener that}) {
+    final streamSink = RustStreamSink<RawEventType>();
+    unawaited(handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
             that, serializer);
-        sse_encode_String(key, serializer);
-        sse_encode_list_String(modifiers, serializer);
-        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-            callback, serializer);
+        sse_encode_StreamSink_raw_event_type_Sse(streamSink, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 6, port: port_);
       },
@@ -279,40 +259,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiListenShortcutListenerRegisterShortcutConstMeta,
-      argValues: [that, key, modifiers, callback],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiListenShortcutListenerRegisterShortcutConstMeta =>
-      const TaskConstMeta(
-        debugName: "ShortcutListener_register_shortcut",
-        argNames: ["that", "key", "modifiers", "callback"],
-      );
-
-  @override
-  Stream<RawEventType> crateApiListenShortcutListenerStartListener(
-      {required ShortcutListener that,
-      required FutureOr<void> Function(RawEventType) onEvent}) {
-    final streamSink = RustStreamSink<RawEventType>();
-    unawaited(handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
-            that, serializer);
-        sse_encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
-            onEvent, serializer);
-        sse_encode_StreamSink_raw_event_type_Sse(streamSink, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 7, port: port_);
-      },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_unit,
-        decodeErrorData: null,
-      ),
       constMeta: kCrateApiListenShortcutListenerStartListenerConstMeta,
-      argValues: [that, onEvent, streamSink],
+      argValues: [that, streamSink],
       apiImpl: this,
     )));
     return streamSink.stream;
@@ -321,7 +269,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiListenShortcutListenerStartListenerConstMeta =>
       const TaskConstMeta(
         debugName: "ShortcutListener_start_listener",
-        argNames: ["that", "onEvent", "streamSink"],
+        argNames: ["that", "streamSink"],
       );
 
   @override
@@ -333,7 +281,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 8, port: port_);
+            funcId: 7, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -360,7 +308,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 9, port: port_);
+            funcId: 8, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -385,7 +333,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 10, port: port_);
+            funcId: 9, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -437,39 +385,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     };
   }
 
-  Future<void> Function(int, dynamic)
-      encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
-          FutureOr<void> Function(RawEventType) raw) {
-    return (callId, rawArg0) async {
-      final arg0 = dco_decode_raw_event_type(rawArg0);
-
-      Box<void>? rawOutput;
-      Box<AnyhowException>? rawError;
-      try {
-        rawOutput = Box(await raw(arg0));
-      } catch (e, s) {
-        rawError = Box(AnyhowException("$e\n\n$s"));
-      }
-
-      final serializer = SseSerializer(generalizedFrbRustBinding);
-      assert((rawOutput != null) ^ (rawError != null));
-      if (rawOutput != null) {
-        serializer.buffer.putUint8(0);
-        sse_encode_unit(rawOutput.value, serializer);
-      } else {
-        serializer.buffer.putUint8(1);
-        sse_encode_AnyhowException(rawError!.value, serializer);
-      }
-      final output = serializer.intoRaw();
-
-      generalizedFrbRustBinding.dartFnDeliverOutput(
-          callId: callId,
-          ptr: output.ptr,
-          rustVecLen: output.rustVecLen,
-          dataLen: output.dataLen);
-    };
-  }
-
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_ShortcutListener => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener;
@@ -477,14 +392,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RustArcDecrementStrongCountFnType
       get rust_arc_decrement_strong_count_ShortcutListener => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener;
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_FnString => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_FnString => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
@@ -498,14 +405,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ShortcutListenerImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  FnString
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FnStringImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -525,14 +424,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  FutureOr<void> Function(RawEventType)
-      dco_decode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    throw UnimplementedError('');
-  }
-
-  @protected
   Object dco_decode_DartOpaque(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return decodeDartOpaque(raw, generalizedFrbRustBinding);
@@ -544,14 +435,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ShortcutListenerImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  FnString
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FnStringImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -595,12 +478,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   PlatformInt64 dco_decode_isize(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64(raw);
-  }
-
-  @protected
-  List<String> dco_decode_list_String(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_String).toList();
   }
 
   @protected
@@ -927,15 +804,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  FnString
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return FnStringImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   ShortcutListener
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
           SseDeserializer deserializer) {
@@ -957,15 +825,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return ShortcutListenerImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  FnString
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return FnStringImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -1011,18 +870,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   PlatformInt64 sse_decode_isize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getPlatformInt64();
-  }
-
-  @protected
-  List<String> sse_decode_list_String(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <String>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_String(deserializer));
-    }
-    return ans_;
   }
 
   @protected
@@ -1361,15 +1208,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          FnString self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as FnStringImpl).frbInternalSseEncode(move: true), serializer);
-  }
-
-  @protected
-  void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
           ShortcutListener self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1384,15 +1222,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_DartOpaque(
         encode_DartFn_Inputs_String_Output_String_AnyhowException(self),
-        serializer);
-  }
-
-  @protected
-  void sse_encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
-      FutureOr<void> Function(RawEventType) self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_DartOpaque(
-        encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(self),
         serializer);
   }
 
@@ -1413,15 +1242,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_usize(
         (self as ShortcutListenerImpl).frbInternalSseEncode(move: null),
         serializer);
-  }
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          FnString self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as FnStringImpl).frbInternalSseEncode(move: null), serializer);
   }
 
   @protected
@@ -1472,15 +1292,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_isize(PlatformInt64 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putPlatformInt64(self);
-  }
-
-  @protected
-  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_String(item, serializer);
-    }
   }
 
   @protected
@@ -1797,26 +1608,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 }
 
 @sealed
-class FnStringImpl extends RustOpaque implements FnString {
-  // Not to be used by end users
-  FnStringImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  FnStringImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_FnString,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_FnString,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_FnStringPtr,
-  );
-}
-
-@sealed
 class ShortcutListenerImpl extends RustOpaque implements ShortcutListener {
   // Not to be used by end users
   ShortcutListenerImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -1836,17 +1627,10 @@ class ShortcutListenerImpl extends RustOpaque implements ShortcutListener {
         .instance.api.rust_arc_decrement_strong_count_ShortcutListenerPtr,
   );
 
-  Future<void> registerShortcut(
-          {required String key,
-          required List<String> modifiers,
-          required FnString callback}) =>
-      RustLib.instance.api.crateApiListenShortcutListenerRegisterShortcut(
-          that: this, key: key, modifiers: modifiers, callback: callback);
-
-  Stream<RawEventType> startListener(
-          {required FutureOr<void> Function(RawEventType) onEvent}) =>
+  Stream<RawEventType> startListener() =>
       RustLib.instance.api.crateApiListenShortcutListenerStartListener(
-          that: this, onEvent: onEvent);
+        that: this,
+      );
 
   Future<void> stopListener() =>
       RustLib.instance.api.crateApiListenShortcutListenerStopListener(

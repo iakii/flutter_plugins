@@ -20,21 +20,12 @@ abstract class ShortcutListener implements RustOpaqueInterface {
   static Future<ShortcutListener> newInstance() =>
       RustLib.instance.api.crateApiListenShortcutListenerNew();
 
-  Future<void> registerShortcut(
-      {required String key,
-      required List<String> modifiers,
-      required FnString callback});
-
-  Stream<RawEventType> startListener(
-      {required FutureOr<void> Function(RawEventType) onEvent});
+  Stream<RawEventType> startListener();
 
   Future<void> stopListener();
 
   Future<void> unregisterAllHotkeys();
 }
-
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<fn (String)>>
-abstract class FnString implements RustOpaqueInterface {}
 
 @freezed
 sealed class RawButton with _$RawButton {

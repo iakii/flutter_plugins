@@ -26,20 +26,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       get rust_arc_decrement_strong_count_ShortcutListenerPtr => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FnStringPtr => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString;
-
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
 
   @protected
   ShortcutListener
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
-          dynamic raw);
-
-  @protected
-  FnString
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
           dynamic raw);
 
   @protected
@@ -53,21 +45,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           dynamic raw);
 
   @protected
-  FutureOr<void> Function(RawEventType)
-      dco_decode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
-          dynamic raw);
-
-  @protected
   Object dco_decode_DartOpaque(dynamic raw);
 
   @protected
   ShortcutListener
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
-          dynamic raw);
-
-  @protected
-  FnString
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
           dynamic raw);
 
   @protected
@@ -91,9 +73,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlatformInt64 dco_decode_isize(dynamic raw);
-
-  @protected
-  List<String> dco_decode_list_String(dynamic raw);
 
   @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
@@ -128,11 +107,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
-  FnString
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          SseDeserializer deserializer);
-
-  @protected
   ShortcutListener
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
           SseDeserializer deserializer);
@@ -143,11 +117,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   ShortcutListener
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
-          SseDeserializer deserializer);
-
-  @protected
-  FnString
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
           SseDeserializer deserializer);
 
   @protected
@@ -171,9 +140,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlatformInt64 sse_decode_isize(SseDeserializer deserializer);
-
-  @protected
-  List<String> sse_decode_list_String(SseDeserializer deserializer);
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
@@ -216,11 +182,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          FnString self, SseSerializer serializer);
-
-  @protected
-  void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
           ShortcutListener self, SseSerializer serializer);
 
@@ -229,21 +190,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       FutureOr<String> Function(String) self, SseSerializer serializer);
 
   @protected
-  void sse_encode_DartFn_Inputs_raw_event_type_Output_unit_AnyhowException(
-      FutureOr<void> Function(RawEventType) self, SseSerializer serializer);
-
-  @protected
   void sse_encode_DartOpaque(Object self, SseSerializer serializer);
 
   @protected
   void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
           ShortcutListener self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          FnString self, SseSerializer serializer);
 
   @protected
   void sse_encode_StreamSink_raw_event_type_Sse(
@@ -267,9 +219,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_isize(PlatformInt64 self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_String(List<String> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_strict(
@@ -319,18 +268,6 @@ class RustLibWire implements BaseWire {
       wasmModule
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
               ptr);
-
-  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          int ptr) =>
-      wasmModule
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-              ptr);
-
-  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          int ptr) =>
-      wasmModule
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-              ptr);
 }
 
 @JS('wasm_bindgen')
@@ -345,13 +282,5 @@ extension type RustLibWasmModule._(JSObject _) implements JSObject {
 
   external void
       rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerShortcutListener(
-          int ptr);
-
-  external void
-      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
-          int ptr);
-
-  external void
-      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerfnString(
           int ptr);
 }
