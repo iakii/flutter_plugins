@@ -1,7 +1,69 @@
 import 'package:flutter/services.dart';
-import 'package:system_hotkey/src/rust/api/listen.dart';
+import 'package:uuid/uuid.dart';
+import 'package:system_hotkey/system_hotkey.dart';
+
+const _uuid = Uuid();
+
+class HotMouseKey {
+  HotMouseKey({
+    String? identifier,
+    required this.key,
+    this.scope = HotKeyScope.system,
+  }) : identifier = identifier ?? _uuid.v4();
+
+  final String identifier;
+  final MouseKey key;
+  final HotKeyScope scope;
+}
+
+enum MouseKey {
+  left,
+  right,
+  middle,
+}
+
+typedef HotMouseKeyHandler = void Function(HotMouseKey hotKey);
 
 class HotkeyEntity {
+  static RawButton? mouseKey2Button(MouseKey key) {
+    switch (key) {
+      case MouseKey.left:
+        return const RawButton_Left();
+      case MouseKey.right:
+        return const RawButton_Right();
+      case MouseKey.middle:
+        return const RawButton_Middle();
+      default:
+        return const RawButton.unknown(0);
+    }
+  }
+
+  static PhysicalKeyboardKey? rawKey2PhysicalKeyboardKey(RawKey key) {
+    switch (key) {
+      case RawKey_Alt():
+        return PhysicalKeyboardKey.altLeft;
+      case RawKey_ControlLeft():
+        return PhysicalKeyboardKey.controlLeft;
+      case RawKey_ControlRight():
+        return PhysicalKeyboardKey.controlRight;
+      case RawKey_ShiftLeft():
+        return PhysicalKeyboardKey.shiftLeft;
+      case RawKey_ShiftRight():
+        return PhysicalKeyboardKey.shiftRight;
+      case RawKey_MetaRight():
+        return PhysicalKeyboardKey.metaRight;
+      case RawKey_MetaLeft():
+        return PhysicalKeyboardKey.metaLeft;
+      case RawKey_CapsLock():
+        return PhysicalKeyboardKey.capsLock;
+      case RawKey_Function():
+        return PhysicalKeyboardKey.fn;
+
+      default:
+        return null;
+    }
+  }
+
   static LogicalKeyboardKey? rawKey2LogicalKeyboardKey(RawKey key) {
     switch (key) {
       case RawKey_Alt():
