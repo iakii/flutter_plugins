@@ -17,7 +17,6 @@ impl ShortcutListener {
     }
 
     pub fn start_listener(&self, stream_sink: StreamSink<RawEventType>) {
-        let cancel_flag = Arc::clone(&self.cancel_flag);
         let (tx, rx) = mpsc::channel();
 
         thread::spawn(move || {
@@ -25,10 +24,12 @@ impl ShortcutListener {
                 let raw_event = RawEventType::from(event.event_type);
                 tx.send(raw_event).unwrap();
             })
-            .unwrap();
+                .unwrap();
         });
 
         while let Ok(rev) = rx.recv() {
+            let cancel_flag = Arc::clone(&self.cancel_flag);
+
             if cancel_flag.load(Ordering::Relaxed) {
                 println!("Cancel flag detected, terminating listener.");
                 break; // 停止监听

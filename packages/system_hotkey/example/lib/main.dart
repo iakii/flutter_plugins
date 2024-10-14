@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
-  await hotkeyManager.init();
+  // await systemHokeyManager.init();
   runApp(const MyApp());
 }
 

@@ -139,7 +139,7 @@ abstract class HotkeyLisener with WidgetsBindingObserver {
 
   Future<ShortcutListener> _starter() async {
     _shortcutListener ??= await startListener();
-    _shortcutListener?.startListener(onEvent: (_) {}).listen((event) {
+    _shortcutListener?.startListener().listen((event) {
       // print('isInForeground===$isInForeground');
       if (event is RawEventType_ButtonPress) {
         onMousePressed(event.field0);
