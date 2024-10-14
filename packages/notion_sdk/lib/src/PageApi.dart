@@ -16,10 +16,10 @@ class PageAPI {
     final response = await httpClient.get(Uri.parse(url), headers: headers);
 
     if (response.statusCode != 200) {
-      throw Exception(
-          'error getting the page: ${response.body},code: ${response.statusCode}');
+      throw Exception('error getting the page: ${response.body},code: ${response.statusCode}');
     }
 
+    print(response.body);
     return Page.fromJson(jsonDecode(response.body));
   }
 }

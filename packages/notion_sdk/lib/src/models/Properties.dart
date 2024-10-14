@@ -9,8 +9,7 @@ class Properties {
 
   Properties({required this.properties});
 
-  Properties.fromJson(Map<String, dynamic> json,
-      {bool isDatabase = false, bool isQuery = false}) {
+  Properties.fromJson(Map<String, dynamic> json, {bool isDatabase = false, bool isQuery = false}) {
     json.forEach((k, v) {
       properties[k] = Property.fromJson(v, isDatabase, isQuery);
     });
@@ -30,29 +29,7 @@ class Properties {
   }
 }
 
-enum PropertyType {
-  title,
-  text,
-  rich_text,
-  number,
-  select,
-  multi_select,
-  date,
-  people,
-  file,
-  checkbox,
-  url,
-  email,
-  phone_number,
-  formula,
-  relation,
-  rollup,
-  created_time,
-  created_by,
-  last_edited_time,
-  last_edited_by,
-  unknown
-}
+enum PropertyType { title, text, rich_text, number, select, multi_select, date, people, file, checkbox, url, email, phone_number, formula, relation, rollup, created_time, created_by, last_edited_time, last_edited_by, unknown }
 
 class Property {
   late String id;
@@ -64,14 +41,11 @@ class Property {
 
   Property.fromJson(Map<String, dynamic> json, bool isDatabase, bool isQuery) {
     id = json['id'];
-    type = EnumToString.fromString(PropertyType.values, json['type']) ??
-        PropertyType.unknown;
+    type = EnumToString.fromString(PropertyType.values, json['type']) ?? PropertyType.unknown;
 
     switch (type) {
       case PropertyType.title:
-        value = !(json['title'].isEmpty)
-            ? RichTexts.fromTextList(json['title'])
-            : RichTexts.empty();
+        value = !(json['title'].isEmpty) ? RichTexts.fromTextList(json['title']) : RichTexts.empty();
         break;
       case PropertyType.date:
         value = NotionDate.fromJson(json['date']);
@@ -116,6 +90,7 @@ class Property {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
+    data['value'] = value;
     data['type'] = EnumToString.convertToString(type);
 
     return data;

@@ -35,4 +35,17 @@ class DatabaseAPI {
 
     return Results.fromJson(jsonDecode(response.body));
   }
+
+  Future<dynamic> queryJsonDatabase(String databaseId) async {
+    final url = '${globals.baseUrl}/databases/$databaseId/query';
+    final response = await httpClient.post(Uri.parse(url), headers: headers);
+
+    if (response.statusCode != 200) {
+      throw Exception('error querying the database');
+    }
+
+    print(response.body);
+
+    return jsonDecode(response.body);
+  }
 }

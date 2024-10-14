@@ -10,8 +10,8 @@ class Database {
   late DateTime lastEditedTime;
   late RichTexts title;
   late Properties properties;
-  late IconCover cover;
-  late IconCover icon;
+  IconCover? cover;
+  IconCover? icon;
 
   //     required this.cover,
 //     required this.icon,
@@ -23,8 +23,8 @@ class Database {
     required this.lastEditedTime,
     required this.title,
     required this.properties,
-    required this.cover,
-    required this.icon,
+    this.cover,
+    this.icon,
   });
 
   Database.fromJson(Map<String, dynamic> json, {bool isQuery = false}) {
@@ -33,10 +33,9 @@ class Database {
     createdTime = DateTime.parse(json['created_time']);
     lastEditedTime = DateTime.parse(json['last_edited_time']);
     title = RichTexts.fromTextList(json['title']);
-    properties = Properties.fromJson(json['properties'],
-        isDatabase: true, isQuery: isQuery);
-    icon = IconCover.fromJson(json['icon']);
-    cover = IconCover.fromJson(json['cover']);
+    properties = Properties.fromJson(json['properties'], isDatabase: true, isQuery: isQuery);
+    if (json['icon'] != null) icon = IconCover.fromJson(json['icon']);
+    if (json['cover'] != null) cover = IconCover.fromJson(json['cover']);
   }
 
   Map<String, dynamic> toJson() {
