@@ -29,7 +29,29 @@ class Properties {
   }
 }
 
-enum PropertyType { title, text, rich_text, number, select, multi_select, date, people, file, checkbox, url, email, phone_number, formula, relation, rollup, created_time, created_by, last_edited_time, last_edited_by, unknown }
+enum PropertyType {
+  title,
+  text,
+  rich_text,
+  number,
+  select,
+  multi_select,
+  date,
+  people,
+  file,
+  checkbox,
+  url,
+  email,
+  phone_number,
+  formula,
+  relation,
+  rollup,
+  created_time,
+  created_by,
+  last_edited_time,
+  last_edited_by,
+  unknown,
+}
 
 class Property {
   late String id;
@@ -43,9 +65,14 @@ class Property {
     id = json['id'];
     type = EnumToString.fromString(PropertyType.values, json['type']) ?? PropertyType.unknown;
 
+    final key = type.name;
+
     switch (type) {
       case PropertyType.title:
-        value = !(json['title'].isEmpty) ? RichTexts.fromTextList(json['title']) : RichTexts.empty();
+      case PropertyType.rich_text:
+        if (json[key] != null && json[key] is List) {
+          value = json[key].first['plain_text'];
+        }
         break;
       case PropertyType.date:
         value = NotionDate.fromJson(json['date']);
@@ -53,9 +80,7 @@ class Property {
       case PropertyType.text:
         value = RichTexts.fromTextList(json['text']);
         break;
-      case PropertyType.rich_text:
-        value = RichTexts.empty();
-        break;
+
       case PropertyType.select:
         if (isDatabase == true && isQuery == false) {
           value = DatabaseSelect.fromJson(json['select']);
@@ -73,13 +98,23 @@ class Property {
         }
         break;
       case PropertyType.number:
-        value = Number.fromJson(json, isQuery);
+        if (json['number'] != null && json['number'] is List) {
+          value = json['number']['number'];
+        }
         break;
       case PropertyType.checkbox:
         value = json['checkbox'];
         break;
       case PropertyType.email:
         value = json['email'];
+        break;
+      case PropertyType.last_edited_by:
+      case PropertyType.last_edited_time:
+      case PropertyType.created_by:
+      case PropertyType.created_time:
+        if (json[key] != null) {
+          value = json[key];
+        }
         break;
       default:
         value = null;
@@ -90,7 +125,7 @@ class Property {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
-    data['value'] = value;
+    data['value====================================='] = value;
     data['type'] = EnumToString.convertToString(type);
 
     return data;
