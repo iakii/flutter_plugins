@@ -6,18 +6,10 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These types are ignored because they are not used by any `pub` functions: `Mode`
+
 String greet({required String name}) =>
     RustLib.instance.api.crateApiWallpaperGreet(name: name);
 
-void setFromPath({required String path, Mode? mode}) =>
-    RustLib.instance.api.crateApiWallpaperSetFromPath(path: path, mode: mode);
-
-enum Mode {
-  center,
-  crop,
-  fit,
-  span,
-  stretch,
-  tile,
-  ;
-}
+void setFromPath({required String path}) =>
+    RustLib.instance.api.crateApiWallpaperSetFromPath(path: path);

@@ -18,10 +18,10 @@ class _SystemWallpaperManager {
     await RustLib.init();
   }
 
-  Future<void> setWallpaperFromPath(String path, {Mode? mode}) async {
+  Future<void> setWallpaperFromPath(String path) async {
     if (!_inited) await init();
 
-    setFromPath(path: path, mode: mode);
+    setFromPath(path: path);
   }
 }
 

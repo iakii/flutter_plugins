@@ -1,11 +1,11 @@
 name: flutter_wallpaper
 description: "A new Flutter FFI plugin project."
 version: 0.0.1
-homepage:
+homepage: https://dart.dev/
 
 environment:
   sdk: ^3.5.4
-  flutter: '>=3.3.0'
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:

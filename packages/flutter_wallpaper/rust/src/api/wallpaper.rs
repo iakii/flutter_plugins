@@ -1,5 +1,5 @@
 use flutter_rust_bridge::frb;
-use wallpape_rs as wallpaper;
+pub use wallpape_rs as wallpaper;
 
 #[frb(sync)]
 pub fn greet(name: String) -> String {
@@ -12,23 +12,24 @@ pub fn init_app() {
 }
 
 
+// , mode: Option<wallpaper::Mode>
 #[frb(sync)]
-pub fn set_from_path(path: &str, mode: Option<wallpaper::Mode>) {
+pub fn set_from_path(path: &str) {
     println!("{:?}", wallpaper::get());
     // Sets the wallpaper for the current desktop from a file path.
     wallpaper::set_from_path(path).unwrap();
-    // Sets the wallpaper style.
-    if let Some(mode) = mode {
-        wallpaper::set_mode(mode).unwrap();
-    } else {
-        wallpaper::set_mode(wallpaper::Mode::Crop).unwrap();
-    }
+    // // Sets the wallpaper style.
+    // if let Some(mode) = mode {
+    //     wallpaper::set_mode(mode).unwrap();
+    // } else {
+    //     wallpaper::set_mode(wallpaper::Mode::Crop).unwrap();
+    // }
     println!("{:?}", wallpaper::get());
 }
 
 
-#[frb(mirror(wallpaper::Mode))]
-pub enum Mode {
+#[frb(mirror(Mode))]
+pub enum MirrorMode {
     Center,
     Crop,
     Fit,

@@ -131,11 +131,10 @@ fn wire__crate__api__wallpaper__set_from_path_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_path = <String>::sse_decode(&mut deserializer);
-            let api_mode = <Option<crate::api::wallpaper::Mode>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok({
-                    crate::api::wallpaper::set_from_path(&api_path, api_mode);
+                    crate::api::wallpaper::set_from_path(&api_path);
                 })?;
                 Ok(output_ok)
             })())
@@ -153,13 +152,6 @@ impl SseDecode for String {
     }
 }
 
-impl SseDecode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
-    }
-}
-
 impl SseDecode for Vec<u8> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -169,33 +161,6 @@ impl SseDecode for Vec<u8> {
             ans_.push(<u8>::sse_decode(deserializer));
         }
         return ans_;
-    }
-}
-
-impl SseDecode for crate::api::wallpaper::Mode {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <i32>::sse_decode(deserializer);
-        return match inner {
-            0 => crate::api::wallpaper::Mode::Center,
-            1 => crate::api::wallpaper::Mode::Crop,
-            2 => crate::api::wallpaper::Mode::Fit,
-            3 => crate::api::wallpaper::Mode::Span,
-            4 => crate::api::wallpaper::Mode::Stretch,
-            5 => crate::api::wallpaper::Mode::Tile,
-            _ => unreachable!("Invalid variant for Mode: {}", inner),
-        };
-    }
-}
-
-impl SseDecode for Option<crate::api::wallpaper::Mode> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<crate::api::wallpaper::Mode>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
     }
 }
 
@@ -209,6 +174,13 @@ impl SseDecode for u8 {
 impl SseDecode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
+}
+
+impl SseDecode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+    }
 }
 
 impl SseDecode for bool {
@@ -248,40 +220,10 @@ fn pde_ffi_dispatcher_sync_impl(
 
 // Section: rust2dart
 
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::wallpaper::Mode {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self {
-            Self::Center => 0.into_dart(),
-            Self::Crop => 1.into_dart(),
-            Self::Fit => 2.into_dart(),
-            Self::Span => 3.into_dart(),
-            Self::Stretch => 4.into_dart(),
-            Self::Tile => 5.into_dart(),
-            _ => unreachable!(),
-        }
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::wallpaper::Mode {}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::wallpaper::Mode>
-    for crate::api::wallpaper::Mode
-{
-    fn into_into_dart(self) -> crate::api::wallpaper::Mode {
-        self
-    }
-}
-
 impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
-    }
-}
-
-impl SseEncode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -291,36 +233,6 @@ impl SseEncode for Vec<u8> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <u8>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for crate::api::wallpaper::Mode {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(
-            match self {
-                crate::api::wallpaper::Mode::Center => 0,
-                crate::api::wallpaper::Mode::Crop => 1,
-                crate::api::wallpaper::Mode::Fit => 2,
-                crate::api::wallpaper::Mode::Span => 3,
-                crate::api::wallpaper::Mode::Stretch => 4,
-                crate::api::wallpaper::Mode::Tile => 5,
-                _ => {
-                    unimplemented!("");
-                }
-            },
-            serializer,
-        );
-    }
-}
-
-impl SseEncode for Option<crate::api::wallpaper::Mode> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::api::wallpaper::Mode>::sse_encode(value, serializer);
         }
     }
 }
@@ -335,6 +247,13 @@ impl SseEncode for u8 {
 impl SseEncode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
+}
+
+impl SseEncode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+    }
 }
 
 impl SseEncode for bool {
