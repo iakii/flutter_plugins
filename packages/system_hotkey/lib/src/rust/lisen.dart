@@ -91,7 +91,8 @@ abstract class HotkeyLisener with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
 
     if (!_isInit) {
-      throw Exception("You must call `await systemHokeyManager.init();` first.");
+      throw Exception(
+          "You must call `await systemHokeyManager.init();` first.");
     }
 
     if (_shortcutListener != null) {
@@ -146,14 +147,17 @@ abstract class HotkeyLisener with WidgetsBindingObserver {
       } else if (event is RawEventType_ButtonRelease) {
         onMouseRelease(event.field0);
       } else if (event is RawEventType_KeyPress) {
-        final physicalKey = HotkeyEntity.rawKey2PhysicalKeyboardKey(event.field0);
+        final physicalKey =
+            HotkeyEntity.rawKey2PhysicalKeyboardKey(event.field0);
         if (physicalKey != null) {
           physicalKeyPressed.add(physicalKey);
         }
-        LogicalKeyboardKey? logicalKey = HotkeyEntity.rawKey2LogicalKeyboardKey(event.field0);
+        LogicalKeyboardKey? logicalKey =
+            HotkeyEntity.rawKey2LogicalKeyboardKey(event.field0);
         onKeyPress(logicalKey, HotKeyScope.system);
       } else if (event is RawEventType_KeyRelease) {
-        LogicalKeyboardKey? logicalKey = HotkeyEntity.rawKey2LogicalKeyboardKey(event.field0);
+        LogicalKeyboardKey? logicalKey =
+            HotkeyEntity.rawKey2LogicalKeyboardKey(event.field0);
         onKeyRelease(logicalKey, HotKeyScope.system);
       }
     });

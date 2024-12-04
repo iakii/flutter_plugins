@@ -7,7 +7,8 @@ export 'src/rust/frb_generated.dart' show RustLib;
 
 class _SystemWallpaperManager {
   // 单例
-  static final _SystemWallpaperManager instance = _SystemWallpaperManager._internal();
+  static final _SystemWallpaperManager instance =
+      _SystemWallpaperManager._internal();
   factory _SystemWallpaperManager() => instance;
   _SystemWallpaperManager._internal();
 

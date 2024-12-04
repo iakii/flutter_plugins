@@ -19,9 +19,14 @@ class _SystemHotkeyManager extends HotkeyLisener {
   @override
   void onKeyPress(LogicalKeyboardKey? logicalKey, HotKeyScope scope) {
     final hotKeys = registeredHotKeyList.where((e) {
-      List<HotKeyModifier> modifiers = HotKeyModifier.values.where((e) => e.physicalKeys.any(physicalKeyPressed.contains)).toList();
+      List<HotKeyModifier> modifiers = HotKeyModifier.values
+          .where((e) => e.physicalKeys.any(physicalKeyPressed.contains))
+          .toList();
       if (!isInForeground && e.scope == HotKeyScope.inapp) return false;
-      return logicalKey != null && e.logicalKey == logicalKey && modifiers.length == (e.modifiers?.length ?? 0) && modifiers.every((e.modifiers ?? []).contains);
+      return logicalKey != null &&
+          e.logicalKey == logicalKey &&
+          modifiers.length == (e.modifiers?.length ?? 0) &&
+          modifiers.every((e.modifiers ?? []).contains);
     }).toList();
     if (hotKeys.isNotEmpty) {
       for (final hotKey in hotKeys) {
@@ -44,7 +49,9 @@ class _SystemHotkeyManager extends HotkeyLisener {
 
   @override
   void onMousePressed(RawButton key) {
-    hotMouseKeyList.where((e) => key == HotkeyEntity.mouseKey2Button(e.key)).forEach((element) {
+    hotMouseKeyList
+        .where((e) => key == HotkeyEntity.mouseKey2Button(e.key))
+        .forEach((element) {
       if (element.scope == HotKeyScope.inapp && !isInForeground) return;
       HotMouseKeyHandler? handler = mouseKDownHandlerMap[element.identifier];
       if (handler != null) handler(element);
@@ -53,7 +60,9 @@ class _SystemHotkeyManager extends HotkeyLisener {
 
   @override
   void onMouseRelease(RawButton key) {
-    hotMouseKeyList.where((e) => key == HotkeyEntity.mouseKey2Button(e.key)).forEach((element) {
+    hotMouseKeyList
+        .where((e) => key == HotkeyEntity.mouseKey2Button(e.key))
+        .forEach((element) {
       if (element.scope == HotKeyScope.system && !isInForeground) return;
       HotMouseKeyHandler? handler = mouseKeyUpHandlerMap[element.identifier];
       if (handler != null) handler(element);

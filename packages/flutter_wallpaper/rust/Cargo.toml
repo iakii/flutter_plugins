@@ -9,3 +9,12 @@ crate-type = ["cdylib", "staticlib"]
 [dependencies]
 flutter_rust_bridge = "=2.5.0"
 wallpape-rs = "2.0.0"
+
+
+
+[profile.release]
+opt-level = 'z'
+lto = true
+strip = true
+codegen-units = 1
+panic = 'abort'
