@@ -1,92 +1,95 @@
-# system_hotkey
+# System Hotkey Plugin for Flutter
 
-A new Flutter FFI plugin project.
+[![GitHub stars](https://img.shields.io/github/stars/iakii/flutter_plugins.svg?style=social)](https://github.com/iakii/flutter_plugins)
 
-## Getting Started
+## Introduction / 简介
+The `system_hotkey` plugin allows Flutter applications to register and listen to global system hotkeys. It supports macOS, Windows, and Linux.
+`system_hotkey` 插件允许 Flutter 应用注册并监听全局系统热键，支持 macOS、Windows 和 Linux。
 
-This project is a starting point for a Flutter
-[FFI plugin](https://flutter.dev/to/ffi-package),
-a specialized package that includes native code directly invoked with Dart FFI.
-
-## Project structure
-
-This template uses the following structure:
-
-* `src`: Contains the native source code, and a CmakeFile.txt file for building
-  that source code into a dynamic library.
-
-* `lib`: Contains the Dart code that defines the API of the plugin, and which
-  calls into the native code using `dart:ffi`.
-
-* platform folders (`android`, `ios`, `windows`, etc.): Contains the build files
-  for building and bundling the native code library with the platform application.
-
-## Building and bundling native code
-
-The `pubspec.yaml` specifies FFI plugins as follows:
+## Installation / 安装
+To use this plugin, include it as a dependency in your Flutter project via Git:
+通过 Git 将插件添加到您的 Flutter 项目中：
 
 ```yaml
-  plugin:
-    platforms:
-      some_platform:
-        ffiPlugin: true
+dependencies:
+  system_hotkey:
+    git:
+      url: https://github.com/iakii/flutter_plugins.git
+      path: packages/system_hotkey
 ```
 
-This configuration invokes the native build for the various target platforms
-and bundles the binaries in Flutter applications using these FFI plugins.
+## Usage / 使用方法
 
-This can be combined with dartPluginClass, such as when FFI is used for the
-implementation of one platform in a federated plugin:
+1. Import the plugin / 导入插件：
+   ```dart
+   import 'package:system_hotkey/system_hotkey.dart';
+   ```
 
-```yaml
-  plugin:
-    implements: some_other_plugin
-    platforms:
-      some_platform:
-        dartPluginClass: SomeClass
-        ffiPlugin: true
-```
+2. Create a `HotKeyManager` instance and define your hotkeys / 创建 `HotKeyManager` 实例并定义热键：
+   ```dart
+   final hotKeyManager = HotKeyManager.instance;
 
-A plugin can have both FFI and method channels:
+   void setupHotKeys() {
+     hotKeyManager.register(
+       HotKey(
+         KeyCode.keyA,
+         modifiers: [KeyModifier.alt],
+       ),
+       (isPressed) {
+         if (isPressed) {
+           print('Alt + A was pressed! / Alt + A 被按下!');
+         }
+       },
+     );
+   }
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: SomeName
-        ffiPlugin: true
-```
+   void disposeHotKeys() {
+     hotKeyManager.unregisterAll();
+   }
+   ```
 
-The native build systems that are invoked by FFI (and method channel) plugins are:
+3. Call the `setupHotKeys()` function in your app’s initialization lifecycle, such as in `initState()` / 在应用的生命周期初始化方法（如 `initState()`）中调用 `setupHotKeys()`。
 
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in android/build.gradle.
-* For iOS and MacOS: Xcode, via CocoaPods.
-  * See the documentation in ios/system_hotkey.podspec.
-  * See the documentation in macos/system_hotkey.podspec.
-* For Linux and Windows: CMake.
-  * See the documentation in linux/CMakeLists.txt.
-  * See the documentation in windows/CMakeLists.txt.
+4. Unregister all hotkeys when your app is disposed / 在应用销毁时注销所有热键。
 
-## Binding to native code
+## API Overview / API 概览
 
-To use the native code, bindings in Dart are needed.
-To avoid writing these by hand, they are generated from the header file
-(`src/system_hotkey.h`) by `package:ffigen`.
-Regenerate the bindings by running `dart run ffigen --config ffigen.yaml`.
+- **HotKeyManager:**
+  - `register(HotKey hotKey, HotKeyHandler handler)`: Registers a hotkey / 注册热键。
+  - `unregister(HotKey hotKey)`: Unregisters a specific hotkey / 注销指定热键。
+  - `unregisterAll()`: Unregisters all hotkeys / 注销所有热键。
+- **HotKey:** Represents the key combination (e.g., `KeyCode.keyA`, `KeyModifier.alt`) / 表示按键组合（例如：`KeyCode.keyA`，`KeyModifier.alt`）。
+- **KeyCode:** Enum for key codes / 键码的枚举值。
+- **KeyModifier:** Enum for key modifiers like Ctrl, Alt, and Shift / 修饰键的枚举值，如 Ctrl、Alt 和 Shift。
 
-## Invoking native code
+## Rust Integration via flutter_rust_bridge / 使用 flutter_rust_bridge 的 Rust 集成
 
-Very short-running native functions can be directly invoked from any isolate.
-For example, see `sum` in `lib/system_hotkey.dart`.
+### Why Rust? / 为什么选择 Rust？
+The plugin relies on native Rust libraries for robust and efficient cross-platform hotkey detection.
+插件依赖于原生 Rust 库，以提供高效、强大的跨平台热键检测。
 
-Longer-running functions should be invoked on a helper isolate to avoid
-dropping frames in Flutter applications.
-For example, see `sumAsync` in `lib/system_hotkey.dart`.
+### Prerequisites / 环境准备
 
-## Flutter help
+1. Install Rust / 安装 Rust：
+   - For Windows / 对于 Windows：[Download Rust](https://rustup.rs) and follow the instructions / 下载 Rust 并按照说明进行安装。
+   - For macOS/Linux / 对于 macOS/Linux：Run the following command in your terminal / 在终端中运行以下命令：
+     ```bash
+     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+     ```
+2. Add the Rust toolchain to your PATH / 将 Rust 工具链添加到 PATH：
+   ```bash
+   source $HOME/.cargo/env
+   ```
+3. Install `flutter_rust_bridge` dependencies / 安装 `flutter_rust_bridge` 依赖：
+   ```bash
+   cargo install flutter_rust_bridge_codegen
+   ```
 
-For help getting started with Flutter, view our
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Build Instructions / 构建说明
 
+- Ensure your Rust environment is set up correctly / 确保正确设置了 Rust 环境。
+- Follow the instructions in the [flutter_rust_bridge documentation](https://github.com/fzyzcjy/flutter_rust_bridge) to integrate with your Flutter project / 按照 [flutter_rust_bridge 文档](https://github.com/fzyzcjy/flutter_rust_bridge) 中的说明与您的 Flutter 项目集成。
+
+---
+
+If you have any issues or suggestions, feel free to open an issue on the [GitHub repository](https://github.com/iakii/flutter_plugins). / 如果您有任何问题或建议，请随时在 [GitHub 仓库](https://github.com/iakii/flutter_plugins) 中提交问题。

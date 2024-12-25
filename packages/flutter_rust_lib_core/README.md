@@ -1,92 +1,91 @@
-# flutter_rust_lib_core
+# flutter_rust_lib_core 插件使用说明 / flutter_rust_lib_core Plugin Usage Guide
 
-A new Flutter FFI plugin project.
+这是一个仅支持桌面平台的 Flutter 插件，旨在将 Rust 代码集成到 Flutter 应用中。 This is a Flutter plugin for desktop platforms only, designed to integrate Rust code into Flutter applications.
 
-## Getting Started
+## 安装 / Installation
 
-This project is a starting point for a Flutter
-[FFI plugin](https://flutter.dev/to/ffi-package),
-a specialized package that includes native code directly invoked with Dart FFI.
+1. **克隆仓库 / Clone the repository**:
 
-## Project structure
+   ```bash
+   git clone https://github.com/iakii/flutter_plugins.git
+   cd flutter_plugins/packages/flutter_rust_lib_core
+   ```
 
-This template uses the following structure:
+2. **在 Flutter 项目中添加依赖 / Add dependency in your Flutter project**:
 
-* `src`: Contains the native source code, and a CmakeFile.txt file for building
-  that source code into a dynamic library.
+   在 `pubspec.yaml` 文件中，添加以下内容： In your `pubspec.yaml` file, add the following:
 
-* `lib`: Contains the Dart code that defines the API of the plugin, and which
-  calls into the native code using `dart:ffi`.
+   ```yaml
+   dependencies:
+     flutter_rust_lib_core:
+       path: ../path_to_flutter_rust_lib_core
+   ```
 
-* platform folders (`android`, `ios`, `windows`, etc.): Contains the build files
-  for building and bundling the native code library with the platform application.
+   请将 `../path_to_flutter_rust_lib_core` 替换为实际路径。 Replace `../path_to_flutter_rust_lib_core` with the actual path.
 
-## Building and bundling native code
+## 使用插件 / Using the Plugin
 
-The `pubspec.yaml` specifies FFI plugins as follows:
+1. **导入包 / Import the package**:
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        ffiPlugin: true
-```
+   ```dart
+   import 'package:flutter_rust_lib_core/flutter_rust_lib_core.dart';
+   ```
 
-This configuration invokes the native build for the various target platforms
-and bundles the binaries in Flutter applications using these FFI plugins.
+2. **调用 Rust 函数 / Call Rust functions**:
 
-This can be combined with dartPluginClass, such as when FFI is used for the
-implementation of one platform in a federated plugin:
+   ```dart
+   Future<void> callRustFunction() async {
+     final result = await FlutterRustLibCore.someRustFunction();
+     print(result);
+   }
+   ```
 
-```yaml
-  plugin:
-    implements: some_other_plugin
-    platforms:
-      some_platform:
-        dartPluginClass: SomeClass
-        ffiPlugin: true
-```
+   请将 `someRustFunction` 替换为实际的 Rust 函数名。 Replace `someRustFunction` with the actual Rust function name.
 
-A plugin can have both FFI and method channels:
+## API 使用及详细说明 / API Usage and Detailed Description
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: SomeName
-        ffiPlugin: true
-```
+`flutter_rust_lib_core` 提供了与 Rust 代码交互的功能。 `flutter_rust_lib_core` provides functionality to interact with Rust code.
 
-The native build systems that are invoked by FFI (and method channel) plugins are:
+在使用前，请确保已在 Rust 代码中定义了所需的函数，并使用 `flutter_rust_bridge` 生成相应的绑定。 Before using, ensure that the required functions are defined in your Rust code and the corresponding bindings are generated using `flutter_rust_bridge`.
 
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in android/build.gradle.
-* For iOS and MacOS: Xcode, via CocoaPods.
-  * See the documentation in ios/flutter_rust_lib_core.podspec.
-  * See the documentation in macos/flutter_rust_lib_core.podspec.
-* For Linux and Windows: CMake.
-  * See the documentation in linux/CMakeLists.txt.
-  * See the documentation in windows/CMakeLists.txt.
+有关 `flutter_rust_bridge` 的详细信息，请参阅官方文档： For detailed information on `flutter_rust_bridge`, refer to the official documentation:
 
-## Binding to native code
 
-To use the native code, bindings in Dart are needed.
-To avoid writing these by hand, they are generated from the header file
-(`src/flutter_rust_lib_core.h`) by `package:ffigen`.
-Regenerate the bindings by running `dart run ffigen --config ffigen.yaml`.
 
-## Invoking native code
+## 集成 flutter_rust_bridge 和安装 Rust / Integrating flutter_rust_bridge and Installing Rust
 
-Very short-running native functions can be directly invoked from any isolate.
-For example, see `sum` in `lib/flutter_rust_lib_core.dart`.
+1. **安装 Rust / Install Rust**:
 
-Longer-running functions should be invoked on a helper isolate to avoid
-dropping frames in Flutter applications.
-For example, see `sumAsync` in `lib/flutter_rust_lib_core.dart`.
+   请按照官方指南安装 Rust： Follow the official guide to install Rust:
 
-## Flutter help
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   ```
 
-For help getting started with Flutter, view our
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   安装完成后，确保将 Rust 的 `bin` 目录添加到系统的 `PATH` 中。 After installation, ensure that Rust's `bin` directory is added to your system's `PATH`.
 
+2. **安装 flutter_rust_bridge 代码生成器 / Install flutter_rust_bridge code generator**:
+
+   ```bash
+   cargo install flutter_rust_bridge_codegen
+   ```
+
+   在 Dart 项目中，添加以下依赖： In your Dart project, add the following dependencies:
+
+   ```bash
+   flutter pub add flutter_rust_bridge
+   flutter pub add --dev build_runner
+   flutter pub add --dev freezed
+   flutter pub add freezed_annotation
+   ```
+   
+
+3. **生成绑定代码 / Generate binding code**:
+
+   在项目根目录下，运行： In the project root directory, run:
+
+   ```bash
+   flutter_rust_bridge_codegen --rust-input native/src/api.rs --dart-output lib/bridge_generated.dart
+   ```
+
+   请将 `native/src/api.rs` 和 `lib/bridge_generated.dart` 替换为实际的路径。 Replace `native/src/api.rs` and `lib/bridge_generated.dart` with the actual paths.

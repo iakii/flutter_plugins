@@ -9,5 +9,6 @@ clean:
 		@cd packages/system_hotkey/rust && cargo clean
 		@cd packages/flutter_wallpaper/rust && cargo clean
 format:
+		@dart pub global activate melos
 		@melos format
 		@echo "Start format code"
