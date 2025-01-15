@@ -11,8 +11,13 @@ class BlockAPI {
 
   BlockAPI({required this.httpClient, required this.headers});
 
-  Future<Results> getBlocks(String blockId) async {
-    final url = '${globals.baseUrl}/blocks/$blockId/children';
+  Future<Results> getBlocks(String blockId, {int pageSize = 20, String? start_cursor}) async {
+    if (start_cursor != null) {
+      start_cursor = '&start_cursor=$start_cursor';
+    } else {
+      start_cursor = '';
+    }
+    final url = '${globals.baseUrl}/blocks/$blockId/children?page_size=$pageSize$start_cursor';
     final response = await httpClient.get(Uri.parse(url), headers: headers);
 
     if (response.statusCode != 200) {
@@ -26,8 +31,7 @@ class BlockAPI {
 
   Future<Block> appendBlock(String blockId, Block block) async {
     final url = '${globals.baseUrl}/blocks/$blockId/children';
-    final response =
-        await httpClient.patch(Uri.parse(url), headers: headers, body: {
+    final response = await httpClient.patch(Uri.parse(url), headers: headers, body: {
       'children': [block]
     });
 
@@ -40,8 +44,7 @@ class BlockAPI {
 
   Future<List<Block>> appendBlocks(String blockId, List<Block> blocks) async {
     final url = '${globals.baseUrl}/blocks/$blockId/children';
-    final response = await httpClient
-        .patch(Uri.parse(url), headers: headers, body: {'children': blocks});
+    final response = await httpClient.patch(Uri.parse(url), headers: headers, body: {'children': blocks});
 
     if (response.statusCode != 200) {
       throw Exception('error appending blocks to $blockId');

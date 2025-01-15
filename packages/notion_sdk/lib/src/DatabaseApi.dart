@@ -23,9 +23,9 @@ class DatabaseAPI {
     return Database.fromJson(jsonDecode(response.body));
   }
 
-  Future<Results> queryDatabase(String databaseId) async {
+  Future<Results> queryDatabase(String databaseId, {Object body = const {}}) async {
     final url = '${globals.baseUrl}/databases/$databaseId/query';
-    final response = await httpClient.post(Uri.parse(url), headers: headers);
+    final response = await httpClient.post(Uri.parse(url), headers: headers, body: jsonEncode(body));
 
     if (response.statusCode != 200) {
       throw Exception('error querying the database');
