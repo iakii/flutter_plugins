@@ -19,7 +19,7 @@ class PageAPI {
       throw Exception('error getting the page: ${response.body},code: ${response.statusCode}');
     }
 
-    print(response.body);
+    // print(response.body);
     return Page.fromJson(jsonDecode(response.body));
   }
 }

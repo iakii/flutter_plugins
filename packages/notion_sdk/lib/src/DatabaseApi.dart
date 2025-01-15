@@ -31,7 +31,7 @@ class DatabaseAPI {
       throw Exception('error querying the database');
     }
 
-    print(response.body);
+    // print(response.body);
 
     return Results.fromJson(jsonDecode(response.body));
   }
@@ -44,7 +44,7 @@ class DatabaseAPI {
       throw Exception('error querying the database');
     }
 
-    print(response.body);
+    // print(response.body);
 
     return jsonDecode(response.body);
   }
