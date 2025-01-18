@@ -1,0 +1,28 @@
+[package]
+name = "tiny_image"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+flutter_rust_bridge = "=2.7.0"
+ico = "0.4.0"
+image = "0.25.5"
+imagequant = "4.3.3"
+# libwebp-sys2 = "0.1.10"
+lodepng = "3.10.7"
+mozjpeg = "0.10.12"
+# mozjpeg-sys = "2.2.2"
+png = "0.17.16"
+webp = "0.3.0"
+
+
+
+[profile.release]
+opt-level = 'z'
+lto = true
+strip = true
+codegen-units = 1
+panic = 'abort'
