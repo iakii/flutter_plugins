@@ -16,6 +16,7 @@ import 'api/jpeg.dart';
 import 'api/png.dart';
 import 'api/tiny_png.dart';
 import 'api/webp.dart';
+import 'api/windows.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';

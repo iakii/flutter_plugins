@@ -1,5 +1,6 @@
 library;
 
+export 'src/rust/api/windows.dart';
 export 'src/rust/api/webp.dart';
 export 'src/rust/api/tiny_png.dart';
 export 'src/rust/api/png.dart';
