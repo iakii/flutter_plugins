@@ -80,9 +80,10 @@ class TinyClient {
   Future<String> img2Webp({required int quality}) => RustLib.instance.api
       .crateApiTinyPngTinyClientImg2Webp(that: this, quality: quality);
 
-  Future<String> imgConvert({required ImageFormat target, int? quality}) =>
+  Future<String> imgConvert(
+          {required ImageFormat target, int? quality, int? size}) =>
       RustLib.instance.api.crateApiTinyPngTinyClientImgConvert(
-          that: this, target: target, quality: quality);
+          that: this, target: target, quality: quality, size: size);
 
   Future<bool> isImageFile({required String path}) => RustLib.instance.api
       .crateApiTinyPngTinyClientIsImageFile(that: this, path: path);
@@ -90,7 +91,7 @@ class TinyClient {
   Future<String> jpeg2Png({int? quality}) => RustLib.instance.api
       .crateApiTinyPngTinyClientJpeg2Png(that: this, quality: quality);
 
-  Future<void> parse({required int quality}) => RustLib.instance.api
+  Future<String> parse({required int quality}) => RustLib.instance.api
       .crateApiTinyPngTinyClientParse(that: this, quality: quality);
 
   Future<String> thumbnail({required int width, required int height}) =>

@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.7.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 687927784;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -280209757;
 
 // Section: executor
 
@@ -366,6 +366,7 @@ fn wire__crate__api__icons__convert_png_to_ico_impl(
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_input_path = <String>::sse_decode(&mut deserializer);
             let api_output_path = <String>::sse_decode(&mut deserializer);
+            let api_size = <u32>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -373,113 +374,8 @@ fn wire__crate__api__icons__convert_png_to_ico_impl(
                         let output_ok = crate::api::icons::convert_png_to_ico(
                             api_input_path,
                             &api_output_path,
+                            api_size,
                         )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__jpeg__convert_to_jpeg_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "convert_to_jpeg",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_path = <String>::sse_decode(&mut deserializer);
-            let api_output = <String>::sse_decode(&mut deserializer);
-            let api_quality = <u8>::sse_decode(&mut deserializer);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok =
-                            crate::api::jpeg::convert_to_jpeg(api_path, api_output, api_quality)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__windows__get_current_path_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "get_current_path",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok({
-                        crate::api::windows::get_current_path();
-                    })?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__windows__get_select_file_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "get_select_file",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok = crate::api::windows::get_select_file()?;
                         Ok(output_ok)
                     })(),
                 )
@@ -973,6 +869,7 @@ fn wire__crate__api__tiny_png__tiny_client_img_convert_impl(
             let api_that = <crate::api::tiny_png::TinyClient>::sse_decode(&mut deserializer);
             let api_target = <crate::api::tiny_png::ImageFormat>::sse_decode(&mut deserializer);
             let api_quality = <Option<u8>>::sse_decode(&mut deserializer);
+            let api_size = <Option<u32>>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -981,6 +878,7 @@ fn wire__crate__api__tiny_png__tiny_client_img_convert_impl(
                             &api_that,
                             api_target,
                             api_quality,
+                            api_size,
                         )?;
                         Ok(output_ok)
                     })(),
@@ -1413,6 +1311,17 @@ impl SseDecode for Option<u16> {
     }
 }
 
+impl SseDecode for Option<u32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<u32>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<u8> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1499,62 +1408,59 @@ fn pde_ffi_dispatcher_primary_impl(
         5 => wire__crate__api__png__Imagequant_set_quality_impl(port, ptr, rust_vec_len, data_len),
         6 => wire__crate__api__png__Imagequant_set_speed_impl(port, ptr, rust_vec_len, data_len),
         12 => wire__crate__api__icons__convert_png_to_ico_impl(port, ptr, rust_vec_len, data_len),
-        13 => wire__crate__api__jpeg__convert_to_jpeg_impl(port, ptr, rust_vec_len, data_len),
-        14 => wire__crate__api__windows__get_current_path_impl(port, ptr, rust_vec_len, data_len),
-        15 => wire__crate__api__windows__get_select_file_impl(port, ptr, rust_vec_len, data_len),
-        17 => wire__crate__api__icon__icon__icon_encode_impl(port, ptr, rust_vec_len, data_len),
-        18 => {
+        14 => wire__crate__api__icon__icon__icon_encode_impl(port, ptr, rust_vec_len, data_len),
+        15 => {
             wire__crate__api__icon__icon__icon_from_images_impl(port, ptr, rust_vec_len, data_len)
         }
-        19 => {
+        16 => {
             wire__crate__api__icon__image__image_from_path_impl(port, ptr, rust_vec_len, data_len)
         }
-        20 => {
+        17 => {
             wire__crate__api__icon__image__image_resolution_impl(port, ptr, rust_vec_len, data_len)
         }
-        21 => wire__crate__api__png__imagequant_image_new_impl(port, ptr, rust_vec_len, data_len),
-        22 => wire__crate__api__application__init_app_impl(port, ptr, rust_vec_len, data_len),
-        23 => wire__crate__api__png__parse_png_impl(port, ptr, rust_vec_len, data_len),
-        24 => wire__crate__api__webp__parse_webp_impl(port, ptr, rust_vec_len, data_len),
-        25 => wire__crate__api__icon__covert__run_pico_impl(port, ptr, rust_vec_len, data_len),
-        26 => wire__crate__api__tiny_png__tiny_client_file_type_impl(
+        18 => wire__crate__api__png__imagequant_image_new_impl(port, ptr, rust_vec_len, data_len),
+        19 => wire__crate__api__application__init_app_impl(port, ptr, rust_vec_len, data_len),
+        20 => wire__crate__api__png__parse_png_impl(port, ptr, rust_vec_len, data_len),
+        21 => wire__crate__api__webp__parse_webp_impl(port, ptr, rust_vec_len, data_len),
+        22 => wire__crate__api__icon__covert__run_pico_impl(port, ptr, rust_vec_len, data_len),
+        23 => wire__crate__api__tiny_png__tiny_client_file_type_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        27 => wire__crate__api__tiny_png__tiny_client_from_path_impl(
+        24 => wire__crate__api__tiny_png__tiny_client_from_path_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        28 => wire__crate__api__tiny_png__tiny_client_img_2_webp_impl(
+        25 => wire__crate__api__tiny_png__tiny_client_img_2_webp_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        29 => wire__crate__api__tiny_png__tiny_client_img_convert_impl(
+        26 => wire__crate__api__tiny_png__tiny_client_img_convert_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        30 => wire__crate__api__tiny_png__tiny_client_is_image_file_impl(
+        27 => wire__crate__api__tiny_png__tiny_client_is_image_file_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        31 => wire__crate__api__tiny_png__tiny_client_jpeg_2_png_impl(
+        28 => wire__crate__api__tiny_png__tiny_client_jpeg_2_png_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        32 => wire__crate__api__tiny_png__tiny_client_parse_impl(port, ptr, rust_vec_len, data_len),
-        33 => wire__crate__api__tiny_png__tiny_client_thumbnail_impl(
+        29 => wire__crate__api__tiny_png__tiny_client_parse_impl(port, ptr, rust_vec_len, data_len),
+        30 => wire__crate__api__tiny_png__tiny_client_thumbnail_impl(
             port,
             ptr,
             rust_vec_len,
@@ -1572,7 +1478,7 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        16 => wire__crate__api__application__greet_impl(ptr, rust_vec_len, data_len),
+        13 => wire__crate__api__application__greet_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1987,6 +1893,16 @@ impl SseEncode for Option<u16> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <u16>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<u32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <u32>::sse_encode(value, serializer);
         }
     }
 }
