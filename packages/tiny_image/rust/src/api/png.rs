@@ -6,9 +6,11 @@ use imagequant;
 
 use imagequant::Error;
 
-use super::icon;
+// use super::entity;
 
 pub use imagequant::RGBA;
+
+use super::entity;
 
 pub struct ImagequantImage {
     pub pixels: Vec<RGBA>,
@@ -117,26 +119,22 @@ impl Imagequant {
         let mut encoder = lodepng::Encoder::new();
 
         let _ = encoder.set_palette(palette.as_slice());
-        // .map_err(Error::from)?;
 
         let png_vec: Vec<u8> = encoder
             .encode(pixels.as_slice(), image.width, image.height)
             .unwrap();
-        // .map_err(Error::from);
 
         Ok(png_vec)
     }
 }
 
 /// 压缩png
-pub fn parse_png(path: String, output: String, level: u8) -> Result<String, icon::error::Error> {
-    // if self.file_type() == Some(ImageFormat::Png)
-
+pub fn parse_png(path: String, output: String, level: u8) -> Result<String, entity::Error> {
     let filepath = PathBuf::from(path);
 
-    let file = match File::open(filepath.clone()) {
+    let file = match File::open(&filepath) {
         Ok(file) => file,
-        Err(_) => return Err(icon::error::Error::InputMissing(filepath)),
+        Err(_) => return Err(entity::Error::InputMissing(filepath)),
     };
 
     let mut decoder = png::Decoder::new(file);
@@ -163,6 +161,4 @@ pub fn parse_png(path: String, output: String, level: u8) -> Result<String, icon
     std::fs::write(&output_path, &*data).unwrap();
 
     Ok(output_path.to_str().unwrap().to_string())
-    // 执行无损压缩
-    // oxipng::optimize(&in_file, &out_file, &options).unwrap();
 }

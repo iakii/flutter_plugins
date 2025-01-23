@@ -1,6 +1,5 @@
 use std::{error, fmt, io, path::PathBuf};
 
-/// An error caught by Pico.
 #[derive(Debug)]
 pub enum Error {
     /// An error caused by an IO error.
@@ -27,8 +26,8 @@ pub enum Error {
     DecodeError,
 }
 
-impl From<std::io::Error> for Error {
-    fn from(err: std::io::Error) -> Error {
+impl From<io::Error> for Error {
+    fn from(err: io::Error) -> Error {
         Error::IO(err)
     }
 }

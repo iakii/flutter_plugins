@@ -1,10 +1,10 @@
-pub use super::icon::{config::Config, covert::run_pico};
-use super::icons::convert_png_to_ico;
-use super::{icon::error::Error, png::parse_png, webp::parse_webp};
+use super::jpeg::convert_to_jpeg;
+pub use super::{entity::Error, png::parse_png, webp::parse_webp};
 use flutter_rust_bridge::frb;
+use image::imageops::FilterType;
 pub use image::ImageFormat;
-use image::ImageReader;
-use std::path::Path;
+use image::{open, ImageReader};
+use std::path::{Path, PathBuf};
 use webp::{Encoder, WebPMemory};
 
 #[frb]
@@ -14,6 +14,7 @@ pub struct TinyClient {
 }
 
 impl TinyClient {
+    #[flutter_rust_bridge::frb(sync)]
     pub fn from_path(path: String, output: Option<String>) -> Self {
         let output = match output {
             Some(output) => output,
@@ -32,12 +33,14 @@ impl TinyClient {
         Self { path, output }
     }
 
+    #[flutter_rust_bridge::frb(sync)]
     pub fn file_type(&self) -> Option<ImageFormat> {
         let reader = ImageReader::open(self.path.clone()).unwrap();
         // 获取图片的格式
         reader.format()
     }
 
+    #[flutter_rust_bridge::frb(sync)]
     pub fn is_image_file(&self, path: &str) -> bool {
         let reader = ImageReader::open(path).unwrap();
         // 获取图片的格式
@@ -60,53 +63,91 @@ impl TinyClient {
 
         match target {
             ImageFormat::Png => {
-                return self.jpeg_2_png(Some(q));
+                return self.jpeg_2_png();
             }
             ImageFormat::Jpeg => {
-                self.png_2_jpeg(q)
-                // return convert_to_jpeg(self.path.clone(), self.output.clone(), q);
+                return convert_to_jpeg(self.path.clone(), self.output.clone(), q);
             }
             ImageFormat::WebP => {
                 return self.img_2_webp(q);
+            }
+            ImageFormat::Avif => {
+                return self.convert_to_avif();
             }
             ImageFormat::Ico => {
                 let size = match size {
                     Some(size) => size,
                     None => 256,
                 };
-                return convert_png_to_ico(self.path.clone(), self.output.clone().as_str(), size);
+                return self.convert_png_to_ico(size);
             }
             _ => {
                 return Err(Error::UnsupportedFormat);
             }
         }
     }
-    fn png_2_jpeg(&self, quality: u8) -> Result<String, Error> {
-        let _ = quality;
-        let reader = ImageReader::open(&self.path).unwrap();
-        // png 2 jpeg
-        let img = reader.decode().unwrap().to_rgb8();
-        let output_path = Path::new(&self.output).with_extension("jpg");
 
-        let result = img.save(output_path.clone());
+    pub fn convert_png_to_ico(&self, size: u32) -> Result<String, Error> {
+        // // 1. 加载 PNG 图片
+        let img = open(&self.path).unwrap(); // 转换为 RGBA 格式
+
+        let resized_img = img.resize_exact(size, size, FilterType::Lanczos3);
+
+        let output_path = PathBuf::from(&self.output).join(format!("{}.ico", size));
+
+        // 3. 将图片保存为 Ico 格式
+        let result = resized_img.save_with_format(&output_path, ImageFormat::Ico);
 
         match result {
             Ok(_) => Ok(output_path.to_str().unwrap().to_string()),
             Err(_) => Err(Error::EncodeFailed),
         }
     }
-    pub fn jpeg_2_png(&self, quality: Option<u8>) -> Result<String, Error> {
-        let _ = quality;
 
+    pub fn png_2_jpeg(&self, quality: u8) -> Result<String, Error> {
+        let _ = quality;
+        let reader = ImageReader::open(&self.path).unwrap();
+        // png 2 jpeg
+        let img = reader.decode().unwrap().to_rgb8();
+        let output_path = Path::new(&self.output).with_extension("jpg");
+
+        let result = img.save_with_format(output_path.clone(), ImageFormat::Jpeg);
+
+        match result {
+            Ok(_) => Ok(output_path.to_str().unwrap().to_string()),
+            Err(_) => Err(Error::EncodeFailed),
+        }
+    }
+
+    pub fn jpeg_2_png(&self) -> Result<String, Error> {
         if self.file_type() != Some(ImageFormat::Jpeg) {
             return Err(Error::UnsupportedFormat);
         }
-
         let reader = ImageReader::open(&self.path).unwrap();
         // jpeg 2 png
         let img = reader.decode().unwrap().to_rgb8();
         let output_path = Path::new(&self.output.clone()).with_extension("png");
-        let result = img.save(output_path.clone());
+        let result = img.save_with_format(output_path.clone(), ImageFormat::Png);
+        match result {
+            Ok(_) => Ok(output_path.to_str().unwrap().to_string()),
+            Err(_) => Err(Error::EncodeFailed),
+        }
+    }
+
+    pub fn convert_to_avif(&self) -> Result<String, Error> {
+        let path = PathBuf::from(&self.path);
+
+        let reader = match ImageReader::open(&path) {
+            Ok(reader) => reader,
+            Err(_) => return Err(Error::InputMissing(path)),
+        };
+        let image = reader.decode().unwrap();
+
+        let rgb_image = image.to_rgba8();
+
+        let output_path = Path::new(&self.output).with_extension("avif");
+
+        let result = rgb_image.save_with_format(&output_path, ImageFormat::Avif);
         match result {
             Ok(_) => Ok(output_path.to_str().unwrap().to_string()),
             Err(_) => Err(Error::EncodeFailed),
@@ -137,49 +178,15 @@ impl TinyClient {
         let filepath = Path::new(&self.path);
         let ext: &str = filepath.extension().unwrap().to_str().unwrap();
         match ext {
-            "png" => {
-                if self.file_type() == Some(ImageFormat::Png) {
-                    return parse_png(self.path.clone(), self.output.clone(), quality);
-                }
-                return Err(Error::UnsupportedFormat);
-            }
-            "jpg" => self.png_2_jpeg(quality),
-            // "jpg" => convert_to_jpeg(self.path.clone(), self.output.clone(), quality),
-            "jpeg" => self.png_2_jpeg(quality),
+            "png" => parse_png(self.path.clone(), self.output.clone(), quality),
+            "jpg" => convert_to_jpeg(self.path.clone(), self.output.clone(), quality),
+            "jpeg" => convert_to_jpeg(self.path.clone(), self.output.clone(), quality),
             "webp" => parse_webp(path.to_string(), self.output.clone(), quality),
-            _ => {
-                return Err(Error::UnsupportedFormat);
-            }
+            _ => Err(Error::UnsupportedFormat),
         }
     }
 
-    // fn image_2_ico(&self, config: Config) -> Result<String, Error> {
-    //     if self.file_type() == Some(ImageFormat::Png) || self.file_type() == Some(ImageFormat::Jpeg)
-    //     {
-    //         return run_pico(&config);
-    //     }
-    //     return Err(Error::UnsupportedFormat);
-    // }
-
     pub fn parse(self, quality: u8) -> Result<String, Error> {
-        // // 判断 path是文件还是文件夹
-        // let path = Path::new(&self.path);
-        // if path.is_dir() {
-        //     let dir = std::fs::read_dir(path).unwrap();
-        //     for entry in dir {
-        //         let entry = entry.unwrap();
-        //         let path = entry.path();
-        //         if path.is_file() {
-        //             let path = path.to_str().unwrap();
-        //             let _ = self.compress(path, quality);
-        //         }
-        //     }
-        // } else {
-        //  self.compress(&self.path.as_str(), quality)
-        // }
-
-        // Ok(())
-
         self.compress(&self.path.as_str(), quality)
     }
 }

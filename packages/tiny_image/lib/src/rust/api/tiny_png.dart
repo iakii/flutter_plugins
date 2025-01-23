@@ -6,7 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `compress`, `png_2_jpeg`
+// These functions are ignored because they are not marked as `pub`: `compress`
 
 enum ImageFormat {
   /// An Image in PNG Format
@@ -68,12 +68,20 @@ class TinyClient {
     required this.output,
   });
 
-  Future<ImageFormat?> fileType() =>
+  Future<String> convertPngToIco({required int size}) => RustLib.instance.api
+      .crateApiTinyPngTinyClientConvertPngToIco(that: this, size: size);
+
+  Future<String> convertToAvif() =>
+      RustLib.instance.api.crateApiTinyPngTinyClientConvertToAvif(
+        that: this,
+      );
+
+  ImageFormat? fileType() =>
       RustLib.instance.api.crateApiTinyPngTinyClientFileType(
         that: this,
       );
 
-  static Future<TinyClient> fromPath({required String path, String? output}) =>
+  static TinyClient fromPath({required String path, String? output}) =>
       RustLib.instance.api
           .crateApiTinyPngTinyClientFromPath(path: path, output: output);
 
@@ -85,14 +93,19 @@ class TinyClient {
       RustLib.instance.api.crateApiTinyPngTinyClientImgConvert(
           that: this, target: target, quality: quality, size: size);
 
-  Future<bool> isImageFile({required String path}) => RustLib.instance.api
+  bool isImageFile({required String path}) => RustLib.instance.api
       .crateApiTinyPngTinyClientIsImageFile(that: this, path: path);
 
-  Future<String> jpeg2Png({int? quality}) => RustLib.instance.api
-      .crateApiTinyPngTinyClientJpeg2Png(that: this, quality: quality);
+  Future<String> jpeg2Png() =>
+      RustLib.instance.api.crateApiTinyPngTinyClientJpeg2Png(
+        that: this,
+      );
 
   Future<String> parse({required int quality}) => RustLib.instance.api
       .crateApiTinyPngTinyClientParse(that: this, quality: quality);
+
+  Future<String> png2Jpeg({required int quality}) => RustLib.instance.api
+      .crateApiTinyPngTinyClientPng2Jpeg(that: this, quality: quality);
 
   Future<String> thumbnail({required int width, required int height}) =>
       RustLib.instance.api.crateApiTinyPngTinyClientThumbnail(

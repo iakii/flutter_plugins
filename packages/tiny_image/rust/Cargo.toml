@@ -11,23 +11,11 @@ flutter_rust_bridge = "=2.7.0"
 # ico = "0.4.0"
 image = "0.25.5"
 imagequant = "4.3.3"
-# libwebp-sys2 = "0.1.10"
 lodepng = "3.10.7"
-# mozjpeg = "0.10.12"
-# mozjpeg-sys = "2.2.2"
+mozjpeg = "0.10.12"
 png = "0.17.16"
 webp = "0.3.0"
-# windows = "0.59.0"
-# windows = { version = "0.39.0", features = [
-# 
-#     "Win32_UI_WindowsAndMessaging",
-#     "Win32_Foundation",
-#     "Win32_System_Com",
-#     "Win32_System_Ole",
-#     "Win32_UI_Shell",
-#     "Win32_UI_Shell_Common",
-# 
-# ] }
+
 
 [profile.release]
 opt-level = 'z'
@@ -35,3 +23,6 @@ lto = true
 strip = true
 codegen-units = 1
 panic = 'abort'
+
+[lints.rust]
+ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

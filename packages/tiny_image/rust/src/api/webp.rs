@@ -3,7 +3,7 @@ pub use std::path::{Path, PathBuf};
 use image::{imageops, open, DynamicImage, GenericImageView};
 use webp::{Encoder, WebPMemory};
 
-use super::icon::error::Error;
+use super::entity::Error;
 
 pub fn parse_webp(path: String, output: String, quality: u8) -> Result<String, Error> {
     // 判断output为None的话，从path中去除文件名，然后加上后缀

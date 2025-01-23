@@ -7,18 +7,13 @@
 // ignore_for_file: argument_type_not_assignable
 
 import 'api/application.dart';
-import 'api/icon/config.dart';
-import 'api/icon/covert.dart';
-import 'api/icon/icon.dart';
-import 'api/icon/image.dart';
-import 'api/icons.dart';
+import 'api/jpeg.dart';
 import 'api/png.dart';
 import 'api/tiny_png.dart';
 import 'api/webp.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
-import 'lib.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
@@ -32,9 +27,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ImagequantPtr =>
       wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerImagequant;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PathBufPtr => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf;
-
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RgbaPtr => wire
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA;
 
@@ -44,11 +36,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   Imagequant
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerImagequant(
-          dynamic raw);
-
-  @protected
-  PathBuf
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
           dynamic raw);
 
   @protected
@@ -67,11 +54,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           dynamic raw);
 
   @protected
-  PathBuf
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          dynamic raw);
-
-  @protected
   Rgba
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           dynamic raw);
@@ -80,19 +62,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
-  Buffer dco_decode_TraitDef_Buffer(dynamic raw);
-
-  @protected
   bool dco_decode_bool(dynamic raw);
-
-  @protected
-  Config dco_decode_box_autoadd_config(dynamic raw);
-
-  @protected
-  Icon dco_decode_box_autoadd_icon(dynamic raw);
-
-  @protected
-  Image dco_decode_box_autoadd_image(dynamic raw);
 
   @protected
   ImageFormat dco_decode_box_autoadd_image_format(dynamic raw);
@@ -101,28 +71,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   TinyClient dco_decode_box_autoadd_tiny_client(dynamic raw);
 
   @protected
-  int dco_decode_box_autoadd_u_16(dynamic raw);
-
-  @protected
   int dco_decode_box_autoadd_u_32(dynamic raw);
 
   @protected
   int dco_decode_box_autoadd_u_8(dynamic raw);
 
   @protected
-  Config dco_decode_config(dynamic raw);
-
-  @protected
   double dco_decode_f_64(dynamic raw);
 
   @protected
   int dco_decode_i_32(dynamic raw);
-
-  @protected
-  Icon dco_decode_icon(dynamic raw);
-
-  @protected
-  Image dco_decode_image(dynamic raw);
 
   @protected
   ImageFormat dco_decode_image_format(dynamic raw);
@@ -134,12 +92,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<Rgba>
       dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           dynamic raw);
-
-  @protected
-  List<String> dco_decode_list_String(dynamic raw);
-
-  @protected
-  List<Image> dco_decode_list_image(dynamic raw);
 
   @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
@@ -154,9 +106,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ImageFormat? dco_decode_opt_box_autoadd_image_format(dynamic raw);
 
   @protected
-  int? dco_decode_opt_box_autoadd_u_16(dynamic raw);
-
-  @protected
   int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
 
   @protected
@@ -166,13 +115,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   TinyClient dco_decode_tiny_client(dynamic raw);
 
   @protected
-  int dco_decode_u_16(dynamic raw);
-
-  @protected
   int dco_decode_u_32(dynamic raw);
-
-  @protected
-  BigInt dco_decode_u_64(dynamic raw);
 
   @protected
   int dco_decode_u_8(dynamic raw);
@@ -192,11 +135,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
-  PathBuf
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          SseDeserializer deserializer);
-
-  @protected
   Rgba
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           SseDeserializer deserializer);
@@ -212,11 +150,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
-  PathBuf
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          SseDeserializer deserializer);
-
-  @protected
   Rgba
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           SseDeserializer deserializer);
@@ -228,22 +161,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
-  Config sse_decode_box_autoadd_config(SseDeserializer deserializer);
-
-  @protected
-  Icon sse_decode_box_autoadd_icon(SseDeserializer deserializer);
-
-  @protected
-  Image sse_decode_box_autoadd_image(SseDeserializer deserializer);
-
-  @protected
   ImageFormat sse_decode_box_autoadd_image_format(SseDeserializer deserializer);
 
   @protected
   TinyClient sse_decode_box_autoadd_tiny_client(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_box_autoadd_u_16(SseDeserializer deserializer);
 
   @protected
   int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
@@ -252,19 +173,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_box_autoadd_u_8(SseDeserializer deserializer);
 
   @protected
-  Config sse_decode_config(SseDeserializer deserializer);
-
-  @protected
   double sse_decode_f_64(SseDeserializer deserializer);
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
-
-  @protected
-  Icon sse_decode_icon(SseDeserializer deserializer);
-
-  @protected
-  Image sse_decode_image(SseDeserializer deserializer);
 
   @protected
   ImageFormat sse_decode_image_format(SseDeserializer deserializer);
@@ -276,12 +188,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<Rgba>
       sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           SseDeserializer deserializer);
-
-  @protected
-  List<String> sse_decode_list_String(SseDeserializer deserializer);
-
-  @protected
-  List<Image> sse_decode_list_image(SseDeserializer deserializer);
 
   @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
@@ -297,9 +203,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  int? sse_decode_opt_box_autoadd_u_16(SseDeserializer deserializer);
-
-  @protected
   int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
@@ -309,13 +212,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   TinyClient sse_decode_tiny_client(SseDeserializer deserializer);
 
   @protected
-  int sse_decode_u_16(SseDeserializer deserializer);
-
-  @protected
   int sse_decode_u_32(SseDeserializer deserializer);
-
-  @protected
-  BigInt sse_decode_u_64(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -337,11 +234,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          PathBuf self, SseSerializer serializer);
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           Rgba self, SseSerializer serializer);
 
@@ -357,11 +249,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          PathBuf self, SseSerializer serializer);
-
-  @protected
-  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           Rgba self, SseSerializer serializer);
 
@@ -372,15 +259,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_config(Config self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_icon(Icon self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_image(Image self, SseSerializer serializer);
-
-  @protected
   void sse_encode_box_autoadd_image_format(
       ImageFormat self, SseSerializer serializer);
 
@@ -389,28 +267,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       TinyClient self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_u_16(int self, SseSerializer serializer);
-
-  @protected
   void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_u_8(int self, SseSerializer serializer);
 
   @protected
-  void sse_encode_config(Config self, SseSerializer serializer);
-
-  @protected
   void sse_encode_f_64(double self, SseSerializer serializer);
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_icon(Icon self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_image(Image self, SseSerializer serializer);
 
   @protected
   void sse_encode_image_format(ImageFormat self, SseSerializer serializer);
@@ -423,12 +289,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           List<Rgba> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_String(List<String> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_image(List<Image> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
@@ -445,9 +305,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       ImageFormat? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_opt_box_autoadd_u_16(int? self, SseSerializer serializer);
-
-  @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
 
   @protected
@@ -457,13 +314,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_tiny_client(TinyClient self, SseSerializer serializer);
 
   @protected
-  void sse_encode_u_16(int self, SseSerializer serializer);
-
-  @protected
   void sse_encode_u_32(int self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_u_64(BigInt self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);
@@ -492,18 +343,6 @@ class RustLibWire implements BaseWire {
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerImagequant(
               ptr);
 
-  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          int ptr) =>
-      wasmModule
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-              ptr);
-
-  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          int ptr) =>
-      wasmModule
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-              ptr);
-
   void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           int ptr) =>
       wasmModule
@@ -529,14 +368,6 @@ extension type RustLibWasmModule._(JSObject _) implements JSObject {
 
   external void
       rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerImagequant(
-          int ptr);
-
-  external void
-      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          int ptr);
-
-  external void
-      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
           int ptr);
 
   external void

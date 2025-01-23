@@ -6,9 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-Future<String> convertPngToIco(
-        {required String inputPath,
-        required String outputPath,
-        required int size}) =>
-    RustLib.instance.api.crateApiIconsConvertPngToIco(
-        inputPath: inputPath, outputPath: outputPath, size: size);
+Future<String> convertToJpeg(
+        {required String path, required String output, required int quality}) =>
+    RustLib.instance.api.crateApiJpegConvertToJpeg(
+        path: path, output: output, quality: quality);

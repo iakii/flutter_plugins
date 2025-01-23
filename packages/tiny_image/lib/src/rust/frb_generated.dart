@@ -4,11 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/application.dart';
-import 'api/icon/config.dart';
-import 'api/icon/covert.dart';
-import 'api/icon/icon.dart';
-import 'api/icon/image.dart';
-import 'api/icons.dart';
+import 'api/jpeg.dart';
 import 'api/png.dart';
 import 'api/tiny_png.dart';
 import 'api/webp.dart';
@@ -17,7 +13,6 @@ import 'dart:convert';
 import 'frb_generated.dart';
 import 'frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
-import 'lib.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 /// Main entrypoint of the Rust API
@@ -77,7 +72,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.7.0';
 
   @override
-  int get rustContentHash => -280209757;
+  int get rustContentHash => -1590453712;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -108,21 +103,10 @@ abstract class RustLibApi extends BaseApi {
   Future<void> crateApiPngImagequantSetSpeed(
       {required Imagequant that, required int value});
 
-  Future<String> crateApiIconsConvertPngToIco(
-      {required String inputPath,
-      required String outputPath,
-      required int size});
+  Future<String> crateApiJpegConvertToJpeg(
+      {required String path, required String output, required int quality});
 
   String crateApiApplicationGreet({required String name});
-
-  Future<Uint8List> crateApiIconIconIconEncode({required Icon that});
-
-  Future<Icon> crateApiIconIconIconFromImages(
-      {required List<Image> images, required bool sort});
-
-  Future<Image> crateApiIconImageImageFromPath({required PathBuf path});
-
-  Future<BigInt> crateApiIconImageImageResolution({required Image that});
 
   Future<ImagequantImage> crateApiPngImagequantImageNew(
       {required List<int> data,
@@ -138,12 +122,15 @@ abstract class RustLibApi extends BaseApi {
   Future<String> crateApiWebpParseWebp(
       {required String path, required String output, required int quality});
 
-  Future<String> crateApiIconCovertRunPico({required Config config});
+  Future<String> crateApiTinyPngTinyClientConvertPngToIco(
+      {required TinyClient that, required int size});
 
-  Future<ImageFormat?> crateApiTinyPngTinyClientFileType(
+  Future<String> crateApiTinyPngTinyClientConvertToAvif(
       {required TinyClient that});
 
-  Future<TinyClient> crateApiTinyPngTinyClientFromPath(
+  ImageFormat? crateApiTinyPngTinyClientFileType({required TinyClient that});
+
+  TinyClient crateApiTinyPngTinyClientFromPath(
       {required String path, String? output});
 
   Future<String> crateApiTinyPngTinyClientImg2Webp(
@@ -155,13 +142,15 @@ abstract class RustLibApi extends BaseApi {
       int? quality,
       int? size});
 
-  Future<bool> crateApiTinyPngTinyClientIsImageFile(
+  bool crateApiTinyPngTinyClientIsImageFile(
       {required TinyClient that, required String path});
 
-  Future<String> crateApiTinyPngTinyClientJpeg2Png(
-      {required TinyClient that, int? quality});
+  Future<String> crateApiTinyPngTinyClientJpeg2Png({required TinyClient that});
 
   Future<String> crateApiTinyPngTinyClientParse(
+      {required TinyClient that, required int quality});
+
+  Future<String> crateApiTinyPngTinyClientPng2Jpeg(
       {required TinyClient that, required int quality});
 
   Future<String> crateApiTinyPngTinyClientThumbnail(
@@ -174,12 +163,6 @@ abstract class RustLibApi extends BaseApi {
       get rust_arc_decrement_strong_count_Imagequant;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ImagequantPtr;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_PathBuf;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_PathBuf;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PathBufPtr;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Rgba;
 
@@ -368,33 +351,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<String> crateApiIconsConvertPngToIco(
-      {required String inputPath,
-      required String outputPath,
-      required int size}) {
+  Future<String> crateApiJpegConvertToJpeg(
+      {required String path, required String output, required int quality}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_String(inputPath, serializer);
-        sse_encode_String(outputPath, serializer);
-        sse_encode_u_32(size, serializer);
+        sse_encode_String(path, serializer);
+        sse_encode_String(output, serializer);
+        sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 12, port: port_);
+            funcId: 7, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiIconsConvertPngToIcoConstMeta,
-      argValues: [inputPath, outputPath, size],
+      constMeta: kCrateApiJpegConvertToJpegConstMeta,
+      argValues: [path, output, quality],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiIconsConvertPngToIcoConstMeta =>
-      const TaskConstMeta(
-        debugName: "convert_png_to_ico",
-        argNames: ["inputPath", "outputPath", "size"],
+  TaskConstMeta get kCrateApiJpegConvertToJpegConstMeta => const TaskConstMeta(
+        debugName: "convert_to_jpeg",
+        argNames: ["path", "output", "quality"],
       );
 
   @override
@@ -403,7 +383,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(name, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -421,108 +401,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<Uint8List> crateApiIconIconIconEncode({required Icon that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_box_autoadd_icon(that, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 14, port: port_);
-      },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_list_prim_u_8_strict,
-        decodeErrorData: sse_decode_AnyhowException,
-      ),
-      constMeta: kCrateApiIconIconIconEncodeConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiIconIconIconEncodeConstMeta => const TaskConstMeta(
-        debugName: "icon_encode",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<Icon> crateApiIconIconIconFromImages(
-      {required List<Image> images, required bool sort}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_list_image(images, serializer);
-        sse_encode_bool(sort, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 15, port: port_);
-      },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_icon,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiIconIconIconFromImagesConstMeta,
-      argValues: [images, sort],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiIconIconIconFromImagesConstMeta =>
-      const TaskConstMeta(
-        debugName: "icon_from_images",
-        argNames: ["images", "sort"],
-      );
-
-  @override
-  Future<Image> crateApiIconImageImageFromPath({required PathBuf path}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-            path, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 16, port: port_);
-      },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_image,
-        decodeErrorData: sse_decode_AnyhowException,
-      ),
-      constMeta: kCrateApiIconImageImageFromPathConstMeta,
-      argValues: [path],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiIconImageImageFromPathConstMeta =>
-      const TaskConstMeta(
-        debugName: "image_from_path",
-        argNames: ["path"],
-      );
-
-  @override
-  Future<BigInt> crateApiIconImageImageResolution({required Image that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_box_autoadd_image(that, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 17, port: port_);
-      },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_u_64,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiIconImageImageResolutionConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiIconImageImageResolutionConstMeta =>
-      const TaskConstMeta(
-        debugName: "image_resolution",
-        argNames: ["that"],
-      );
-
-  @override
   Future<ImagequantImage> crateApiPngImagequantImageNew(
       {required List<int> data,
       required BigInt width,
@@ -536,7 +414,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_usize(height, serializer);
         sse_encode_f_64(gamma, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 18, port: port_);
+            funcId: 9, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_imagequant_image,
@@ -560,7 +438,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 19, port: port_);
+            funcId: 10, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -587,7 +465,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(output, serializer);
         sse_encode_u_8(level, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 20, port: port_);
+            funcId: 11, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -614,7 +492,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(output, serializer);
         sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 21, port: port_);
+            funcId: 12, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -632,38 +510,65 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<String> crateApiIconCovertRunPico({required Config config}) {
+  Future<String> crateApiTinyPngTinyClientConvertPngToIco(
+      {required TinyClient that, required int size}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_box_autoadd_config(config, serializer);
+        sse_encode_box_autoadd_tiny_client(that, serializer);
+        sse_encode_u_32(size, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 22, port: port_);
+            funcId: 13, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiIconCovertRunPicoConstMeta,
-      argValues: [config],
+      constMeta: kCrateApiTinyPngTinyClientConvertPngToIcoConstMeta,
+      argValues: [that, size],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiIconCovertRunPicoConstMeta => const TaskConstMeta(
-        debugName: "run_pico",
-        argNames: ["config"],
+  TaskConstMeta get kCrateApiTinyPngTinyClientConvertPngToIcoConstMeta =>
+      const TaskConstMeta(
+        debugName: "tiny_client_convert_png_to_ico",
+        argNames: ["that", "size"],
       );
 
   @override
-  Future<ImageFormat?> crateApiTinyPngTinyClientFileType(
+  Future<String> crateApiTinyPngTinyClientConvertToAvif(
       {required TinyClient that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_tiny_client(that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 23, port: port_);
+            funcId: 14, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiTinyPngTinyClientConvertToAvifConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTinyPngTinyClientConvertToAvifConstMeta =>
+      const TaskConstMeta(
+        debugName: "tiny_client_convert_to_avif",
+        argNames: ["that"],
+      );
+
+  @override
+  ImageFormat? crateApiTinyPngTinyClientFileType({required TinyClient that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_tiny_client(that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_image_format,
@@ -682,15 +587,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<TinyClient> crateApiTinyPngTinyClientFromPath(
+  TinyClient crateApiTinyPngTinyClientFromPath(
       {required String path, String? output}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(path, serializer);
         sse_encode_opt_String(output, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 24, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_tiny_client,
@@ -717,7 +621,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 25, port: port_);
+            funcId: 17, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -749,7 +653,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_opt_box_autoadd_u_8(quality, serializer);
         sse_encode_opt_box_autoadd_u_32(size, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 26, port: port_);
+            funcId: 18, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -768,15 +672,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<bool> crateApiTinyPngTinyClientIsImageFile(
+  bool crateApiTinyPngTinyClientIsImageFile(
       {required TinyClient that, required String path}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_String(path, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 27, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -795,22 +698,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<String> crateApiTinyPngTinyClientJpeg2Png(
-      {required TinyClient that, int? quality}) {
+  Future<String> crateApiTinyPngTinyClientJpeg2Png({required TinyClient that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_tiny_client(that, serializer);
-        sse_encode_opt_box_autoadd_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 28, port: port_);
+            funcId: 20, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
       constMeta: kCrateApiTinyPngTinyClientJpeg2PngConstMeta,
-      argValues: [that, quality],
+      argValues: [that],
       apiImpl: this,
     ));
   }
@@ -818,7 +719,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiTinyPngTinyClientJpeg2PngConstMeta =>
       const TaskConstMeta(
         debugName: "tiny_client_jpeg_2_png",
-        argNames: ["that", "quality"],
+        argNames: ["that"],
       );
 
   @override
@@ -830,7 +731,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 29, port: port_);
+            funcId: 21, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -849,6 +750,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<String> crateApiTinyPngTinyClientPng2Jpeg(
+      {required TinyClient that, required int quality}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_tiny_client(that, serializer);
+        sse_encode_u_8(quality, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 22, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiTinyPngTinyClientPng2JpegConstMeta,
+      argValues: [that, quality],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTinyPngTinyClientPng2JpegConstMeta =>
+      const TaskConstMeta(
+        debugName: "tiny_client_png_2_jpeg",
+        argNames: ["that", "quality"],
+      );
+
+  @override
   Future<String> crateApiTinyPngTinyClientThumbnail(
       {required TinyClient that, required int width, required int height}) {
     return handler.executeNormal(NormalTask(
@@ -858,7 +786,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_u_32(width, serializer);
         sse_encode_u_32(height, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 30, port: port_);
+            funcId: 23, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -884,14 +812,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       get rust_arc_decrement_strong_count_Imagequant => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerImagequant;
 
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_PathBuf => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_PathBuf => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf;
-
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Rgba =>
       wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA;
 
@@ -910,14 +830,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ImagequantImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  PathBuf
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PathBufImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -945,14 +857,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PathBuf
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PathBufImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   Rgba
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           dynamic raw) {
@@ -967,33 +871,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Buffer dco_decode_TraitDef_Buffer(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    throw UnimplementedError();
-  }
-
-  @protected
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
-  }
-
-  @protected
-  Config dco_decode_box_autoadd_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_config(raw);
-  }
-
-  @protected
-  Icon dco_decode_box_autoadd_icon(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_icon(raw);
-  }
-
-  @protected
-  Image dco_decode_box_autoadd_image(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_image(raw);
   }
 
   @protected
@@ -1009,12 +889,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int dco_decode_box_autoadd_u_16(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw as int;
-  }
-
-  @protected
   int dco_decode_box_autoadd_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -1027,20 +901,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Config dco_decode_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
-    return Config(
-      inputPaths: dco_decode_list_String(arr[0]),
-      outputPath: dco_decode_String(arr[1]),
-      sort: dco_decode_bool(arr[2]),
-      force: dco_decode_bool(arr[3]),
-    );
-  }
-
-  @protected
   double dco_decode_f_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as double;
@@ -1050,32 +910,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int dco_decode_i_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
-  }
-
-  @protected
-  Icon dco_decode_icon(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return Icon(
-      images: dco_decode_list_image(arr[0]),
-    );
-  }
-
-  @protected
-  Image dco_decode_image(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
-    return Image(
-      width: dco_decode_u_32(arr[0]),
-      height: dco_decode_u_32(arr[1]),
-      paletteSize: dco_decode_opt_box_autoadd_u_16(arr[2]),
-      bitsPerPixel: dco_decode_u_8(arr[3]),
-      data: dco_decode_list_prim_u_8_strict(arr[4]),
-    );
   }
 
   @protected
@@ -1112,18 +946,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<String> dco_decode_list_String(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_String).toList();
-  }
-
-  @protected
-  List<Image> dco_decode_list_image(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_image).toList();
-  }
-
-  @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as List<int>;
@@ -1145,12 +967,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ImageFormat? dco_decode_opt_box_autoadd_image_format(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_image_format(raw);
-  }
-
-  @protected
-  int? dco_decode_opt_box_autoadd_u_16(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_u_16(raw);
   }
 
   @protected
@@ -1178,21 +994,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int dco_decode_u_16(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw as int;
-  }
-
-  @protected
   int dco_decode_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
-  }
-
-  @protected
-  BigInt dco_decode_u_64(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dcoDecodeU64(raw);
   }
 
   @protected
@@ -1230,15 +1034,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PathBuf
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PathBufImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   Rgba
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           SseDeserializer deserializer) {
@@ -1266,15 +1061,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PathBuf
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PathBufImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   Rgba
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           SseDeserializer deserializer) {
@@ -1297,24 +1083,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Config sse_decode_box_autoadd_config(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_config(deserializer));
-  }
-
-  @protected
-  Icon sse_decode_box_autoadd_icon(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_icon(deserializer));
-  }
-
-  @protected
-  Image sse_decode_box_autoadd_image(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_image(deserializer));
-  }
-
-  @protected
   ImageFormat sse_decode_box_autoadd_image_format(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1325,12 +1093,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TinyClient sse_decode_box_autoadd_tiny_client(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_tiny_client(deserializer));
-  }
-
-  @protected
-  int sse_decode_box_autoadd_u_16(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_u_16(deserializer));
   }
 
   @protected
@@ -1346,20 +1108,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Config sse_decode_config(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_inputPaths = sse_decode_list_String(deserializer);
-    var var_outputPath = sse_decode_String(deserializer);
-    var var_sort = sse_decode_bool(deserializer);
-    var var_force = sse_decode_bool(deserializer);
-    return Config(
-        inputPaths: var_inputPaths,
-        outputPath: var_outputPath,
-        sort: var_sort,
-        force: var_force);
-  }
-
-  @protected
   double sse_decode_f_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getFloat64();
@@ -1369,29 +1117,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int sse_decode_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getInt32();
-  }
-
-  @protected
-  Icon sse_decode_icon(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_images = sse_decode_list_image(deserializer);
-    return Icon(images: var_images);
-  }
-
-  @protected
-  Image sse_decode_image(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_width = sse_decode_u_32(deserializer);
-    var var_height = sse_decode_u_32(deserializer);
-    var var_paletteSize = sse_decode_opt_box_autoadd_u_16(deserializer);
-    var var_bitsPerPixel = sse_decode_u_8(deserializer);
-    var var_data = sse_decode_list_prim_u_8_strict(deserializer);
-    return Image(
-        width: var_width,
-        height: var_height,
-        paletteSize: var_paletteSize,
-        bitsPerPixel: var_bitsPerPixel,
-        data: var_data);
   }
 
   @protected
@@ -1434,30 +1159,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<String> sse_decode_list_String(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <String>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_String(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
-  List<Image> sse_decode_list_image(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <Image>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_image(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
@@ -1495,17 +1196,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int? sse_decode_opt_box_autoadd_u_16(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_u_16(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -1536,21 +1226,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int sse_decode_u_16(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getUint16();
-  }
-
-  @protected
   int sse_decode_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint32();
-  }
-
-  @protected
-  BigInt sse_decode_u_64(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getBigUint64();
   }
 
   @protected
@@ -1588,15 +1266,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          PathBuf self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PathBufImpl).frbInternalSseEncode(move: true), serializer);
-  }
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           Rgba self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1624,15 +1293,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPathBuf(
-          PathBuf self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PathBufImpl).frbInternalSseEncode(move: null), serializer);
-  }
-
-  @protected
-  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           Rgba self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1653,24 +1313,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_config(Config self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_config(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_icon(Icon self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_icon(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_image(Image self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_image(self, serializer);
-  }
-
-  @protected
   void sse_encode_box_autoadd_image_format(
       ImageFormat self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1682,12 +1324,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       TinyClient self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_tiny_client(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_u_16(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_16(self, serializer);
   }
 
   @protected
@@ -1703,15 +1339,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_config(Config self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_list_String(self.inputPaths, serializer);
-    sse_encode_String(self.outputPath, serializer);
-    sse_encode_bool(self.sort, serializer);
-    sse_encode_bool(self.force, serializer);
-  }
-
-  @protected
   void sse_encode_f_64(double self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putFloat64(self);
@@ -1721,22 +1348,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_i_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
-  }
-
-  @protected
-  void sse_encode_icon(Icon self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_list_image(self.images, serializer);
-  }
-
-  @protected
-  void sse_encode_image(Image self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_32(self.width, serializer);
-    sse_encode_u_32(self.height, serializer);
-    sse_encode_opt_box_autoadd_u_16(self.paletteSize, serializer);
-    sse_encode_u_8(self.bitsPerPixel, serializer);
-    sse_encode_list_prim_u_8_strict(self.data, serializer);
   }
 
   @protected
@@ -1765,24 +1376,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     for (final item in self) {
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_String(item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_image(List<Image> self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_image(item, serializer);
     }
   }
 
@@ -1825,16 +1418,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_u_16(int? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_u_16(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -1862,21 +1445,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_u_16(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putUint16(self);
-  }
-
-  @protected
   void sse_encode_u_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint32(self);
-  }
-
-  @protected
-  void sse_encode_u_64(BigInt self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putBigUint64(self);
   }
 
   @protected
@@ -1952,26 +1523,6 @@ class ImagequantImpl extends RustOpaque implements Imagequant {
   /// The default is 4.
   Future<void> setSpeed({required int value}) => RustLib.instance.api
       .crateApiPngImagequantSetSpeed(that: this, value: value);
-}
-
-@sealed
-class PathBufImpl extends RustOpaque implements PathBuf {
-  // Not to be used by end users
-  PathBufImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  PathBufImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_PathBuf,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_PathBuf,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_PathBufPtr,
-  );
 }
 
 @sealed
