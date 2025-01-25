@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/application.dart';
+import 'api/icons.dart';
 import 'api/jpeg.dart';
 import 'api/png.dart';
 import 'api/tiny_png.dart';
@@ -72,7 +73,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.7.0';
 
   @override
-  int get rustContentHash => -1590453712;
+  int get rustContentHash => 45399548;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -107,6 +108,23 @@ abstract class RustLibApi extends BaseApi {
       {required String path, required String output, required int quality});
 
   String crateApiApplicationGreet({required String name});
+
+  Future<IconsClient> crateApiIconsIconsClientNew(
+      {required List<int> data, required IconsConfig config});
+
+  Future<void> crateApiIconsIconsClientToAndroid({required IconsClient that});
+
+  Future<void> crateApiIconsIconsClientToCustom({required IconsClient that});
+
+  Future<void> crateApiIconsIconsClientToIos({required IconsClient that});
+
+  Future<void> crateApiIconsIconsClientToMacos({required IconsClient that});
+
+  Future<void> crateApiIconsIconsClientToOhos({required IconsClient that});
+
+  Future<void> crateApiIconsIconsClientToWeb({required IconsClient that});
+
+  Future<void> crateApiIconsIconsClientToWindows({required IconsClient that});
 
   Future<ImagequantImage> crateApiPngImagequantImageNew(
       {required List<int> data,
@@ -401,6 +419,208 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<IconsClient> crateApiIconsIconsClientNew(
+      {required List<int> data, required IconsConfig config}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_list_prim_u_8_loose(data, serializer);
+        sse_encode_box_autoadd_icons_config(config, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 9, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_icons_client,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientNewConstMeta,
+      argValues: [data, config],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_new",
+        argNames: ["data", "config"],
+      );
+
+  @override
+  Future<void> crateApiIconsIconsClientToAndroid({required IconsClient that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_icons_client(that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 10, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientToAndroidConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientToAndroidConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_to_android",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> crateApiIconsIconsClientToCustom({required IconsClient that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_icons_client(that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 11, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientToCustomConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientToCustomConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_to_custom",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> crateApiIconsIconsClientToIos({required IconsClient that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_icons_client(that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 12, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientToIosConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientToIosConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_to_ios",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> crateApiIconsIconsClientToMacos({required IconsClient that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_icons_client(that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 13, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientToMacosConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientToMacosConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_to_macos",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> crateApiIconsIconsClientToOhos({required IconsClient that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_icons_client(that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 14, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientToOhosConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientToOhosConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_to_ohos",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> crateApiIconsIconsClientToWeb({required IconsClient that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_icons_client(that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 15, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientToWebConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientToWebConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_to_web",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> crateApiIconsIconsClientToWindows({required IconsClient that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_icons_client(that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 16, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiIconsIconsClientToWindowsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiIconsIconsClientToWindowsConstMeta =>
+      const TaskConstMeta(
+        debugName: "icons_client_to_windows",
+        argNames: ["that"],
+      );
+
+  @override
   Future<ImagequantImage> crateApiPngImagequantImageNew(
       {required List<int> data,
       required BigInt width,
@@ -414,7 +634,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_usize(height, serializer);
         sse_encode_f_64(gamma, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 9, port: port_);
+            funcId: 17, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_imagequant_image,
@@ -438,7 +658,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 10, port: port_);
+            funcId: 18, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -465,7 +685,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(output, serializer);
         sse_encode_u_8(level, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 11, port: port_);
+            funcId: 19, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -492,7 +712,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(output, serializer);
         sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 12, port: port_);
+            funcId: 20, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -518,7 +738,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_u_32(size, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 13, port: port_);
+            funcId: 21, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -544,7 +764,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_tiny_client(that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 14, port: port_);
+            funcId: 22, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -568,7 +788,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_tiny_client(that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_image_format,
@@ -594,7 +814,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(path, serializer);
         sse_encode_opt_String(output, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_tiny_client,
@@ -621,7 +841,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 17, port: port_);
+            funcId: 25, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -653,7 +873,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_opt_box_autoadd_u_8(quality, serializer);
         sse_encode_opt_box_autoadd_u_32(size, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 18, port: port_);
+            funcId: 26, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -679,7 +899,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_String(path, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -704,7 +924,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_tiny_client(that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 20, port: port_);
+            funcId: 28, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -731,7 +951,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 21, port: port_);
+            funcId: 29, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -758,7 +978,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_box_autoadd_tiny_client(that, serializer);
         sse_encode_u_8(quality, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 22, port: port_);
+            funcId: 30, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -786,7 +1006,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_u_32(width, serializer);
         sse_encode_u_32(height, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 23, port: port_);
+            funcId: 31, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -877,6 +1097,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  IconsClient dco_decode_box_autoadd_icons_client(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_icons_client(raw);
+  }
+
+  @protected
+  IconsConfig dco_decode_box_autoadd_icons_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_icons_config(raw);
+  }
+
+  @protected
   ImageFormat dco_decode_box_autoadd_image_format(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_image_format(raw);
@@ -913,6 +1145,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  IconsClient dco_decode_icons_client(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return IconsClient(
+      data: dco_decode_list_prim_u_8_strict(arr[0]),
+      config: dco_decode_icons_config(arr[1]),
+    );
+  }
+
+  @protected
+  IconsConfig dco_decode_icons_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return IconsConfig(
+      android: dco_decode_bool(arr[0]),
+      ios: dco_decode_bool(arr[1]),
+      ohos: dco_decode_bool(arr[2]),
+      macos: dco_decode_bool(arr[3]),
+      windows: dco_decode_bool(arr[4]),
+      web: dco_decode_bool(arr[5]),
+      custom: dco_decode_list_prim_u_32_strict(arr[6]),
+    );
+  }
+
+  @protected
   ImageFormat dco_decode_image_format(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ImageFormat.values[raw as int];
@@ -943,6 +1204,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         .map(
             dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA)
         .toList();
+  }
+
+  @protected
+  Uint32List dco_decode_list_prim_u_32_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Uint32List;
   }
 
   @protected
@@ -1083,6 +1350,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  IconsClient sse_decode_box_autoadd_icons_client(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_icons_client(deserializer));
+  }
+
+  @protected
+  IconsConfig sse_decode_box_autoadd_icons_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_icons_config(deserializer));
+  }
+
+  @protected
   ImageFormat sse_decode_box_autoadd_image_format(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1117,6 +1398,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int sse_decode_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getInt32();
+  }
+
+  @protected
+  IconsClient sse_decode_icons_client(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_data = sse_decode_list_prim_u_8_strict(deserializer);
+    var var_config = sse_decode_icons_config(deserializer);
+    return IconsClient(data: var_data, config: var_config);
+  }
+
+  @protected
+  IconsConfig sse_decode_icons_config(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_android = sse_decode_bool(deserializer);
+    var var_ios = sse_decode_bool(deserializer);
+    var var_ohos = sse_decode_bool(deserializer);
+    var var_macos = sse_decode_bool(deserializer);
+    var var_windows = sse_decode_bool(deserializer);
+    var var_web = sse_decode_bool(deserializer);
+    var var_custom = sse_decode_list_prim_u_32_strict(deserializer);
+    return IconsConfig(
+        android: var_android,
+        ios: var_ios,
+        ohos: var_ohos,
+        macos: var_macos,
+        windows: var_windows,
+        web: var_web,
+        custom: var_custom);
   }
 
   @protected
@@ -1156,6 +1465,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
               deserializer));
     }
     return ans_;
+  }
+
+  @protected
+  Uint32List sse_decode_list_prim_u_32_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint32List(len_);
   }
 
   @protected
@@ -1313,6 +1629,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_icons_client(
+      IconsClient self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_icons_client(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_icons_config(
+      IconsConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_icons_config(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_image_format(
       ImageFormat self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1351,6 +1681,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_icons_client(IconsClient self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_8_strict(self.data, serializer);
+    sse_encode_icons_config(self.config, serializer);
+  }
+
+  @protected
+  void sse_encode_icons_config(IconsConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.android, serializer);
+    sse_encode_bool(self.ios, serializer);
+    sse_encode_bool(self.ohos, serializer);
+    sse_encode_bool(self.macos, serializer);
+    sse_encode_bool(self.windows, serializer);
+    sse_encode_bool(self.web, serializer);
+    sse_encode_list_prim_u_32_strict(self.custom, serializer);
+  }
+
+  @protected
   void sse_encode_image_format(ImageFormat self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
@@ -1377,6 +1726,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           item, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_list_prim_u_32_strict(
+      Uint32List self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint32List(self);
   }
 
   @protected

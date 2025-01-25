@@ -11,6 +11,7 @@ use super::entity::Error;
 
 pub fn convert_to_jpeg(path: String, output: String, quality: u8) -> Result<String, Error> {
     let path = PathBuf::from(path);
+    // 获取文件的后缀
 
     let reader = match ImageReader::open(path.clone()) {
         Ok(reader) => reader,
@@ -21,7 +22,9 @@ pub fn convert_to_jpeg(path: String, output: String, quality: u8) -> Result<Stri
     // let (width, height) = image.dimensions();
     let rgb_image = image.to_rgb8();
 
-    let output_path = Path::new(&output).with_extension("jpg");
+    let extension = path.extension().unwrap().to_str().unwrap();
+
+    let output_path = Path::new(&output).with_extension(extension);
 
     let mut comp = Compress::new(mozjpeg::ColorSpace::JCS_RGB);
 

@@ -62,18 +62,10 @@ impl TinyClient {
         };
 
         match target {
-            ImageFormat::Png => {
-                return self.jpeg_2_png();
-            }
-            ImageFormat::Jpeg => {
-                return convert_to_jpeg(self.path.clone(), self.output.clone(), q);
-            }
-            ImageFormat::WebP => {
-                return self.img_2_webp(q);
-            }
-            ImageFormat::Avif => {
-                return self.convert_to_avif();
-            }
+            ImageFormat::Png => self.jpeg_2_png(),
+            ImageFormat::Jpeg => convert_to_jpeg(self.path.clone(), self.output.clone(), q),
+            ImageFormat::WebP => self.img_2_webp(q),
+            ImageFormat::Avif => self.convert_to_avif(),
             ImageFormat::Ico => {
                 let size = match size {
                     Some(size) => size,
@@ -137,10 +129,14 @@ impl TinyClient {
     pub fn convert_to_avif(&self) -> Result<String, Error> {
         let path = PathBuf::from(&self.path);
 
+        println!("Converting image to AVIF format...");
+
         let reader = match ImageReader::open(&path) {
             Ok(reader) => reader,
             Err(_) => return Err(Error::InputMissing(path)),
         };
+
+        println!("Decoding image... ");
         let image = reader.decode().unwrap();
 
         let rgb_image = image.to_rgba8();
@@ -148,6 +144,8 @@ impl TinyClient {
         let output_path = Path::new(&self.output).with_extension("avif");
 
         let result = rgb_image.save_with_format(&output_path, ImageFormat::Avif);
+
+        println!("Saving image to AVIF format...");
         match result {
             Ok(_) => Ok(output_path.to_str().unwrap().to_string()),
             Err(_) => Err(Error::EncodeFailed),

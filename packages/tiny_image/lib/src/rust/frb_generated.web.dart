@@ -7,6 +7,7 @@
 // ignore_for_file: argument_type_not_assignable
 
 import 'api/application.dart';
+import 'api/icons.dart';
 import 'api/jpeg.dart';
 import 'api/png.dart';
 import 'api/tiny_png.dart';
@@ -65,6 +66,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool dco_decode_bool(dynamic raw);
 
   @protected
+  IconsClient dco_decode_box_autoadd_icons_client(dynamic raw);
+
+  @protected
+  IconsConfig dco_decode_box_autoadd_icons_config(dynamic raw);
+
+  @protected
   ImageFormat dco_decode_box_autoadd_image_format(dynamic raw);
 
   @protected
@@ -83,6 +90,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_i_32(dynamic raw);
 
   @protected
+  IconsClient dco_decode_icons_client(dynamic raw);
+
+  @protected
+  IconsConfig dco_decode_icons_config(dynamic raw);
+
+  @protected
   ImageFormat dco_decode_image_format(dynamic raw);
 
   @protected
@@ -92,6 +105,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<Rgba>
       dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           dynamic raw);
+
+  @protected
+  Uint32List dco_decode_list_prim_u_32_strict(dynamic raw);
 
   @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
@@ -161,6 +177,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  IconsClient sse_decode_box_autoadd_icons_client(SseDeserializer deserializer);
+
+  @protected
+  IconsConfig sse_decode_box_autoadd_icons_config(SseDeserializer deserializer);
+
+  @protected
   ImageFormat sse_decode_box_autoadd_image_format(SseDeserializer deserializer);
 
   @protected
@@ -179,6 +201,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
+  IconsClient sse_decode_icons_client(SseDeserializer deserializer);
+
+  @protected
+  IconsConfig sse_decode_icons_config(SseDeserializer deserializer);
+
+  @protected
   ImageFormat sse_decode_image_format(SseDeserializer deserializer);
 
   @protected
@@ -188,6 +216,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<Rgba>
       sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           SseDeserializer deserializer);
+
+  @protected
+  Uint32List sse_decode_list_prim_u_32_strict(SseDeserializer deserializer);
 
   @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
@@ -259,6 +290,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_icons_client(
+      IconsClient self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_icons_config(
+      IconsConfig self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_image_format(
       ImageFormat self, SseSerializer serializer);
 
@@ -279,6 +318,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
+  void sse_encode_icons_client(IconsClient self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_icons_config(IconsConfig self, SseSerializer serializer);
+
+  @protected
   void sse_encode_image_format(ImageFormat self, SseSerializer serializer);
 
   @protected
@@ -289,6 +334,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRGBA(
           List<Rgba> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_prim_u_32_strict(
+      Uint32List self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
