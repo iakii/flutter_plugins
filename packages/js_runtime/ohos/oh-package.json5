@@ -1,0 +1,11 @@
+{
+  "name": "js_runtime",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "Index.ets",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "libjs_runtime.so": "file:./src/main/cpp/types/libjs_runtime"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "js_runtime",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}
