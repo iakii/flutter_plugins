@@ -2,7 +2,6 @@
   "module": {
     "name": "js_runtime",
     "type": "har",
-    "compressNativeLibs": true,
     "deviceTypes": [
       "default",
       "tablet"
